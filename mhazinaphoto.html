@@ -1,0 +1,107 @@
+<!-- FILE: treasurer_photos_fix.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Treasurer Photos Fix</title>
+</head>
+<body>
+    <h1>CODE YA KUADD PHOTOS MENU KWA MHAZINA</h1>
+    
+    <h2>1. BADILISHA MENU STRUCTURE (Line 130-140)</h2>
+    <pre>
+<code>
+'treasurer': [
+    { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
+    { id: 'contributions', name: 'Contributions', icon: 'fas fa-hand-holding-usd' },
+    { id: 'promote-contributions', name: 'Promote Contributions', icon: 'fas fa-bullhorn' },
+    { id: 'payment-methods', name: 'Payment Methods', icon: 'fas fa-money-check' },
+    { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }  // ← ADD THIS LINE
+],
+</code>
+    </pre>
+
+    <h2>2. FULL CODE YA MENU STRUCTURE (Line 120-170)</h2>
+    <pre>
+<code>
+// Menu structure based on roles
+const menuStructure = {
+    'chairperson': [
+        { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
+        { id: 'members', name: 'Members', icon: 'fas fa-users' },
+        { id: 'approvals', name: 'Account Requests', icon: 'fas fa-user-plus' },
+        { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
+        { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+    ],
+    'secretary': [
+        { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
+        { id: 'members', name: 'Members', icon: 'fas fa-users' },
+        { id: 'approvals', name: 'Account Requests', icon: 'fas fa-user-plus' },
+        { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
+        { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+    ],
+    'treasurer': [
+        { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
+        { id: 'contributions', name: 'Contributions', icon: 'fas fa-hand-holding-usd' },
+        { id: 'promote-contributions', name: 'Promote Contributions', icon: 'fas fa-bullhorn' },
+        { id: 'payment-methods', name: 'Payment Methods', icon: 'fas fa-money-check' },
+        { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }  // ← HII IMEONGEWA
+    ],
+    'discipline-men': [
+        { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
+        { id: 'family-events', name: 'Family Events', icon: 'fas fa-calendar' },
+        { id: 'spiritual-matters', name: 'Spiritual Matters', icon: 'fas fa-pray' },
+        { id: 'discipline-cases', name: 'Discipline Cases', icon: 'fas fa-gavel' },
+        { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+    ],
+    'discipline-women': [
+        { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
+        { id: 'family-events', name: 'Family Events', icon: 'fas fa-calendar' },
+        { id: 'spiritual-matters', name: 'Spiritual Matters', icon: 'fas fa-pray' },
+        { id: 'discipline-cases', name: 'Discipline Cases', icon: 'fas fa-gavel' },
+        { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+    ],
+    'member': [
+        { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
+        { id: 'contributions', name: 'My Contributions', icon: 'fas fa-hand-holding-usd' },
+        { id: 'services', name: 'My Services', icon: 'fas fa-hands-helping' },
+        { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
+        { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+    ]
+};
+</code>
+    </pre>
+
+    <h2>3. TEST CREDENTIALS ZA MHAZINA</h2>
+    <pre>
+<code>
+Username: treasurer
+Password: password123
+</code>
+    </pre>
+
+    <h2>4. MENU ZA MHAZINA ZITAKAZOONEKANA:</h2>
+    <ul>
+        <li>📊 Dashboard</li>
+        <li>💰 Contributions</li>
+        <li>📢 Promote Contributions</li>
+        <li>💳 Payment Methods</li>
+        <li>🖼️ Church Photos (NEW!)</li>
+    </ul>
+
+    <h2>5. WOTE WANAOONA PICHA SASA:</h2>
+    <ol>
+        <li>✅ Mwenyekiti</li>
+        <li>✅ Katibu (anaweza kuupload)</li>
+        <li>✅ Mhazina (NEW!)</li>
+        <li>✅ Makada Nidhamu</li>
+        <li>✅ Bakada Nidhamu</li>
+        <li>✅ Wanachama wote</li>
+    </ol>
+
+    <script>
+        // Hii ni code madogo ya kuonyesha mabadiliko
+        console.log("Mhazina sasa anaweza kuona picha!");
+    </script>
+</body>
+</html>
