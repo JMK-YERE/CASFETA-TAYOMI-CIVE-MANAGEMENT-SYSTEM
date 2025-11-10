@@ -1,107 +1,608 @@
-<!-- FILE: treasurer_photos_fix.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Treasurer Photos Fix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASFETA TAYOMI - Treasurer Photos Access</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --success-color: #2ecc71;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .login-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .login-body {
+            padding: 40px;
+        }
+        
+        .dashboard-container {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 1200px;
+            width: 100%;
+            min-height: 80vh;
+        }
+        
+        .sidebar {
+            background: var(--primary-color);
+            color: white;
+            padding: 0;
+        }
+        
+        .sidebar-header {
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 15px 20px;
+            border-left: 4px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: var(--secondary-color);
+        }
+        
+        .nav-link i {
+            width: 25px;
+            text-align: center;
+            margin-right: 10px;
+        }
+        
+        .main-content {
+            padding: 0;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+        }
+        
+        .content-area {
+            padding: 30px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .photo-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .photo-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .photo-placeholder {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .photo-info {
+            padding: 15px;
+        }
+        
+        .photo-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+        
+        .photo-meta {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .role-badge {
+            background: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: var(--secondary-color);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
-    <h1>CODE YA KUADD PHOTOS MENU KWA MHAZINA</h1>
-    
-    <h2>1. BADILISHA MENU STRUCTURE (Line 130-140)</h2>
-    <pre>
-<code>
-'treasurer': [
-    { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-    { id: 'contributions', name: 'Contributions', icon: 'fas fa-hand-holding-usd' },
-    { id: 'promote-contributions', name: 'Promote Contributions', icon: 'fas fa-bullhorn' },
-    { id: 'payment-methods', name: 'Payment Methods', icon: 'fas fa-money-check' },
-    { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }  // ← ADD THIS LINE
-],
-</code>
-    </pre>
+    <!-- Login Page -->
+    <div id="login-page" class="login-container">
+        <div class="login-header">
+            <h2><i class="fas fa-church"></i> CASFETA TAYOMI</h2>
+            <p class="mb-0">Church Management System</p>
+        </div>
+        <div class="login-body">
+            <h4 class="text-center mb-4">Treasurer Login</h4>
+            <form id="login-form">
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" value="treasurer" readonly>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" value="password123" readonly>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-sign-in-alt"></i> Login as Treasurer
+                </button>
+            </form>
+        </div>
+    </div>
 
-    <h2>2. FULL CODE YA MENU STRUCTURE (Line 120-170)</h2>
-    <pre>
-<code>
-// Menu structure based on roles
-const menuStructure = {
-    'chairperson': [
-        { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-        { id: 'members', name: 'Members', icon: 'fas fa-users' },
-        { id: 'approvals', name: 'Account Requests', icon: 'fas fa-user-plus' },
-        { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-        { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
-    ],
-    'secretary': [
-        { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-        { id: 'members', name: 'Members', icon: 'fas fa-users' },
-        { id: 'approvals', name: 'Account Requests', icon: 'fas fa-user-plus' },
-        { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-        { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
-    ],
-    'treasurer': [
-        { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-        { id: 'contributions', name: 'Contributions', icon: 'fas fa-hand-holding-usd' },
-        { id: 'promote-contributions', name: 'Promote Contributions', icon: 'fas fa-bullhorn' },
-        { id: 'payment-methods', name: 'Payment Methods', icon: 'fas fa-money-check' },
-        { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }  // ← HII IMEONGEWA
-    ],
-    'discipline-men': [
-        { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-        { id: 'family-events', name: 'Family Events', icon: 'fas fa-calendar' },
-        { id: 'spiritual-matters', name: 'Spiritual Matters', icon: 'fas fa-pray' },
-        { id: 'discipline-cases', name: 'Discipline Cases', icon: 'fas fa-gavel' },
-        { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
-    ],
-    'discipline-women': [
-        { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-        { id: 'family-events', name: 'Family Events', icon: 'fas fa-calendar' },
-        { id: 'spiritual-matters', name: 'Spiritual Matters', icon: 'fas fa-pray' },
-        { id: 'discipline-cases', name: 'Discipline Cases', icon: 'fas fa-gavel' },
-        { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
-    ],
-    'member': [
-        { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-        { id: 'contributions', name: 'My Contributions', icon: 'fas fa-hand-holding-usd' },
-        { id: 'services', name: 'My Services', icon: 'fas fa-hands-helping' },
-        { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-        { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
-    ]
-};
-</code>
-    </pre>
-
-    <h2>3. TEST CREDENTIALS ZA MHAZINA</h2>
-    <pre>
-<code>
-Username: treasurer
-Password: password123
-</code>
-    </pre>
-
-    <h2>4. MENU ZA MHAZINA ZITAKAZOONEKANA:</h2>
-    <ul>
-        <li>📊 Dashboard</li>
-        <li>💰 Contributions</li>
-        <li>📢 Promote Contributions</li>
-        <li>💳 Payment Methods</li>
-        <li>🖼️ Church Photos (NEW!)</li>
-    </ul>
-
-    <h2>5. WOTE WANAOONA PICHA SASA:</h2>
-    <ol>
-        <li>✅ Mwenyekiti</li>
-        <li>✅ Katibu (anaweza kuupload)</li>
-        <li>✅ Mhazina (NEW!)</li>
-        <li>✅ Makada Nidhamu</li>
-        <li>✅ Bakada Nidhamu</li>
-        <li>✅ Wanachama wote</li>
-    </ol>
+    <!-- Dashboard -->
+    <div id="dashboard-container" class="dashboard-container">
+        <div class="sidebar col-md-3">
+            <div class="sidebar-header">
+                <h4><i class="fas fa-church"></i> CASFETA TAYOMI</h4>
+                <p class="mb-0">Church System</p>
+            </div>
+            <nav class="nav flex-column">
+                <a class="nav-link active" href="#" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a class="nav-link" href="#" data-section="contributions">
+                    <i class="fas fa-hand-holding-usd"></i> Contributions
+                </a>
+                <a class="nav-link" href="#" data-section="promote-contributions">
+                    <i class="fas fa-bullhorn"></i> Promote Contributions
+                </a>
+                <a class="nav-link" href="#" data-section="payment-methods">
+                    <i class="fas fa-money-check"></i> Payment Methods
+                </a>
+                <a class="nav-link" href="#" data-section="photos">
+                    <i class="fas fa-images"></i> Church Photos
+                </a>
+                <a class="nav-link" href="#" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+        </div>
+        
+        <div class="main-content col-md-9">
+            <div class="dashboard-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 id="dashboard-title">Treasurer Dashboard</h3>
+                        <p class="mb-0">Role: <span class="role-badge">Treasurer</span></p>
+                    </div>
+                    <div>
+                        <span id="user-name">Church Treasurer</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-area">
+                <div id="dashboard-content">
+                    <!-- Dashboard content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Hii ni code madogo ya kuonyesha mabadiliko
-        console.log("Mhazina sasa anaweza kuona picha!");
+        // Sample church photos data
+        const churchPhotos = [
+            {
+                id: 1,
+                title: "Sunday Service Gathering",
+                description: "Weekly worship service with full congregation",
+                event: "Regular Sunday Service",
+                uploadedBy: "Secretary",
+                date: "2023-11-19"
+            },
+            {
+                id: 2,
+                description: "Baptism ceremony for new members",
+                event: "Baptism Event",
+                uploadedBy: "Secretary", 
+                date: "2023-11-12"
+            },
+            {
+                id: 3,
+                title: "Church Choir Performance",
+                description: "Choir special performance during service",
+                event: "Music Ministry",
+                uploadedBy: "Secretary",
+                date: "2023-11-05"
+            },
+            {
+                id: 4,
+                title: "Youth Fellowship",
+                description: "Youth group meeting and activities",
+                event: "Youth Ministry",
+                uploadedBy: "Secretary",
+                date: "2023-10-29"
+            },
+            {
+                id: 5,
+                title: "Building Project Update",
+                description: "Progress photos of new church building",
+                event: "Construction Project",
+                uploadedBy: "Secretary", 
+                date: "2023-10-22"
+            },
+            {
+                id: 6,
+                title: "Community Outreach",
+                description: "Church members serving the community",
+                event: "Outreach Program",
+                uploadedBy: "Secretary",
+                date: "2023-10-15"
+            }
+        ];
+
+        // Current user
+        let currentUser = {
+            username: 'treasurer',
+            name: 'Church Treasurer',
+            role: 'treasurer'
+        };
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Login form handler
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleLogin();
+            });
+            
+            // Logout button
+            document.getElementById('logout-btn').addEventListener('click', handleLogout);
+            
+            // Navigation handlers
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (this.id !== 'logout-btn') {
+                        // Remove active class from all links
+                        document.querySelectorAll('.nav-link').forEach(item => {
+                            item.classList.remove('active');
+                        });
+                        // Add active class to clicked link
+                        this.classList.add('active');
+                        
+                        // Load section content
+                        const section = this.getAttribute('data-section');
+                        loadSectionContent(section);
+                    }
+                });
+            });
+            
+            // Load dashboard by default
+            loadSectionContent('dashboard');
+        });
+
+        // Handle login
+        function handleLogin() {
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('dashboard-container').style.display = 'flex';
+            loadSectionContent('dashboard');
+        }
+
+        // Handle logout
+        function handleLogout() {
+            document.getElementById('dashboard-container').style.display = 'none';
+            document.getElementById('login-page').style.display = 'block';
+        }
+
+        // Load section content
+        function loadSectionContent(section) {
+            const contentArea = document.getElementById('dashboard-content');
+            let content = '';
+            
+            switch(section) {
+                case 'dashboard':
+                    content = getDashboardContent();
+                    break;
+                case 'contributions':
+                    content = getContributionsContent();
+                    break;
+                case 'promote-contributions':
+                    content = getPromoteContributionsContent();
+                    break;
+                case 'payment-methods':
+                    content = getPaymentMethodsContent();
+                    break;
+                case 'photos':
+                    content = getPhotosContent();
+                    break;
+                default:
+                    content = getDashboardContent();
+            }
+            
+            contentArea.innerHTML = content;
+            updateDashboardTitle(section);
+        }
+
+        // Update dashboard title
+        function updateDashboardTitle(section) {
+            const titles = {
+                'dashboard': 'Treasurer Dashboard',
+                'contributions': 'Contributions Management',
+                'promote-contributions': 'Promote Contributions', 
+                'payment-methods': 'Payment Methods',
+                'photos': 'Church Photos Gallery'
+            };
+            document.getElementById('dashboard-title').textContent = titles[section] || 'Treasurer Dashboard';
+        }
+
+        // Get dashboard content
+        function getDashboardContent() {
+            return `
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card text-white bg-primary">
+                            <div class="card-body text-center">
+                                <i class="fas fa-hand-holding-usd fa-3x mb-3"></i>
+                                <h3>2,450,000 TZS</h3>
+                                <p>Total Contributions</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card text-white bg-success">
+                            <div class="card-body text-center">
+                                <i class="fas fa-users fa-3x mb-3"></i>
+                                <h3>156</h3>
+                                <p>Active Contributors</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card text-white bg-warning">
+                            <div class="card-body text-center">
+                                <i class="fas fa-bullhorn fa-3x mb-3"></i>
+                                <h3>5</h3>
+                                <p>Active Campaigns</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Welcome Treasurer</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>As the Church Treasurer, you now have access to view all church photos along with your financial management duties.</p>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> <strong>New Feature:</strong> You can now view all shared church photos in the "Church Photos" section.
+                        </div>
+                        <h6>Your Responsibilities:</h6>
+                        <ul>
+                            <li>Manage church contributions and donations</li>
+                            <li>Promote fundraising campaigns</li>
+                            <li>Update payment methods</li>
+                            <li>View church activities through photos</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get contributions content
+        function getContributionsContent() {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Contributions Overview</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Member Name</th>
+                                        <th>Type</th>
+                                        <th>Amount (TZS)</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>John M.</td>
+                                        <td>Tithes</td>
+                                        <td>75,000</td>
+                                        <td>2023-11-19</td>
+                                        <td><span class="badge bg-success">Received</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sarah K.</td>
+                                        <td>Offering</td>
+                                        <td>25,000</td>
+                                        <td>2023-11-19</td>
+                                        <td><span class="badge bg-success">Received</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Michael J.</td>
+                                        <td>Building Fund</td>
+                                        <td>150,000</td>
+                                        <td>2023-11-18</td>
+                                        <td><span class="badge bg-success">Received</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get promote contributions content
+        function getPromoteContributionsContent() {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Promote Contributions</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Create and manage contribution campaigns to encourage member participation.</p>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6>Building Fund</h6>
+                                        <p>Target: 5,000,000 TZS</p>
+                                        <div class="progress mb-2">
+                                            <div class="progress-bar" style="width: 65%">65%</div>
+                                        </div>
+                                        <small>Raised: 3,250,000 TZS</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6>Outreach Program</h6>
+                                        <p>Target: 1,000,000 TZS</p>
+                                        <div class="progress mb-2">
+                                            <div class="progress-bar" style="width: 40%">40%</div>
+                                        </div>
+                                        <small>Raised: 400,000 TZS</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get payment methods content
+        function getPaymentMethodsContent() {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Payment Methods</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Mobile Money</h6>
+                                <p><strong>M-Pesa:</strong> 0757123456</p>
+                                <p><strong>Tigo Pesa:</strong> 0712123456</p>
+                                <p><strong>Airtel Money:</strong> 0682123456</p>
+                                <p><strong>Lipa Number:</strong> 123456</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Bank Account</h6>
+                                <p><strong>Bank:</strong> CRDB Bank</p>
+                                <p><strong>Account:</strong> 015D12345678</p>
+                                <p><strong>Name:</strong> CASFETA TAYOMI</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get photos content - HII NDIO SEHEMU MPYA YA MHAZINA!
+        function getPhotosContent() {
+            return `
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Church Photos Gallery</h5>
+                        <span class="badge bg-primary">${churchPhotos.length} Photos</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">View all church event photos shared by the Secretary. As Treasurer, you can now see all church activities.</p>
+                        
+                        <div class="photo-gallery">
+                            ${churchPhotos.map(photo => `
+                                <div class="photo-card">
+                                    <div class="photo-placeholder">
+                                        <i class="fas fa-church"></i>
+                                    </div>
+                                    <div class="photo-info">
+                                        <div class="photo-title">${photo.title || 'Church Event'}</div>
+                                        <p class="photo-meta mb-1">${photo.description}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar"></i> ${photo.date}
+                                            </small>
+                                            <small class="text-muted">
+                                                <i class="fas fa-user"></i> ${photo.uploadedBy}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="alert alert-success mt-4">
+                            <i class="fas fa-check-circle"></i> <strong>Access Granted:</strong> You can now view all church photos to stay updated with church activities and events.
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
     </script>
 </body>
 </html>
