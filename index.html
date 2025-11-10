@@ -1,0 +1,2207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASFETA TAYOMI - Church Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .sidebar {
+            background-color: var(--primary-color);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            border-radius: 5px;
+            margin: 5px 0;
+            transition: all 0.3s;
+        }
+        
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border: none;
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            padding: 15px 20px;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 25px 15px;
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .stat-card.blue {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+        
+        .stat-card.green {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+        
+        .stat-card.orange {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+        }
+        
+        .stat-card.red {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .login-container {
+            max-width: 450px;
+            margin: 100px auto;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        
+        .service-item {
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .photo-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: #f8f9fa;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .photo-placeholder {
+            text-align: center;
+            color: #6c757d;
+        }
+        
+        .photo-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+                text-align: center;
+            }
+            
+            .sidebar .nav-link span {
+                display: none;
+            }
+            
+            .sidebar .nav-link i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Form -->
+    <div id="login-page" class="container">
+        <div class="login-container">
+            <div class="text-center mb-4">
+                <h2>CASFETA TAYOMI CHURCH</h2>
+                <p class="text-muted">Login to Church Management System</p>
+            </div>
+            <form id="login-form">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+            <div class="text-center mt-4">
+                <p>Don't have an account? <a href="#" id="register-link">Request Account</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Request New Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="register-form">
+                        <div class="mb-3">
+                            <label for="reg-first-name" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="reg-first-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reg-last-name" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="reg-last-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reg-phone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="reg-phone" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reg-email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="reg-email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="reg-address" class="form-label">Address</label>
+                            <textarea class="form-control" id="reg-address" rows="2"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submit-registration">Submit Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Container -->
+    <div id="dashboard-container" class="d-none">
+        <div class="sidebar" id="sidebar">
+            <div class="p-3">
+                <h4 class="text-center">CASFETA TAYOMI</h4>
+                <hr>
+                <ul class="nav flex-column" id="sidebar-menu">
+                    <!-- Menu items will be dynamically populated based on role -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content" id="main-content">
+            <div class="dashboard-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 id="dashboard-title">Dashboard</h3>
+                        <p id="user-role-display" class="mb-0">Role: <span id="role-display"></span></p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="dropdown me-3">
+                            <button class="btn btn-light position-relative" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-bell"></i>
+                                <span class="notification-badge d-none" id="notification-count">0</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" id="notification-list">
+                                <li><h6 class="dropdown-header">Your Notifications</h6></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <!-- Notifications will be populated here -->
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-light d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="https://via.placeholder.com/40" class="profile-img" alt="User">
+                                <span id="user-name">User</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="#" id="profile-link"><i class="fas fa-user me-2"></i>My Profile</a></li>
+                                <li><a class="dropdown-item" href="#" id="change-password-link"><i class="fas fa-key me-2"></i>Change Password</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logout-btn"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dashboard-content">
+                <!-- Dashboard content will be dynamically populated based on role -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Change Password -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="change-password-form">
+                        <div class="mb-3">
+                            <label for="current-password" class="form-label">Current Password</label>
+                            <input type="password" class="form-control" id="current-password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="new-password" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="new-password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirm-password" class="form-label">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirm-password" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-password-btn">Save Password</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Add Member -->
+    <div class="modal fade" id="addMemberModal" tabindex="-1" aria-labelledby="addMemberModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMemberModalLabel">Add New Member</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-member-form">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="first-name" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="first-name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="last-name" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="last-name" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <select class="form-select" id="member-role" required>
+                                <option value="">Select Role</option>
+                                <option value="member">Member</option>
+                                <option value="chairperson">Chairperson</option>
+                                <option value="secretary">Secretary</option>
+                                <option value="treasurer">Treasurer</option>
+                                <option value="discipline-men">Discipline Committee (Men)</option>
+                                <option value="discipline-women">Discipline Committee (Women)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <textarea class="form-control" id="address" rows="2"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-member-btn">Save Member</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Upload Photos -->
+    <div class="modal fade" id="uploadPhotosModal" tabindex="-1" aria-labelledby="uploadPhotosModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadPhotosModalLabel">Upload Church Photos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="upload-photos-form">
+                        <div class="mb-3">
+                            <label for="photo-title" class="form-label">Photo Title</label>
+                            <input type="text" class="form-control" id="photo-title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="photo-description" class="form-label">Description</label>
+                            <textarea class="form-control" id="photo-description" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="photo-event" class="form-label">Event</label>
+                            <input type="text" class="form-control" id="photo-event">
+                        </div>
+                        <div class="mb-3">
+                            <label for="photo-link" class="form-label">Photo Link</label>
+                            <input type="url" class="form-control" id="photo-link" placeholder="https://example.com/photos" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-photos-btn">Upload Photos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Create Announcement -->
+    <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createAnnouncementModalLabel">Create Announcement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-announcement-form">
+                        <div class="mb-3">
+                            <label for="announcement-title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="announcement-title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="announcement-content" class="form-label">Content</label>
+                            <textarea class="form-control" id="announcement-content" rows="5" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="announcement-type" class="form-label">Type</label>
+                            <select class="form-select" id="announcement-type">
+                                <option value="general">General</option>
+                                <option value="urgent">Urgent</option>
+                                <option value="event">Event</option>
+                                <option value="contribution">Contribution</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="announcement-share">
+                            <label class="form-check-label" for="announcement-share">Share with all members</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-announcement-btn">Publish Announcement</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Create Contribution Announcement -->
+    <div class="modal fade" id="createContributionModal" tabindex="-1" aria-labelledby="createContributionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createContributionModalLabel">Create Contribution Announcement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-contribution-form">
+                        <div class="mb-3">
+                            <label for="contribution-title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="contribution-title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contribution-description" class="form-label">Description</label>
+                            <textarea class="form-control" id="contribution-description" rows="4" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contribution-target" class="form-label">Target Amount (TZS)</label>
+                            <input type="number" class="form-control" id="contribution-target" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contribution-deadline" class="form-label">Deadline</label>
+                            <input type="date" class="form-control" id="contribution-deadline" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-contribution-btn">Publish Announcement</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Update Payment Methods -->
+    <div class="modal fade" id="updatePaymentsModal" tabindex="-1" aria-labelledby="updatePaymentsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updatePaymentsModalLabel">Update Payment Methods</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="update-payments-form">
+                        <div class="mb-3">
+                            <label class="form-label">Mobile Money Payments</label>
+                            <div class="row">
+                                <div class="col-md-4 mb-2">
+                                    <label for="mpesa-number" class="form-label small">M-Pesa Number</label>
+                                    <input type="text" class="form-control" id="mpesa-number" placeholder="0757123456">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="tigo-number" class="form-label small">Tigo Pesa Number</label>
+                                    <input type="text" class="form-control" id="tigo-number" placeholder="0712123456">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="airtel-number" class="form-label small">Airtel Money Number</label>
+                                    <input type="text" class="form-control" id="airtel-number" placeholder="0682123456">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Bank Account Information</label>
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <label for="bank-name" class="form-label small">Bank Name</label>
+                                    <input type="text" class="form-control" id="bank-name" placeholder="CRDB Bank">
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="account-number" class="form-label small">Account Number</label>
+                                    <input type="text" class="form-control" id="account-number" placeholder="015D12345678">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 mb-2">
+                                    <label for="account-name" class="form-label small">Account Name</label>
+                                    <input type="text" class="form-control" id="account-name" placeholder="CASFETA TAYOMI">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Lipa Number</label>
+                            <input type="text" class="form-control" id="lipa-number" placeholder="123456">
+                        </div>
+                        <div class="mb-3">
+                            <label for="payment-instructions" class="form-label">Payment Instructions</label>
+                            <textarea class="form-control" id="payment-instructions" rows="3" placeholder="Additional instructions for members..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-payments-btn">Update Payment Methods</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Member Services -->
+    <div class="modal fade" id="memberServicesModal" tabindex="-1" aria-labelledby="memberServicesModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="memberServicesModalLabel">My Church Services</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="member-services-form">
+                        <div class="mb-3">
+                            <label class="form-label">Select Services You Participate In:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="service-prayer">
+                                <label class="form-check-label" for="service-prayer">Prayer Team</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="service-choir">
+                                <label class="form-check-label" for="service-choir">Choir</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="service-usher">
+                                <label class="form-check-label" for="service-usher">Ushering</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="service-teaching">
+                                <label class="form-check-label" for="service-teaching">Teaching/Sabbath School</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="service-outreach">
+                                <label class="form-check-label" for="service-outreach">Community Outreach</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="service-skills" class="form-label">Your Skills/Talents</label>
+                            <textarea class="form-control" id="service-skills" rows="3" placeholder="List any skills or talents you can contribute..."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="service-availability" class="form-label">Availability</label>
+                            <select class="form-select" id="service-availability">
+                                <option value="weekends">Weekends Only</option>
+                                <option value="weekdays">Weekdays</option>
+                                <option value="flexible">Flexible</option>
+                                <option value="specific">Specific Times</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-services-btn">Save Services</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Family Events -->
+    <div class="modal fade" id="familyEventsModal" tabindex="-1" aria-labelledby="familyEventsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="familyEventsModalLabel">Create Family Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="family-events-form">
+                        <div class="mb-3">
+                            <label for="event-title" class="form-label">Event Title</label>
+                            <input type="text" class="form-control" id="event-title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="event-description" class="form-label">Description</label>
+                            <textarea class="form-control" id="event-description" rows="4" required></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="event-date" class="form-label">Event Date</label>
+                                <input type="date" class="form-control" id="event-date" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="event-time" class="form-label">Event Time</label>
+                                <input type="time" class="form-control" id="event-time" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="event-location" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="event-location" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="event-category" class="form-label">Category</label>
+                            <select class="form-select" id="event-category">
+                                <option value="spiritual">Spiritual</option>
+                                <option value="family">Family</option>
+                                <option value="discipline">Discipline</option>
+                                <option value="social">Social</option>
+                                <option value="educational">Educational</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="event-audience" class="form-label">Target Audience</label>
+                            <select class="form-select" id="event-audience">
+                                <option value="all">All Members</option>
+                                <option value="men">Men Only</option>
+                                <option value="women">Women Only</option>
+                                <option value="youth">Youth</option>
+                                <option value="couples">Couples</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-event-btn">Create Event</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Pending Approvals -->
+    <div class="modal fade" id="approvalsModal" tabindex="-1" aria-labelledby="approvalsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="approvalsModalLabel">Account Requests</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Request Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pending-approvals-table">
+                                <!-- Pending approvals will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Database configuration
+        const SUPABASE_URL = 'https://uyxlwlgxlhoffrbxobxa.supabase.co';
+        const SUPABASE_KEY = 'sb_secret_Hlj1gu82Kpy-LHlJl9keMQ_ltPAgJGZ';
+
+        // Current user data
+        let currentUser = null;
+        let notifications = [];
+        let pendingApprovals = [];
+        let churchPhotos = [];
+        let announcements = [];
+        let familyEvents = [];
+        let paymentMethods = {
+            mpesa: '0757123456',
+            tigo: '0712123456',
+            airtel: '0682123456',
+            bankName: 'CRDB Bank',
+            accountNumber: '015D12345678',
+            accountName: 'CASFETA TAYOMI',
+            lipaNumber: '123456',
+            instructions: 'Please include your name as reference when making payments.'
+        };
+
+        // Sample users data
+        const users = [
+            { username: 'chairperson', password: 'password123', role: 'chairperson', name: 'Church Chairperson', lastLogin: '2023-11-18' },
+            { username: 'secretary', password: 'password123', role: 'secretary', name: 'Church Secretary', lastLogin: '2023-11-17' },
+            { username: 'treasurer', password: 'password123', role: 'treasurer', name: 'Church Treasurer', lastLogin: '2023-11-16' },
+            { username: 'discipline-men', password: 'password123', role: 'discipline-men', name: 'Discipline Men Leader', lastLogin: '2023-11-15' },
+            { username: 'discipline-women', password: 'password123', role: 'discipline-women', name: 'Discipline Women Leader', lastLogin: '2023-11-14' },
+            { username: 'member', password: 'password123', role: 'member', name: 'Church Member', lastLogin: '2023-11-13' }
+        ];
+
+        // Menu structure based on roles
+        const menuStructure = {
+            'chairperson': [
+                { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
+                { id: 'members', name: 'Members', icon: 'fas fa-users' },
+                { id: 'approvals', name: 'Account Requests', icon: 'fas fa-user-plus' },
+                { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
+                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+            ],
+            'secretary': [
+                { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
+                { id: 'members', name: 'Members', icon: 'fas fa-users' },
+                { id: 'approvals', name: 'Account Requests', icon: 'fas fa-user-plus' },
+                { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
+                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+            ],
+            'treasurer': [
+                { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
+                { id: 'contributions', name: 'Contributions', icon: 'fas fa-hand-holding-usd' },
+                { id: 'promote-contributions', name: 'Promote Contributions', icon: 'fas fa-bullhorn' },
+                { id: 'payment-methods', name: 'Payment Methods', icon: 'fas fa-money-check' }
+            ],
+            'discipline-men': [
+                { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
+                { id: 'family-events', name: 'Family Events', icon: 'fas fa-calendar' },
+                { id: 'spiritual-matters', name: 'Spiritual Matters', icon: 'fas fa-pray' },
+                { id: 'discipline-cases', name: 'Discipline Cases', icon: 'fas fa-gavel' },
+                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+            ],
+            'discipline-women': [
+                { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
+                { id: 'family-events', name: 'Family Events', icon: 'fas fa-calendar' },
+                { id: 'spiritual-matters', name: 'Spiritual Matters', icon: 'fas fa-pray' },
+                { id: 'discipline-cases', name: 'Discipline Cases', icon: 'fas fa-gavel' },
+                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+            ],
+            'member': [
+                { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
+                { id: 'contributions', name: 'My Contributions', icon: 'fas fa-hand-holding-usd' },
+                { id: 'services', name: 'My Services', icon: 'fas fa-hands-helping' },
+                { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
+                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+            ]
+        };
+
+        // Role display names
+        const roleDisplayNames = {
+            'chairperson': 'Chairperson',
+            'secretary': 'Secretary',
+            'treasurer': 'Treasurer',
+            'discipline-men': 'Discipline Committee (Men)',
+            'discipline-women': 'Discipline Committee (Women)',
+            'member': 'Member'
+        };
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEventListeners();
+            loadSampleData();
+        });
+
+        // Initialize event listeners
+        function initializeEventListeners() {
+            // Login form handler
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            
+            // Register link
+            document.getElementById('register-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+                registerModal.show();
+            });
+            
+            // Submit registration
+            document.getElementById('submit-registration').addEventListener('click', handleRegistration);
+            
+            // Logout button
+            document.getElementById('logout-btn').addEventListener('click', handleLogout);
+            
+            // Change password link
+            document.getElementById('change-password-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                const changePasswordModal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
+                changePasswordModal.show();
+            });
+            
+            // Save password button
+            document.getElementById('save-password-btn').addEventListener('click', handleChangePassword);
+            
+            // Save member button
+            document.getElementById('save-member-btn').addEventListener('click', handleAddMember);
+            
+            // Save photos button
+            document.getElementById('save-photos-btn').addEventListener('click', handleUploadPhotos);
+            
+            // Save announcement button
+            document.getElementById('save-announcement-btn').addEventListener('click', handleCreateAnnouncement);
+            
+            // Save contribution announcement button
+            document.getElementById('save-contribution-btn').addEventListener('click', handleCreateContributionAnnouncement);
+            
+            // Save payments button
+            document.getElementById('save-payments-btn').addEventListener('click', handleUpdatePaymentMethods);
+            
+            // Save services button
+            document.getElementById('save-services-btn').addEventListener('click', handleSaveServices);
+            
+            // Save event button
+            document.getElementById('save-event-btn').addEventListener('click', handleCreateFamilyEvent);
+        }
+
+        // Load sample data
+        function loadSampleData() {
+            // Sample notifications
+            notifications = [
+                {
+                    id: 1,
+                    title: 'Welcome to Church System',
+                    message: 'Welcome to CASFETA TAYOMI Church Management System.',
+                    type: 'info',
+                    timestamp: new Date('2023-11-18 10:30:00'),
+                    read: false
+                }
+            ];
+            
+            // Sample announcements
+            announcements = [
+                {
+                    id: 1,
+                    title: 'Weekly Prayer Meeting',
+                    content: 'Join us for our weekly prayer meeting every Wednesday at 6 PM.',
+                    type: 'general',
+                    author: 'Secretary',
+                    date: '2023-11-15',
+                    shared: true
+                }
+            ];
+            
+            // Sample family events
+            familyEvents = [
+                {
+                    id: 1,
+                    title: 'Family Counseling Session',
+                    description: 'Monthly family counseling and guidance session for couples and families.',
+                    date: '2023-11-25',
+                    time: '14:00',
+                    location: 'Church Hall',
+                    category: 'family',
+                    audience: 'all',
+                    createdBy: 'Discipline Women Leader'
+                }
+            ];
+            
+            updateNotificationDisplay();
+        }
+
+        // Handle login form submission
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Find user in the users array
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                // Login successful
+                currentUser = user;
+                
+                // Show dashboard and hide login
+                document.getElementById('login-page').classList.add('d-none');
+                document.getElementById('dashboard-container').classList.remove('d-none');
+                
+                // Initialize dashboard based on role
+                initializeDashboard(user.role);
+                
+                // Update user name in header
+                document.getElementById('user-name').textContent = user.name;
+            } else {
+                // Login failed
+                alert('Invalid username or password!');
+            }
+        }
+
+        // Handle registration
+        function handleRegistration() {
+            const firstName = document.getElementById('reg-first-name').value;
+            const lastName = document.getElementById('reg-last-name').value;
+            const phone = document.getElementById('reg-phone').value;
+            const email = document.getElementById('reg-email').value;
+            const address = document.getElementById('reg-address').value;
+            
+            if (!firstName || !lastName || !phone) {
+                alert('Please fill all required fields!');
+                return;
+            }
+            
+            // Add to pending approvals
+            const newApproval = {
+                id: Date.now(),
+                firstName: firstName,
+                lastName: lastName,
+                phone: phone,
+                email: email,
+                address: address,
+                date: new Date().toLocaleDateString(),
+                status: 'pending'
+            };
+            
+            pendingApprovals.push(newApproval);
+            
+            // Add notification for chairperson and secretary
+            addNotification({
+                id: Date.now(),
+                title: 'New Account Request',
+                message: `${firstName} ${lastName} has requested a new account. Please review and approve.`,
+                type: 'info',
+                timestamp: new Date(),
+                read: false
+            });
+            
+            // Close modal and show success message
+            const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+            registerModal.hide();
+            
+            alert('Your request has been submitted successfully! It will be reviewed by the church committee.');
+            
+            // Reset form
+            document.getElementById('register-form').reset();
+        }
+
+        // Handle logout
+        function handleLogout() {
+            currentUser = null;
+            document.getElementById('dashboard-container').classList.add('d-none');
+            document.getElementById('login-page').classList.remove('d-none');
+            document.getElementById('login-form').reset();
+        }
+
+        // Handle change password
+        function handleChangePassword() {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Validate current password
+            if (currentPassword !== currentUser.password) {
+                alert('Current password is incorrect!');
+                return;
+            }
+            
+            // Check if passwords match
+            if (newPassword !== confirmPassword) {
+                alert('New password and confirmation do not match!');
+                return;
+            }
+            
+            // Update password
+            currentUser.password = newPassword;
+            
+            // Close modal and show success message
+            const changePasswordModal = bootstrap.Modal.getInstance(document.getElementById('changePasswordModal'));
+            changePasswordModal.hide();
+            
+            alert('Password changed successfully!');
+        }
+
+        // Handle add member
+        function handleAddMember() {
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const role = document.getElementById('member-role').value;
+            const address = document.getElementById('address').value;
+            
+            if (!firstName || !lastName || !phone || !role) {
+                alert('Please fill all required fields!');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                username: lastName.toLowerCase(),
+                password: 'password123',
+                role: role,
+                name: `${firstName} ${lastName}`,
+                lastLogin: null
+            };
+            
+            users.push(newUser);
+            
+            // Add notification
+            addNotification({
+                id: Date.now(),
+                title: 'New Member Added',
+                message: `${firstName} ${lastName} has been added to the system as ${roleDisplayNames[role]}.`,
+                type: 'success',
+                timestamp: new Date(),
+                read: false
+            });
+            
+            // Close modal and show success message
+            const addMemberModal = bootstrap.Modal.getInstance(document.getElementById('addMemberModal'));
+            addMemberModal.hide();
+            
+            alert(`Member ${firstName} ${lastName} added successfully!`);
+            
+            // Reset form
+            document.getElementById('add-member-form').reset();
+        }
+
+        // Handle upload photos
+        function handleUploadPhotos() {
+            const title = document.getElementById('photo-title').value;
+            const description = document.getElementById('photo-description').value;
+            const event = document.getElementById('photo-event').value;
+            const link = document.getElementById('photo-link').value;
+            
+            if (!title || !link) {
+                alert('Please enter title and photo link!');
+                return;
+            }
+            
+            // Add new photo entry
+            const newPhoto = {
+                id: Date.now(),
+                title: title,
+                description: description,
+                event: event,
+                url: link,
+                uploadedBy: currentUser.name,
+                date: new Date().toLocaleDateString()
+            };
+            
+            churchPhotos.unshift(newPhoto);
+            
+            // Add notification for all members
+            addNotification({
+                id: Date.now(),
+                title: 'New Photos Uploaded',
+                message: `New church photos "${title}" have been uploaded. Check the photos section.`,
+                type: 'info',
+                timestamp: new Date(),
+                read: false
+            });
+            
+            // Close modal and show success message
+            const uploadPhotosModal = bootstrap.Modal.getInstance(document.getElementById('uploadPhotosModal'));
+            uploadPhotosModal.hide();
+            
+            alert('Photos uploaded successfully! All members can now view them.');
+            
+            // Reset form
+            document.getElementById('upload-photos-form').reset();
+        }
+
+        // Handle create announcement
+        function handleCreateAnnouncement() {
+            const title = document.getElementById('announcement-title').value;
+            const content = document.getElementById('announcement-content').value;
+            const type = document.getElementById('announcement-type').value;
+            const share = document.getElementById('announcement-share').checked;
+            
+            if (!title || !content) {
+                alert('Please fill all required fields!');
+                return;
+            }
+            
+            // Add new announcement
+            const newAnnouncement = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                type: type,
+                author: currentUser.name,
+                date: new Date().toLocaleDateString(),
+                shared: share
+            };
+            
+            announcements.unshift(newAnnouncement);
+            
+            // Add notification if shared with members
+            if (share) {
+                addNotification({
+                    id: Date.now(),
+                    title: 'New Announcement',
+                    message: `New announcement: ${title}`,
+                    type: 'warning',
+                    timestamp: new Date(),
+                    read: false
+                });
+            }
+            
+            // Close modal and show success message
+            const createAnnouncementModal = bootstrap.Modal.getInstance(document.getElementById('createAnnouncementModal'));
+            createAnnouncementModal.hide();
+            
+            alert('Announcement published successfully!');
+            
+            // Reset form
+            document.getElementById('create-announcement-form').reset();
+        }
+
+        // Handle create contribution announcement
+        function handleCreateContributionAnnouncement() {
+            const title = document.getElementById('contribution-title').value;
+            const description = document.getElementById('contribution-description').value;
+            const target = document.getElementById('contribution-target').value;
+            const deadline = document.getElementById('contribution-deadline').value;
+            
+            if (!title || !description || !target || !deadline) {
+                alert('Please fill all required fields!');
+                return;
+            }
+            
+            // Add new contribution announcement
+            const newContribution = {
+                id: Date.now(),
+                title: title,
+                description: description,
+                target: target,
+                deadline: deadline,
+                author: currentUser.name,
+                date: new Date().toLocaleDateString()
+            };
+            
+            announcements.unshift(newContribution);
+            
+            // Add notification for all members
+            addNotification({
+                id: Date.now(),
+                title: 'New Contribution Announcement',
+                message: `New contribution: ${title}. Target: ${target} TZS`,
+                type: 'warning',
+                timestamp: new Date(),
+                read: false
+            });
+            
+            // Close modal and show success message
+            const createContributionModal = bootstrap.Modal.getInstance(document.getElementById('createContributionModal'));
+            createContributionModal.hide();
+            
+            alert('Contribution announcement published successfully!');
+            
+            // Reset form
+            document.getElementById('create-contribution-form').reset();
+        }
+
+        // Handle update payment methods
+        function handleUpdatePaymentMethods() {
+            // Update payment methods
+            paymentMethods.mpesa = document.getElementById('mpesa-number').value;
+            paymentMethods.tigo = document.getElementById('tigo-number').value;
+            paymentMethods.airtel = document.getElementById('airtel-number').value;
+            paymentMethods.bankName = document.getElementById('bank-name').value;
+            paymentMethods.accountNumber = document.getElementById('account-number').value;
+            paymentMethods.accountName = document.getElementById('account-name').value;
+            paymentMethods.lipaNumber = document.getElementById('lipa-number').value;
+            paymentMethods.instructions = document.getElementById('payment-instructions').value;
+            
+            // Add notification
+            addNotification({
+                id: Date.now(),
+                title: 'Payment Methods Updated',
+                message: 'Church payment methods have been updated.',
+                type: 'info',
+                timestamp: new Date(),
+                read: false
+            });
+            
+            // Close modal and show success message
+            const updatePaymentsModal = bootstrap.Modal.getInstance(document.getElementById('updatePaymentsModal'));
+            updatePaymentsModal.hide();
+            
+            alert('Payment methods updated successfully!');
+        }
+
+        // Handle save services
+        function handleSaveServices() {
+            const skills = document.getElementById('service-skills').value;
+            const availability = document.getElementById('service-availability').value;
+            
+            // Get selected services
+            const selectedServices = [];
+            if (document.getElementById('service-prayer').checked) selectedServices.push('Prayer Team');
+            if (document.getElementById('service-choir').checked) selectedServices.push('Choir');
+            if (document.getElementById('service-usher').checked) selectedServices.push('Ushering');
+            if (document.getElementById('service-teaching').checked) selectedServices.push('Teaching/Sabbath School');
+            if (document.getElementById('service-outreach').checked) selectedServices.push('Community Outreach');
+            
+            // Save member services
+            currentUser.services = selectedServices;
+            currentUser.skills = skills;
+            currentUser.availability = availability;
+            
+            // Close modal and show success message
+            const memberServicesModal = bootstrap.Modal.getInstance(document.getElementById('memberServicesModal'));
+            memberServicesModal.hide();
+            
+            alert('Your church services have been saved successfully!');
+        }
+
+        // Handle create family event
+        function handleCreateFamilyEvent() {
+            const title = document.getElementById('event-title').value;
+            const description = document.getElementById('event-description').value;
+            const date = document.getElementById('event-date').value;
+            const time = document.getElementById('event-time').value;
+            const location = document.getElementById('event-location').value;
+            const category = document.getElementById('event-category').value;
+            const audience = document.getElementById('event-audience').value;
+            
+            if (!title || !description || !date || !time || !location) {
+                alert('Please fill all required fields!');
+                return;
+            }
+            
+            // Add new family event
+            const newEvent = {
+                id: Date.now(),
+                title: title,
+                description: description,
+                date: date,
+                time: time,
+                location: location,
+                category: category,
+                audience: audience,
+                createdBy: currentUser.name,
+                createdAt: new Date().toLocaleDateString()
+            };
+            
+            familyEvents.unshift(newEvent);
+            
+            // Add notification
+            addNotification({
+                id: Date.now(),
+                title: 'New Family Event',
+                message: `New ${category} event: ${title} on ${date} at ${location}`,
+                type: 'info',
+                timestamp: new Date(),
+                read: false
+            });
+            
+            // Close modal and show success message
+            const familyEventsModal = bootstrap.Modal.getInstance(document.getElementById('familyEventsModal'));
+            familyEventsModal.hide();
+            
+            alert('Family event created successfully!');
+            
+            // Reset form
+            document.getElementById('family-events-form').reset();
+        }
+
+        // Initialize dashboard based on user role
+        function initializeDashboard(role) {
+            // Set dashboard title and role display
+            document.getElementById('dashboard-title').textContent = `${roleDisplayNames[role]} Dashboard`;
+            document.getElementById('role-display').textContent = roleDisplayNames[role];
+            
+            // Populate sidebar menu
+            const sidebarMenu = document.getElementById('sidebar-menu');
+            sidebarMenu.innerHTML = '';
+            
+            if (menuStructure[role]) {
+                menuStructure[role].forEach(item => {
+                    const menuItem = document.createElement('li');
+                    menuItem.className = 'nav-item';
+                    menuItem.innerHTML = `
+                        <a class="nav-link" href="#" data-section="${item.id}">
+                            <i class="${item.icon}"></i>
+                            <span>${item.name}</span>
+                        </a>
+                    `;
+                    sidebarMenu.appendChild(menuItem);
+                });
+                
+                // Set first menu item as active
+                if (sidebarMenu.firstElementChild) {
+                    sidebarMenu.firstElementChild.querySelector('.nav-link').classList.add('active');
+                }
+            }
+            
+            // Load dashboard content
+            loadSectionContent('dashboard', role);
+            
+            // Add event listeners to menu items
+            document.querySelectorAll('#sidebar-menu .nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    document.querySelectorAll('#sidebar-menu .nav-link').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Load section content
+                    const section = this.getAttribute('data-section');
+                    loadSectionContent(section, role);
+                });
+            });
+        }
+
+        // Load section content based on role and section
+        function loadSectionContent(section, role) {
+            const dashboardContent = document.getElementById('dashboard-content');
+            
+            let content = '';
+            
+            switch(section) {
+                case 'dashboard':
+                    content = getDashboardContent(role);
+                    break;
+                case 'members':
+                    content = getMembersContent(role);
+                    break;
+                case 'approvals':
+                    content = getApprovalsContent(role);
+                    break;
+                case 'announcements':
+                    content = getAnnouncementsContent(role);
+                    break;
+                case 'photos':
+                    content = getPhotosContent(role);
+                    break;
+                case 'contributions':
+                    content = getContributionsContent(role);
+                    break;
+                case 'promote-contributions':
+                    content = getPromoteContributionsContent(role);
+                    break;
+                case 'payment-methods':
+                    content = getPaymentMethodsContent(role);
+                    break;
+                case 'family-events':
+                    content = getFamilyEventsContent(role);
+                    break;
+                case 'spiritual-matters':
+                    content = getSpiritualMattersContent(role);
+                    break;
+                case 'discipline-cases':
+                    content = getDisciplineCasesContent(role);
+                    break;
+                case 'services':
+                    content = getServicesContent(role);
+                    break;
+                default:
+                    content = getDashboardContent(role);
+            }
+            
+            dashboardContent.innerHTML = content;
+            
+            // Add event listeners for dynamic buttons
+            addDynamicEventListeners(role, section);
+        }
+
+        // Get dashboard content based on role
+        function getDashboardContent(role) {
+            let stats = '';
+            let additionalContent = '';
+            
+            if (role === 'chairperson') {
+                stats = `
+                    <div class="row">
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card blue">
+                                <i class="fas fa-users fa-2x mb-2"></i>
+                                <h4>${users.length}</h4>
+                                <p>Total Members</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card green">
+                                <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
+                                <h4>2,450,000 TZS</h4>
+                                <p>Total Contributions</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card orange">
+                                <i class="fas fa-user-clock fa-2x mb-2"></i>
+                                <h4>${pendingApprovals.length}</h4>
+                                <p>Pending Requests</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card red">
+                                <i class="fas fa-bell fa-2x mb-2"></i>
+                                <h4>${notifications.filter(n => !n.read).length}</h4>
+                                <p>New Notifications</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (role === 'member') {
+                stats = `
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="stat-card blue">
+                                <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
+                                <h4>75,000 TZS</h4>
+                                <p>My Contributions</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="stat-card green">
+                                <i class="fas fa-hands-helping fa-2x mb-2"></i>
+                                <h4>${currentUser.services ? currentUser.services.length : 0}</h4>
+                                <p>My Services</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="stat-card orange">
+                                <i class="fas fa-bell fa-2x mb-2"></i>
+                                <h4>${notifications.filter(n => !n.read).length}</h4>
+                                <p>Notifications</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                additionalContent = `
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Welcome Member</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Welcome to CASFETA TAYOMI Church Management System. Here you can:</p>
+                                    <ul>
+                                        <li>Make contributions and donations</li>
+                                        <li>Participate in church services</li>
+                                        <li>View church announcements</li>
+                                        <li>Access church photos and events</li>
+                                        <li>Connect with church leadership</li>
+                                    </ul>
+                                    <button class="btn btn-primary" id="setup-services-btn">
+                                        <i class="fas fa-hands-helping"></i> Setup My Services
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Default dashboard for other roles
+                stats = `
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="stat-card blue">
+                                <i class="fas fa-users fa-2x mb-2"></i>
+                                <h4>${users.length}</h4>
+                                <p>Members</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="stat-card green">
+                                <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
+                                <h4>2,450,000 TZS</h4>
+                                <p>Contributions</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="stat-card orange">
+                                <i class="fas fa-bell fa-2x mb-2"></i>
+                                <h4>${notifications.filter(n => !n.read).length}</h4>
+                                <p>Notifications</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            return stats + additionalContent;
+        }
+
+        // Get members content
+        function getMembersContent(role) {
+            let actionButton = '';
+            
+            if (role === 'chairperson' || role === 'secretary') {
+                actionButton = `
+                    <div class="mb-3">
+                        <button class="btn btn-primary" id="add-member-btn">
+                            <i class="fas fa-plus"></i> Add Member
+                        </button>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Church Members</h5>
+                    </div>
+                    <div class="card-body">
+                        ${actionButton}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Full Name</th>
+                                        <th>Phone Number</th>
+                                        <th>Role</th>
+                                        <th>Join Date</th>
+                                        ${(role === 'chairperson' || role === 'secretary') ? '<th>Actions</th>' : ''}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${users.map(user => `
+                                        <tr>
+                                            <td>${user.name}</td>
+                                            <td>${user.phone || 'N/A'}</td>
+                                            <td>${roleDisplayNames[user.role]}</td>
+                                            <td>${user.lastLogin || 'Recently'}</td>
+                                            ${(role === 'chairperson' || role === 'secretary') ? 
+                                                `<td>
+                                                    <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                                </td>` : ''}
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get approvals content
+        function getApprovalsContent(role) {
+            return `
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Account Requests</h5>
+                        <button class="btn btn-primary" id="view-approvals-btn">
+                            <i class="fas fa-eye"></i> View Requests
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <p>Here you can review and approve all account requests from new members.</p>
+                        <div class="alert alert-info">
+                            There are <strong>${pendingApprovals.length}</strong> account requests waiting for your approval.
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get announcements content
+        function getAnnouncementsContent(role) {
+            let actionButton = '';
+            
+            if (role === 'chairperson' || role === 'secretary') {
+                actionButton = `
+                    <div class="mb-3">
+                        <button class="btn btn-primary" id="create-announcement-btn">
+                            <i class="fas fa-plus"></i> Create Announcement
+                        </button>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Church Announcements</h5>
+                    </div>
+                    <div class="card-body">
+                        ${actionButton}
+                        <div class="list-group">
+                            ${announcements.map(announcement => `
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">${announcement.title}</h5>
+                                        <small>${announcement.date}</small>
+                                    </div>
+                                    <p class="mb-1">${announcement.content || announcement.description}</p>
+                                    <small class="text-muted">Posted by: ${announcement.author}</small>
+                                    ${announcement.shared ? '<span class="badge bg-info ms-2">Shared</span>' : ''}
+                                    ${announcement.target ? `<div class="mt-2"><strong>Target:</strong> ${announcement.target} TZS | <strong>Deadline:</strong> ${announcement.deadline}</div>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get photos content
+        function getPhotosContent(role) {
+            let actionButton = '';
+            
+            if (role === 'secretary') {
+                actionButton = `
+                    <div class="mb-3">
+                        <button class="btn btn-primary" id="upload-photos-btn">
+                            <i class="fas fa-upload"></i> Upload Photos
+                        </button>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Church Photos</h5>
+                    </div>
+                    <div class="card-body">
+                        ${actionButton}
+                        <div class="photo-gallery">
+                            ${churchPhotos.length > 0 ? churchPhotos.map(photo => `
+                                <div class="photo-item">
+                                    <div class="photo-placeholder">
+                                        <i class="fas fa-image"></i>
+                                        <div>${photo.title}</div>
+                                        <small>${photo.event}</small>
+                                    </div>
+                                </div>
+                            `).join('') : `
+                                <div class="col-12 text-center py-5">
+                                    <i class="fas fa-image fa-3x text-muted mb-3"></i>
+                                    <p class="text-muted">No photos uploaded yet</p>
+                                    ${role === 'secretary' ? '<p>Use the "Upload Photos" button to add church photos</p>' : ''}
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get contributions content for members
+        function getContributionsContent(role) {
+            if (role === 'member') {
+                return `
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Make Contribution</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="contribution-form">
+                                <div class="mb-3">
+                                    <label for="contribution-type" class="form-label">Contribution Type</label>
+                                    <select class="form-select" id="contribution-type">
+                                        <option value="offering">Regular Offering</option>
+                                        <option value="tithes">Tithes</option>
+                                        <option value="building">Building Fund</option>
+                                        <option value="event">Special Event</option>
+                                        <option value="assistance">Assistance Fund</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="amount" class="form-label">Amount (TZS)</label>
+                                    <input type="number" class="form-control" id="amount" min="1000" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="payment-method" class="form-label">Payment Method</label>
+                                    <select class="form-select" id="payment-method">
+                                        <option value="mpesa">M-Pesa</option>
+                                        <option value="tigo">Tigo Pesa</option>
+                                        <option value="airtel">Airtel Money</option>
+                                        <option value="bank">Bank</option>
+                                        <option value="cash">Cash</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit Contribution</button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Contributions Overview</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Member Name</th>
+                                            <th>Contribution Type</th>
+                                            <th>Amount (TZS)</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Church Member</td>
+                                            <td>Regular Offering</td>
+                                            <td>50,000</td>
+                                            <td>15/11/2023</td>
+                                            <td><span class="badge bg-success">Received</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Get promote contributions content for treasurer
+        function getPromoteContributionsContent(role) {
+            return `
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Promote Contributions</h5>
+                        <button class="btn btn-primary" id="create-contribution-btn">
+                            <i class="fas fa-plus"></i> Create Contribution Announcement
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <p>Create announcements to promote church contributions and fundraising activities.</p>
+                        <div class="alert alert-info">
+                            Use this section to motivate members to contribute towards church projects and activities.
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get payment methods content for treasurer
+        function getPaymentMethodsContent(role) {
+            return `
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Payment Methods</h5>
+                        <button class="btn btn-primary" id="update-payments-btn">
+                            <i class="fas fa-edit"></i> Update Payment Methods
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <h6>Current Payment Methods:</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Mobile Money:</h6>
+                                <p><strong>M-Pesa:</strong> ${paymentMethods.mpesa}</p>
+                                <p><strong>Tigo Pesa:</strong> ${paymentMethods.tigo}</p>
+                                <p><strong>Airtel Money:</strong> ${paymentMethods.airtel}</p>
+                                <p><strong>Lipa Number:</strong> ${paymentMethods.lipaNumber}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Bank Account:</h6>
+                                <p><strong>Bank:</strong> ${paymentMethods.bankName}</p>
+                                <p><strong>Account Number:</strong> ${paymentMethods.accountNumber}</p>
+                                <p><strong>Account Name:</strong> ${paymentMethods.accountName}</p>
+                            </div>
+                        </div>
+                        ${paymentMethods.instructions ? `
+                            <div class="mt-3">
+                                <h6>Instructions:</h6>
+                                <p>${paymentMethods.instructions}</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get family events content
+        function getFamilyEventsContent(role) {
+            let actionButton = '';
+            
+            if (role === 'discipline-men' || role === 'discipline-women') {
+                actionButton = `
+                    <div class="mb-3">
+                        <button class="btn btn-primary" id="create-event-btn">
+                            <i class="fas fa-plus"></i> Create Family Event
+                        </button>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Family Events</h5>
+                    </div>
+                    <div class="card-body">
+                        ${actionButton}
+                        <div class="list-group">
+                            ${familyEvents.map(event => `
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">${event.title}</h5>
+                                        <small>${event.date} at ${event.time}</small>
+                                    </div>
+                                    <p class="mb-1">${event.description}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">
+                                            <strong>Location:</strong> ${event.location} | 
+                                            <strong>Category:</strong> ${event.category} |
+                                            <strong>Audience:</strong> ${event.audience}
+                                        </small>
+                                        <span class="badge bg-info">${event.category}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get spiritual matters content
+        function getSpiritualMattersContent(role) {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Spiritual Matters</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>This section is for managing spiritual guidance, counseling, and religious matters.</p>
+                        <div class="alert alert-info">
+                            As ${roleDisplayNames[role]}, you can provide spiritual guidance and support to church members.
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get discipline cases content
+        function getDisciplineCasesContent(role) {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Discipline Cases</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>This section is for managing church discipline matters and cases.</p>
+                        <div class="alert alert-info">
+                            As ${roleDisplayNames[role]}, you can handle discipline matters according to church guidelines.
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get services content for members
+        function getServicesContent(role) {
+            return `
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">My Church Services</h5>
+                        <button class="btn btn-primary" id="edit-services-btn">
+                            <i class="fas fa-edit"></i> Edit Services
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        ${currentUser.services && currentUser.services.length > 0 ? `
+                            <h6>Services I Participate In:</h6>
+                            <ul>
+                                ${currentUser.services.map(service => `<li>${service}</li>`).join('')}
+                            </ul>
+                            ${currentUser.skills ? `
+                                <h6 class="mt-3">My Skills/Talents:</h6>
+                                <p>${currentUser.skills}</p>
+                            ` : ''}
+                            ${currentUser.availability ? `
+                                <h6 class="mt-3">My Availability:</h6>
+                                <p>${currentUser.availability}</p>
+                            ` : ''}
+                        ` : `
+                            <p>You haven't set up your church services yet. Click the "Edit Services" button to get involved in church activities.</p>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Add dynamic event listeners
+        function addDynamicEventListeners(role, section) {
+            // Add member button
+            const addMemberBtn = document.getElementById('add-member-btn');
+            if (addMemberBtn) {
+                addMemberBtn.addEventListener('click', function() {
+                    const addMemberModal = new bootstrap.Modal(document.getElementById('addMemberModal'));
+                    addMemberModal.show();
+                });
+            }
+            
+            // View approvals button
+            const viewApprovalsBtn = document.getElementById('view-approvals-btn');
+            if (viewApprovalsBtn) {
+                viewApprovalsBtn.addEventListener('click', function() {
+                    const approvalsModal = new bootstrap.Modal(document.getElementById('approvalsModal'));
+                    loadApprovalsTable();
+                    approvalsModal.show();
+                });
+            }
+            
+            // Upload photos button
+            const uploadPhotosBtn = document.getElementById('upload-photos-btn');
+            if (uploadPhotosBtn) {
+                uploadPhotosBtn.addEventListener('click', function() {
+                    const uploadPhotosModal = new bootstrap.Modal(document.getElementById('uploadPhotosModal'));
+                    uploadPhotosModal.show();
+                });
+            }
+            
+            // Create announcement button
+            const createAnnouncementBtn = document.getElementById('create-announcement-btn');
+            if (createAnnouncementBtn) {
+                createAnnouncementBtn.addEventListener('click', function() {
+                    const createAnnouncementModal = new bootstrap.Modal(document.getElementById('createAnnouncementModal'));
+                    createAnnouncementModal.show();
+                });
+            }
+            
+            // Create contribution announcement button
+            const createContributionBtn = document.getElementById('create-contribution-btn');
+            if (createContributionBtn) {
+                createContributionBtn.addEventListener('click', function() {
+                    const createContributionModal = new bootstrap.Modal(document.getElementById('createContributionModal'));
+                    createContributionModal.show();
+                });
+            }
+            
+            // Update payments button
+            const updatePaymentsBtn = document.getElementById('update-payments-btn');
+            if (updatePaymentsBtn) {
+                updatePaymentsBtn.addEventListener('click', function() {
+                    const updatePaymentsModal = new bootstrap.Modal(document.getElementById('updatePaymentsModal'));
+                    // Pre-fill current values
+                    document.getElementById('mpesa-number').value = paymentMethods.mpesa;
+                    document.getElementById('tigo-number').value = paymentMethods.tigo;
+                    document.getElementById('airtel-number').value = paymentMethods.airtel;
+                    document.getElementById('bank-name').value = paymentMethods.bankName;
+                    document.getElementById('account-number').value = paymentMethods.accountNumber;
+                    document.getElementById('account-name').value = paymentMethods.accountName;
+                    document.getElementById('lipa-number').value = paymentMethods.lipaNumber;
+                    document.getElementById('payment-instructions').value = paymentMethods.instructions;
+                    updatePaymentsModal.show();
+                });
+            }
+            
+            // Setup services button
+            const setupServicesBtn = document.getElementById('setup-services-btn');
+            if (setupServicesBtn) {
+                setupServicesBtn.addEventListener('click', function() {
+                    const memberServicesModal = new bootstrap.Modal(document.getElementById('memberServicesModal'));
+                    memberServicesModal.show();
+                });
+            }
+            
+            // Edit services button
+            const editServicesBtn = document.getElementById('edit-services-btn');
+            if (editServicesBtn) {
+                editServicesBtn.addEventListener('click', function() {
+                    const memberServicesModal = new bootstrap.Modal(document.getElementById('memberServicesModal'));
+                    memberServicesModal.show();
+                });
+            }
+            
+            // Create event button
+            const createEventBtn = document.getElementById('create-event-btn');
+            if (createEventBtn) {
+                createEventBtn.addEventListener('click', function() {
+                    const familyEventsModal = new bootstrap.Modal(document.getElementById('familyEventsModal'));
+                    familyEventsModal.show();
+                });
+            }
+            
+            // Contribution form
+            const contributionForm = document.getElementById('contribution-form');
+            if (contributionForm) {
+                contributionForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Your contribution has been submitted successfully! Thank you for your support.');
+                    this.reset();
+                });
+            }
+        }
+
+        // Load approvals table
+        function loadApprovalsTable() {
+            const tableBody = document.getElementById('pending-approvals-table');
+            tableBody.innerHTML = '';
+            
+            pendingApprovals.forEach(approval => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${approval.firstName} ${approval.lastName}</td>
+                    <td>${approval.phone}</td>
+                    <td>${approval.email || 'None'}</td>
+                    <td>${approval.date}</td>
+                    <td>
+                        <button class="btn btn-sm btn-success approve-btn" data-id="${approval.id}">
+                            <i class="fas fa-check"></i> Approve
+                        </button>
+                        <button class="btn btn-sm btn-danger reject-btn" data-id="${approval.id}">
+                            <i class="fas fa-times"></i> Reject
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Add event listeners for approve and reject buttons
+            document.querySelectorAll('.approve-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    approveAccount(id);
+                });
+            });
+            
+            document.querySelectorAll('.reject-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    rejectAccount(id);
+                });
+            });
+        }
+
+        // Approve account
+        function approveAccount(id) {
+            const approval = pendingApprovals.find(a => a.id == id);
+            if (approval) {
+                // Create new user account
+                const newUser = {
+                    username: approval.lastName.toLowerCase(),
+                    password: 'password123',
+                    role: 'member',
+                    name: `${approval.firstName} ${approval.lastName}`,
+                    lastLogin: null
+                };
+                
+                users.push(newUser);
+                
+                // Remove from pending approvals
+                pendingApprovals = pendingApprovals.filter(a => a.id != id);
+                
+                // Add notification
+                addNotification({
+                    id: Date.now(),
+                    title: 'Account Approved',
+                    message: `Account for ${approval.firstName} ${approval.lastName} has been approved.`,
+                    type: 'success',
+                    timestamp: new Date(),
+                    read: false
+                });
+                
+                alert(`Account for ${approval.firstName} ${approval.lastName} has been approved successfully!`);
+                
+                // Refresh approvals table
+                loadApprovalsTable();
+            }
+        }
+
+        // Reject account
+        function rejectAccount(id) {
+            const approval = pendingApprovals.find(a => a.id == id);
+            if (approval) {
+                // Remove from pending approvals
+                pendingApprovals = pendingApprovals.filter(a => a.id != id);
+                
+                alert(`Account request for ${approval.firstName} ${approval.lastName} has been rejected!`);
+                
+                // Refresh approvals table
+                loadApprovalsTable();
+            }
+        }
+
+        // Add a new notification
+        function addNotification(notification) {
+            notifications.unshift(notification);
+            updateNotificationDisplay();
+        }
+
+        // Update notification display
+        function updateNotificationDisplay() {
+            const notificationList = document.getElementById('notification-list');
+            const notificationCount = document.getElementById('notification-count');
+            
+            // Clear existing notifications (except header)
+            const itemsToRemove = notificationList.querySelectorAll('li:not(.dropdown-header):not(.dropdown-divider)');
+            itemsToRemove.forEach(item => item.remove());
+            
+            // Add notifications to list
+            const unreadCount = notifications.filter(n => !n.read).length;
+            
+            if (unreadCount > 0) {
+                notificationCount.textContent = unreadCount;
+                notificationCount.classList.remove('d-none');
+            } else {
+                notificationCount.classList.add('d-none');
+            }
+            
+            // Add notifications to dropdown
+            notifications.forEach(notification => {
+                const notificationItem = document.createElement('li');
+                
+                const timeAgo = getTimeAgo(notification.timestamp);
+                
+                notificationItem.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">${notification.title}</h6>
+                        <small>${timeAgo}</small>
+                    </div>
+                    <p class="mb-1">${notification.message}</p>
+                `;
+                
+                notificationList.appendChild(notificationItem);
+            });
+        }
+
+        // Helper function to get time ago
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMins / 60);
+            const diffDays = Math.floor(diffHours / 24);
+            
+            if (diffMins < 1) {
+                return 'Just now';
+            } else if (diffMins < 60) {
+                return `${diffMins} minutes ago`;
+            } else if (diffHours < 24) {
+                return `${diffHours} hours ago`;
+            } else {
+                return `${diffDays} days ago`;
+            }
+        }
+    </script>
+</body>
+</html>
