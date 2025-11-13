@@ -6,6 +6,7 @@
     <title>CASFETA TAYOMI - Church Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -228,15 +229,6 @@
             text-align: center;
             padding: 20px;
         }
-
-        .quick-login-btn {
-            margin: 5px;
-            transition: all 0.3s;
-        }
-        
-        .quick-login-btn:hover {
-            transform: translateY(-2px);
-        }
         
         .error-message {
             color: #e74c3c;
@@ -257,6 +249,13 @@
             right: 20px;
             z-index: 9999;
         }
+
+        .contribution-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -265,24 +264,21 @@
         <div class="login-container">
             <div class="text-center mb-4">
                 <h2>CASFETA TAYOMI CHURCH</h2>
-                <p class="text-muted">Login to Church Management System</p>
+                <p class="text-muted">Church Management System</p>
             </div>
 
-            <!-- Error Message Display -->
             <div id="login-error" class="alert alert-danger d-none" role="alert">
-                Invalid username or password! Please try again.
+                Invalid username or password!
             </div>
 
             <form id="login-form">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
                     <input type="text" class="form-control" id="username" required>
-                    <div class="error-message" id="username-error">Please enter username</div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" required>
-                    <div class="error-message" id="password-error">Please enter password</div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">
                     <span id="login-text">Login</span>
@@ -292,21 +288,8 @@
                 </button>
             </form>
 
-            <!-- Quick Login Buttons (for testing) -->
-            <div class="mt-4 p-3 bg-light rounded">
-                <h6 class="text-center mb-3">Quick Login (For Testing)</h6>
-                <div class="d-flex flex-wrap justify-content-center">
-                    <button class="btn btn-sm btn-outline-primary quick-login-btn" data-username="chairperson" data-password="password123">Chairperson</button>
-                    <button class="btn btn-sm btn-outline-primary quick-login-btn" data-username="secretary" data-password="password123">Secretary</button>
-                    <button class="btn btn-sm btn-outline-primary quick-login-btn" data-username="treasurer" data-password="password123">Treasurer</button>
-                    <button class="btn btn-sm btn-outline-primary quick-login-btn" data-username="makada" data-password="password123">Makada (Men)</button>
-                    <button class="btn btn-sm btn-outline-primary quick-login-btn" data-username="bakada" data-password="password123">Bakada (Women)</button>
-                    <button class="btn btn-sm btn-outline-primary quick-login-btn" data-username="member" data-password="password123">Member</button>
-                </div>
-            </div>
-
             <div class="text-center mt-4">
-                <p>Don't have an account? <a href="#" id="register-link">Request Account</a></p>
+                <p>Contact church leadership for account access</p>
             </div>
         </div>
     </div>
@@ -320,58 +303,6 @@
             <span class="visually-hidden">Loading...</span>
         </div>
         <p class="mt-2">Loading dashboard...</p>
-    </div>
-
-    <!-- Registration Modal -->
-    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">Request New Account</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="register-form">
-                        <div class="mb-3">
-                            <label for="reg-first-name" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="reg-first-name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="reg-last-name" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="reg-last-name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="reg-phone" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control" id="reg-phone" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="reg-email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="reg-email">
-                        </div>
-                        <div class="mb-3">
-                            <label for="reg-address" class="form-label">Address</label>
-                            <textarea class="form-control" id="reg-address" rows="2"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="reg-role" class="form-label">Account Type Requested</label>
-                            <select class="form-select" id="reg-role" required>
-                                <option value="">Select account type</option>
-                                <option value="member">Regular Member</option>
-                                <option value="chairperson">Chairperson</option>
-                                <option value="secretary">Secretary</option>
-                                <option value="treasurer">Treasurer</option>
-                                <option value="makada">Makada (Discipline Committee - Men)</option>
-                                <option value="bakada">Bakada (Discipline Committee - Women)</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="submit-registration">Submit Request</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Dashboard Container -->
@@ -400,9 +331,8 @@
                                 <span class="notification-badge d-none" id="notification-count">0</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" id="notification-list">
-                                <li><h6 class="dropdown-header">Your Notifications</h6></li>
+                                <li><h6 class="dropdown-header">Notifications</h6></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <!-- Notifications will be populated here -->
                             </ul>
                         </div>
                         <div class="dropdown">
@@ -411,7 +341,7 @@
                                 <span id="user-name">User</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item" href="#" id="profile-link"><i class="fas fa-user me-2"></i>My Profile</a></li>
+                                <li><a class="dropdown-item" href="#" id="profile-link"><i class="fas fa-user me-2"></i>Profile</a></li>
                                 <li><a class="dropdown-item" href="#" id="change-password-link"><i class="fas fa-key me-2"></i>Change Password</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#" id="logout-btn"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -427,7 +357,7 @@
         </div>
     </div>
 
-    <!-- Modal for Change Password -->
+    <!-- Change Password Modal -->
     <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -452,108 +382,95 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary" id="save-password-btn">Save Password</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal for Add Member -->
+    <!-- Add Member Modal -->
     <div class="modal fade" id="addMemberModal" tabindex="-1" aria-labelledby="addMemberModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addMemberModalLabel">Add New Member</h5>
+                    <h5 class="modal-title" id="addMemberModalLabel">Add Member</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="add-member-form">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="first-name" class="form-label">First Name</label>
-                                <input type="text" class="form-control" id="first-name" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="last-name" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" id="last-name" required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="phone" class="form-label">Phone Number</label>
-                                <input type="tel" class="form-control" id="phone" required>
-                            </div>
+                        <div class="mb-3">
+                            <label for="first-name" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="first-name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="role" class="form-label">Role</label>
+                            <label for="last-name" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="last-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="tel" class="form-control" id="phone" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="member-role" class="form-label">Role</label>
                             <select class="form-select" id="member-role" required>
-                                <option value="">Select Role</option>
                                 <option value="member">Member</option>
                                 <option value="chairperson">Chairperson</option>
                                 <option value="secretary">Secretary</option>
                                 <option value="treasurer">Treasurer</option>
-                                <option value="makada">Makada (Discipline Committee - Men)</option>
-                                <option value="bakada">Bakada (Discipline Committee - Women)</option>
+                                <option value="makada">Makada</option>
+                                <option value="bakada">Bakada</option>
                             </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
-                            <textarea class="form-control" id="address" rows="2"></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-member-btn">Save Member</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-member-btn">Save</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal for Upload Photos -->
+    <!-- Upload Photos Modal -->
     <div class="modal fade" id="uploadPhotosModal" tabindex="-1" aria-labelledby="uploadPhotosModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="uploadPhotosModalLabel">Upload Church Photos</h5>
+                    <h5 class="modal-title" id="uploadPhotosModalLabel">Upload Photos</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="upload-photos-form">
                         <div class="mb-3">
-                            <label for="photo-title" class="form-label">Photo Title</label>
+                            <label for="photo-title" class="form-label">Title</label>
                             <input type="text" class="form-control" id="photo-title" required>
                         </div>
                         <div class="mb-3">
                             <label for="photo-description" class="form-label">Description</label>
-                            <textarea class="form-control" id="photo-description" rows="3"></textarea>
+                            <textarea class="form-control" id="photo-description" rows="2"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="photo-event" class="form-label">Event Type</label>
+                            <label for="photo-event" class="form-label">Event</label>
                             <input type="text" class="form-control" id="photo-event">
                         </div>
                         <div class="mb-3">
                             <label for="photo-link" class="form-label">Photo URL</label>
-                            <input type="url" class="form-control" id="photo-link" placeholder="https://example.com/photo" required>
+                            <input type="url" class="form-control" id="photo-link" required>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-photos-btn">Upload Photo</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-photos-btn">Upload</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal for Create Announcement -->
+    <!-- Create Announcement Modal -->
     <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="createAnnouncementModalLabel">Create Announcement</h5>
@@ -567,274 +484,69 @@
                         </div>
                         <div class="mb-3">
                             <label for="announcement-content" class="form-label">Content</label>
-                            <textarea class="form-control" id="announcement-content" rows="5" required></textarea>
+                            <textarea class="form-control" id="announcement-content" rows="4" required></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="announcement-type" class="form-label">Type</label>
                             <select class="form-select" id="announcement-type">
                                 <option value="general">General</option>
-                                <option value="urgent">Urgent</option>
                                 <option value="event">Event</option>
-                                <option value="contribution">Contribution</option>
+                                <option value="urgent">Urgent</option>
                             </select>
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="announcement-share">
-                            <label class="form-check-label" for="announcement-share">Share with all members</label>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-announcement-btn">Publish Announcement</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-announcement-btn">Create</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal for Create Contribution Announcement -->
+    <!-- Create Contribution Modal -->
     <div class="modal fade" id="createContributionModal" tabindex="-1" aria-labelledby="createContributionModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createContributionModalLabel">Create Contribution Announcement</h5>
+                    <h5 class="modal-title" id="createContributionModalLabel">Create Contribution</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="create-contribution-form">
                         <div class="mb-3">
-                            <label for="contribution-title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="contribution-title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="contribution-description" class="form-label">Description</label>
-                            <textarea class="form-control" id="contribution-description" rows="4" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="contribution-target" class="form-label">Target Amount (TZS)</label>
-                            <input type="number" class="form-control" id="contribution-target" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="contribution-deadline" class="form-label">Deadline</label>
-                            <input type="date" class="form-control" id="contribution-deadline" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-contribution-btn">Publish Announcement</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Update Payment Methods -->
-    <div class="modal fade" id="updatePaymentsModal" tabindex="-1" aria-labelledby="updatePaymentsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updatePaymentsModalLabel">Update Payment Methods</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="update-payments-form">
-                        <div class="mb-3">
-                            <label class="form-label">Mobile Payments</label>
-                            <div class="row">
-                                <div class="col-md-4 mb-2">
-                                    <label for="mpesa-number" class="form-label small">M-Pesa Number</label>
-                                    <input type="text" class="form-control" id="mpesa-number" placeholder="0757123456">
-                                </div>
-                                <div class="col-md-4 mb-2">
-                                    <label for="tigo-number" class="form-label small">Tigo Pesa Number</label>
-                                    <input type="text" class="form-control" id="tigo-number" placeholder="0712123456">
-                                </div>
-                                <div class="col-md-4 mb-2">
-                                    <label for="airtel-number" class="form-label small">Airtel Money Number</label>
-                                    <input type="text" class="form-control" id="airtel-number" placeholder="0682123456">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Bank Account Information</label>
-                            <div class="row">
-                                <div class="col-md-6 mb-2">
-                                    <label for="bank-name" class="form-label small">Bank Name</label>
-                                    <input type="text" class="form-control" id="bank-name" placeholder="CRDB Bank">
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <label for="account-number" class="form-label small">Account Number</label>
-                                    <input type="text" class="form-control" id="account-number" placeholder="015D12345678">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 mb-2">
-                                    <label for="account-name" class="form-label small">Account Name</label>
-                                    <input type="text" class="form-control" id="account-name" placeholder="CASFETA TAYOMI">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Lipa Number</label>
-                            <input type="text" class="form-control" id="lipa-number" placeholder="123456">
-                        </div>
-                        <div class="mb-3">
-                            <label for="payment-instructions" class="form-label">Payment Instructions</label>
-                            <textarea class="form-control" id="payment-instructions" rows="3" placeholder="Additional instructions for members..."></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-payments-btn">Update Payment Methods</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Member Services -->
-    <div class="modal fade" id="memberServicesModal" tabindex="-1" aria-labelledby="memberServicesModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="memberServicesModalLabel">My Church Services</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="member-services-form">
-                        <div class="mb-3">
-                            <label class="form-label">Select Services You Participate In:</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="service-prayer">
-                                <label class="form-check-label" for="service-prayer">Prayer Team</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="service-choir">
-                                <label class="form-check-label" for="service-choir">Choir</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="service-usher">
-                                <label class="form-check-label" for="service-usher">Ushering</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="service-teaching">
-                                <label class="form-check-label" for="service-teaching">Teaching/Sabbath School</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="service-outreach">
-                                <label class="form-check-label" for="service-outreach">Evangelism</label>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="service-skills" class="form-label">Your Skills/Talents</label>
-                            <textarea class="form-control" id="service-skills" rows="3" placeholder="List any skills or talents you can contribute..."></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="service-availability" class="form-label">Availability</label>
-                            <select class="form-select" id="service-availability">
-                                <option value="weekends">Weekends Only</option>
-                                <option value="weekdays">Weekdays</option>
-                                <option value="flexible">Flexible</option>
-                                <option value="specific">Specific Times</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-services-btn">Save Services</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Family Events -->
-    <div class="modal fade" id="familyEventsModal" tabindex="-1" aria-labelledby="familyEventsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="familyEventsModalLabel">Create Family Event</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="family-events-form">
-                        <div class="mb-3">
-                            <label for="event-title" class="form-label">Event Title</label>
-                            <input type="text" class="form-control" id="event-title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="event-description" class="form-label">Description</label>
-                            <textarea class="form-control" id="event-description" rows="4" required></textarea>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="event-date" class="form-label">Event Date</label>
-                                <input type="date" class="form-control" id="event-date" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="event-time" class="form-label">Event Time</label>
-                                <input type="time" class="form-control" id="event-time" required>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="event-location" class="form-label">Location</label>
-                            <input type="text" class="form-control" id="event-location" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="event-category" class="form-label">Category</label>
-                            <select class="form-select" id="event-category">
-                                <option value="spiritual">Spiritual</option>
-                                <option value="family">Family</option>
-                                <option value="discipline">Discipline</option>
-                                <option value="social">Social</option>
-                                <option value="educational">Educational</option>
+                            <label for="contribution-type" class="form-label">Type</label>
+                            <select class="form-select" id="contribution-type" required>
+                                <option value="offering">Offering</option>
+                                <option value="tithes">Tithes</option>
+                                <option value="building">Building Fund</option>
+                                <option value="event">Event</option>
+                                <option value="assistance">Assistance</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="event-audience" class="form-label">Target Audience</label>
-                            <select class="form-select" id="event-audience">
-                                <option value="all">All Members</option>
-                                <option value="men">Men Only</option>
-                                <option value="women">Women Only</option>
-                                <option value="youth">Youth</option>
-                                <option value="couples">Married Couples</option>
+                            <label for="contribution-amount" class="form-label">Amount (TZS)</label>
+                            <input type="number" class="form-control" id="contribution-amount" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="payment-method" class="form-label">Payment Method</label>
+                            <select class="form-select" id="payment-method" required>
+                                <option value="mpesa">M-Pesa</option>
+                                <option value="tigo">Tigo Pesa</option>
+                                <option value="airtel">Airtel Money</option>
+                                <option value="bank">Bank</option>
+                                <option value="cash">Cash</option>
                             </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="transaction-id" class="form-label">Transaction ID</label>
+                            <input type="text" class="form-control" id="transaction-id">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-event-btn">Create Event</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Pending Approvals -->
-    <div class="modal fade" id="approvalsModal" tabindex="-1" aria-labelledby="approvalsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="approvalsModalLabel">Account Requests</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Phone</th>
-                                    <th>Email</th>
-                                    <th>Request Date</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="pending-approvals-table">
-                                <!-- Pending approvals will be populated here -->
-                            </tbody>
-                        </table>
-                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-contribution-btn">Submit</button>
                 </div>
             </div>
         </div>
@@ -843,366 +555,151 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Supabase Configuration
-        const SUPABASE_URL = 'https://uyxlwlgxlhoffrbxobxa.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5eGx3bGd4bGhvZmZyYm94YnhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI2OTAxMTgsImV4cCI6MjA3ODI2NjExOH0.DuO3pa9qT3FV6hUGVqN8f8yPEteedAHvzCGwBXmkZ7c';
-        
-        // Initialize Supabase client
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseUrl = "https://uyxlwlgxlhoffrbxobxa.supabase.co";
+        const supabaseKey = "sb_secret_Hlj1gu82Kpy-LHlJl9keMQ_ltPAgJGZ";
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         // Current user data
         let currentUser = null;
         let notifications = [];
-        let pendingApprovals = [];
         let churchPhotos = [];
         let announcements = [];
         let familyEvents = [];
+        let contributions = [];
         let paymentMethods = {
             mpesa: '0757123456',
             tigo: '0712123456',
             airtel: '0682123456',
             bankName: 'CRDB Bank',
             accountNumber: '015D12345678',
-            accountName: 'CASFETA TAYOMI',
-            lipaNumber: '123456',
-            instructions: 'Please include your name as reference when making payment.'
+            accountName: 'CASFETA TAYOMI'
         };
 
-        // Sample users data - NOW WITH ENGLISH NAMES
-        const users = [
-            { 
-                id: '1', 
-                username: 'chairperson', 
-                password: 'password123', 
-                role: 'chairperson', 
-                name: 'Church Chairperson', 
-                lastLogin: '2023-11-18',
-                first_name: 'Chairperson',
-                last_name: 'Church'
-            },
-            { 
-                id: '2', 
-                username: 'secretary', 
-                password: 'password123', 
-                role: 'secretary', 
-                name: 'Church Secretary', 
-                lastLogin: '2023-11-17',
-                first_name: 'Secretary',
-                last_name: 'Church'
-            },
-            { 
-                id: '3', 
-                username: 'treasurer', 
-                password: 'password123', 
-                role: 'treasurer', 
-                name: 'Church Treasurer', 
-                lastLogin: '2023-11-16',
-                first_name: 'Treasurer',
-                last_name: 'Church'
-            },
-            { 
-                id: '4', 
-                username: 'makada', 
-                password: 'password123', 
-                role: 'makada', 
-                name: 'Makada - Discipline Committee', 
-                lastLogin: '2023-11-15',
-                first_name: 'Makada',
-                last_name: 'Discipline Committee'
-            },
-            { 
-                id: '5', 
-                username: 'bakada', 
-                password: 'password123', 
-                role: 'bakada', 
-                name: 'Bakada - Discipline Committee', 
-                lastLogin: '2023-11-14',
-                first_name: 'Bakada',
-                last_name: 'Discipline Committee'
-            },
-            { 
-                id: '6', 
-                username: 'member', 
-                password: 'password123', 
-                role: 'member', 
-                name: 'Church Member', 
-                lastLogin: '2023-11-13',
-                first_name: 'Member',
-                last_name: 'Church'
-            }
-        ];
-
-        // Menu structure based on roles - NOW WITH ENGLISH NAMES
+        // Menu structure based on roles
         const menuStructure = {
             'chairperson': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
                 { id: 'members', name: 'Members', icon: 'fas fa-users' },
-                { id: 'approvals', name: 'Account Requests', icon: 'fas fa-user-plus' },
                 { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' },
+                { id: 'photos', name: 'Photos', icon: 'fas fa-images' },
                 { id: 'reports', name: 'Reports', icon: 'fas fa-chart-bar' }
             ],
             'secretary': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
                 { id: 'members', name: 'Members', icon: 'fas fa-users' },
-                { id: 'approvals', name: 'Account Requests', icon: 'fas fa-user-plus' },
                 { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' },
+                { id: 'photos', name: 'Photos', icon: 'fas fa-images' },
                 { id: 'events', name: 'Events', icon: 'fas fa-calendar' }
             ],
             'treasurer': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
                 { id: 'contributions', name: 'Contributions', icon: 'fas fa-hand-holding-usd' },
-                { id: 'promote-contributions', name: 'Promote Contributions', icon: 'fas fa-bullhorn' },
                 { id: 'payment-methods', name: 'Payment Methods', icon: 'fas fa-money-check' },
-                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' },
-                { id: 'financial-reports', name: 'Financial Reports', icon: 'fas fa-chart-line' }
+                { id: 'photos', name: 'Photos', icon: 'fas fa-images' },
+                { id: 'financial-reports', name: 'Reports', icon: 'fas fa-chart-line' }
             ],
             'makada': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'family-events', name: 'Family Events', icon: 'fas fa-calendar' },
-                { id: 'spiritual-matters', name: 'Spiritual Matters', icon: 'fas fa-pray' },
-                { id: 'discipline-cases', name: 'Discipline Cases', icon: 'fas fa-gavel' },
-                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' },
-                { id: 'counseling', name: 'Spiritual Counseling', icon: 'fas fa-hands-helping' }
+                { id: 'family-events', name: 'Events', icon: 'fas fa-calendar' },
+                { id: 'discipline-cases', name: 'Discipline', icon: 'fas fa-gavel' },
+                { id: 'photos', name: 'Photos', icon: 'fas fa-images' },
+                { id: 'counseling', name: 'Counseling', icon: 'fas fa-hands-helping' }
             ],
             'bakada': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'family-events', name: 'Family Events', icon: 'fas fa-calendar' },
-                { id: 'spiritual-matters', name: 'Spiritual Matters', icon: 'fas fa-pray' },
-                { id: 'discipline-cases', name: 'Discipline Cases', icon: 'fas fa-gavel' },
-                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' },
-                { id: 'women-ministry', name: 'Women Ministry', icon: 'fas fa-female' }
+                { id: 'family-events', name: 'Events', icon: 'fas fa-calendar' },
+                { id: 'discipline-cases', name: 'Discipline', icon: 'fas fa-gavel' },
+                { id: 'photos', name: 'Photos', icon: 'fas fa-images' },
+                { id: 'men-ministry', name: 'Ministry', icon: 'fas fa-male' }
             ],
             'member': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'contributions', name: 'My Contributions', icon: 'fas fa-hand-holding-usd' },
-                { id: 'services', name: 'My Services', icon: 'fas fa-hands-helping' },
+                { id: 'contributions', name: 'Contributions', icon: 'fas fa-hand-holding-usd' },
+                { id: 'services', name: 'Services', icon: 'fas fa-hands-helping' },
                 { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' },
-                { id: 'events', name: 'Events', icon: 'fas fa-calendar' }
+                { id: 'photos', name: 'Photos', icon: 'fas fa-images' }
             ]
         };
 
-        // Role display names - NOW WITH ENGLISH NAMES
+        // Role display names
         const roleDisplayNames = {
             'chairperson': 'Chairperson',
             'secretary': 'Secretary',
             'treasurer': 'Treasurer',
-            'makada': 'Makada (Discipline Committee - Men)',
-            'bakada': 'Bakada (Discipline Committee - Women)',
+            'makada': 'Makada',
+            'bakada': 'Bakada',
             'member': 'Member'
         };
 
-        // Initialize the application
+        // Initialize application
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Initializing application...');
             initializeEventListeners();
             loadSampleData();
-            loadDataFromSupabase();
             
-            // Check if user is already logged in (from session storage)
             const savedUser = sessionStorage.getItem('currentUser');
             if (savedUser) {
-                try {
-                    currentUser = JSON.parse(savedUser);
-                    showDashboard();
-                } catch (e) {
-                    console.error('Error reading saved user:', e);
-                    sessionStorage.removeItem('currentUser');
-                }
+                currentUser = JSON.parse(savedUser);
+                showDashboard();
             }
         });
 
         // Load data from Supabase
         async function loadDataFromSupabase() {
             try {
-                console.log('Loading data from Supabase...');
-                
-                // Load photos from Supabase
-                const { data: photos, error: photosError } = await supabaseClient
+                // Load photos
+                const { data: photosData, error: photosError } = await supabase
                     .from('church_photos')
                     .select('*')
                     .order('created_at', { ascending: false });
-
-                if (photosError) {
-                    console.error('Error loading photos:', photosError);
-                } else if (photos) {
-                    churchPhotos = photos.map(photo => ({
-                        id: photo.id,
-                        title: photo.title,
-                        description: photo.description,
-                        event: photo.event_type,
-                        url: photo.photo_url,
-                        uploadedBy: photo.uploaded_by,
-                        date: new Date(photo.created_at).toLocaleDateString()
-                    }));
-                    console.log('Photos loaded:', churchPhotos.length);
+                
+                if (!photosError && photosData) {
+                    churchPhotos = photosData;
                 }
-
-                // Load announcements from Supabase
-                const { data: announcementsData, error: announcementsError } = await supabaseClient
+                
+                // Load announcements
+                const { data: announcementsData, error: announcementsError } = await supabase
                     .from('announcements')
                     .select('*')
                     .order('created_at', { ascending: false });
-
-                if (announcementsError) {
-                    console.error('Error loading announcements:', announcementsError);
-                } else if (announcementsData) {
-                    announcements = announcementsData.map(announcement => ({
-                        id: announcement.id,
-                        title: announcement.title,
-                        content: announcement.content,
-                        type: announcement.announcement_type,
-                        author: announcement.author_id,
-                        date: new Date(announcement.created_at).toLocaleDateString(),
-                        shared: announcement.is_shared,
-                        target: announcement.target_amount,
-                        deadline: announcement.deadline
-                    }));
-                    console.log('Announcements loaded:', announcements.length);
+                
+                if (!announcementsError && announcementsData) {
+                    announcements = announcementsData;
                 }
-
-                // Load family events from Supabase
-                const { data: eventsData, error: eventsError } = await supabaseClient
+                
+                // Load family events
+                const { data: eventsData, error: eventsError } = await supabase
                     .from('family_events')
                     .select('*')
                     .order('created_at', { ascending: false });
-
-                if (eventsError) {
-                    console.error('Error loading events:', eventsError);
-                } else if (eventsData) {
-                    familyEvents = eventsData.map(event => ({
-                        id: event.id,
-                        title: event.title,
-                        description: event.description,
-                        date: event.event_date,
-                        time: event.event_time,
-                        location: event.location,
-                        category: event.category,
-                        audience: event.target_audience,
-                        createdBy: event.created_by,
-                        createdAt: new Date(event.created_at).toLocaleDateString()
-                    }));
-                    console.log('Events loaded:', familyEvents.length);
+                
+                if (!eventsError && eventsData) {
+                    familyEvents = eventsData;
+                }
+                
+                // Load contributions
+                const { data: contributionsData, error: contributionsError } = await supabase
+                    .from('contributions')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (!contributionsError && contributionsData) {
+                    contributions = contributionsData;
                 }
 
             } catch (error) {
-                console.error('Error loading data from Supabase:', error);
-            }
-        }
-
-        // Initialize event listeners
-        function initializeEventListeners() {
-            console.log('Initializing event listeners...');
-            
-            // Login form handler
-            document.getElementById('login-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                handleLogin();
-            });
-            
-            // Quick login buttons
-            document.querySelectorAll('.quick-login-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const username = this.getAttribute('data-username');
-                    const password = this.getAttribute('data-password');
-                    
-                    document.getElementById('username').value = username;
-                    document.getElementById('password').value = password;
-                    
-                    handleLogin();
-                });
-            });
-            
-            // Form validation
-            document.getElementById('username').addEventListener('blur', validateUsername);
-            document.getElementById('password').addEventListener('blur', validatePassword);
-            
-            // Register link
-            document.getElementById('register-link').addEventListener('click', function(e) {
-                e.preventDefault();
-                const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
-                registerModal.show();
-            });
-            
-            // Submit registration
-            document.getElementById('submit-registration').addEventListener('click', handleRegistration);
-            
-            // Logout button
-            document.getElementById('logout-btn').addEventListener('click', handleLogout);
-            
-            // Change password link
-            document.getElementById('change-password-link').addEventListener('click', function(e) {
-                e.preventDefault();
-                const changePasswordModal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
-                changePasswordModal.show();
-            });
-            
-            // Save password button
-            document.getElementById('save-password-btn').addEventListener('click', handleChangePassword);
-            
-            // Save member button
-            document.getElementById('save-member-btn').addEventListener('click', handleAddMember);
-            
-            // Save photos button
-            document.getElementById('save-photos-btn').addEventListener('click', handleUploadPhotos);
-            
-            // Save announcement button
-            document.getElementById('save-announcement-btn').addEventListener('click', handleCreateAnnouncement);
-            
-            // Save contribution announcement button
-            document.getElementById('save-contribution-btn').addEventListener('click', handleCreateContributionAnnouncement);
-            
-            // Save payments button
-            document.getElementById('save-payments-btn').addEventListener('click', handleUpdatePaymentMethods);
-            
-            // Save services button
-            document.getElementById('save-services-btn').addEventListener('click', handleSaveServices);
-            
-            // Save event button
-            document.getElementById('save-event-btn').addEventListener('click', handleCreateFamilyEvent);
-        }
-
-        // Form validation functions
-        function validateUsername() {
-            const username = document.getElementById('username').value;
-            const errorElement = document.getElementById('username-error');
-            
-            if (!username.trim()) {
-                errorElement.textContent = 'Please enter username';
-                errorElement.style.display = 'block';
-                return false;
-            } else {
-                errorElement.style.display = 'none';
-                return true;
-            }
-        }
-
-        function validatePassword() {
-            const password = document.getElementById('password').value;
-            const errorElement = document.getElementById('password-error');
-            
-            if (!password.trim()) {
-                errorElement.textContent = 'Please enter password';
-                errorElement.style.display = 'block';
-                return false;
-            } else {
-                errorElement.style.display = 'none';
-                return true;
+                console.error('Error loading data:', error);
             }
         }
 
         // Load sample data
         function loadSampleData() {
-            // Sample notifications
             notifications = [
                 {
                     id: 1,
-                    title: 'Welcome to Church System',
-                    message: 'Welcome to CASFETA TAYOMI Church Management System.',
+                    title: 'Welcome',
+                    message: 'Welcome to CASFETA TAYOMI Church System',
                     type: 'info',
-                    timestamp: new Date('2023-11-18 10:30:00'),
+                    timestamp: new Date(),
                     read: false
                 }
             ];
@@ -1210,137 +707,81 @@
             updateNotificationDisplay();
         }
 
-        // Handle login form submission
-        function handleLogin() {
-            console.log('Login attempt...');
+        // Initialize event listeners
+        function initializeEventListeners() {
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleLogin();
+            });
             
-            // Validate form
-            const isUsernameValid = validateUsername();
-            const isPasswordValid = validatePassword();
-            
-            if (!isUsernameValid || !isPasswordValid) {
-                return;
-            }
-            
+            document.getElementById('logout-btn').addEventListener('click', handleLogout);
+            document.getElementById('change-password-link').addEventListener('click', showChangePasswordModal);
+            document.getElementById('save-password-btn').addEventListener('click', handleChangePassword);
+            document.getElementById('save-member-btn').addEventListener('click', handleAddMember);
+            document.getElementById('save-photos-btn').addEventListener('click', handleUploadPhotos);
+            document.getElementById('save-announcement-btn').addEventListener('click', handleCreateAnnouncement);
+            document.getElementById('save-contribution-btn').addEventListener('click', handleCreateContribution);
+        }
+
+        // Handle login
+        async function handleLogin() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            // Hide any previous error messages
-            document.getElementById('login-error').classList.add('d-none');
+            if (!username || !password) {
+                showToast('Please enter username and password', 'error');
+                return;
+            }
             
-            // Show loading state
+            document.getElementById('login-error').classList.add('d-none');
             document.getElementById('login-text').classList.add('d-none');
             document.getElementById('login-spinner').classList.remove('d-none');
             
-            // Simulate loading delay
-            setTimeout(() => {
-                // Find user in the users array
-                const user = users.find(u => u.username === username && u.password === password);
+            try {
+                const { data: users, error } = await supabase
+                    .from('users')
+                    .select('*')
+                    .eq('username', username)
+                    .single();
                 
-                if (user) {
-                    console.log('Login successful for:', username);
-                    // Login successful
-                    currentUser = user;
-                    
-                    // Save to session storage
-                    sessionStorage.setItem('currentUser', JSON.stringify(user));
-                    
+                if (error) {
+                    document.getElementById('login-error').classList.remove('d-none');
+                    showToast('Invalid credentials', 'error');
+                } else if (users && users.password === password) {
+                    currentUser = users;
+                    sessionStorage.setItem('currentUser', JSON.stringify(users));
                     showDashboard();
                 } else {
-                    // Login failed
-                    console.log('Login failed for:', username);
                     document.getElementById('login-error').classList.remove('d-none');
-                    showToast('Invalid username or password!', 'error');
+                    showToast('Invalid credentials', 'error');
                 }
-                
-                // Reset loading state
+            } catch (error) {
+                document.getElementById('login-error').classList.remove('d-none');
+                showToast('Login error', 'error');
+            } finally {
                 document.getElementById('login-text').classList.remove('d-none');
                 document.getElementById('login-spinner').classList.add('d-none');
-                
-            }, 1000);
+            }
         }
 
-        // Show dashboard function
+        // Show dashboard
         function showDashboard() {
-            console.log('Showing dashboard for:', currentUser.name);
-            
-            // Show loading spinner first
             document.getElementById('login-page').classList.add('d-none');
             document.getElementById('loading-spinner').style.display = 'block';
             
-            // Simulate loading delay
             setTimeout(() => {
                 document.getElementById('loading-spinner').style.display = 'none';
                 document.getElementById('dashboard-container').classList.remove('d-none');
                 
-                // Initialize dashboard based on role
                 initializeDashboard(currentUser.role);
+                document.getElementById('user-name').textContent = `${currentUser.first_name} ${currentUser.last_name}`;
                 
-                // Update user name in header
-                document.getElementById('user-name').textContent = currentUser.name;
-                
-                console.log('Dashboard loaded successfully');
-            }, 1500);
-        }
-
-        // Handle registration
-        async function handleRegistration() {
-            const firstName = document.getElementById('reg-first-name').value;
-            const lastName = document.getElementById('reg-last-name').value;
-            const phone = document.getElementById('reg-phone').value;
-            const email = document.getElementById('reg-email').value;
-            const address = document.getElementById('reg-address').value;
-            const role = document.getElementById('reg-role').value;
-            
-            if (!firstName || !lastName || !phone || !role) {
-                showToast('Please fill all required fields!', 'error');
-                return;
-            }
-            
-            try {
-                // Since account_requests table doesn't exist, we'll use notifications as temporary storage
-                const newApproval = {
-                    id: Date.now(),
-                    firstName: firstName,
-                    lastName: lastName,
-                    phone: phone,
-                    email: email,
-                    address: address,
-                    role: role,
-                    date: new Date().toLocaleDateString(),
-                    status: 'pending'
-                };
-                
-                pendingApprovals.push(newApproval);
-                
-                // Add notification for chairperson and secretary
-                addNotification({
-                    id: Date.now(),
-                    title: 'New Account Request',
-                    message: `${firstName} ${lastName} has requested a new account as ${roleDisplayNames[role]}. Please review and approve.`,
-                    type: 'info',
-                    timestamp: new Date(),
-                    read: false
-                });
-                
-                // Close modal and show success message
-                const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
-                registerModal.hide();
-                
-                showToast('Your request has been submitted successfully! It will be reviewed by the church committee.', 'success');
-                
-                // Reset form
-                document.getElementById('register-form').reset();
-
-            } catch (error) {
-                console.error('Error saving registration:', error);
-                showToast('Error submitting request. Please try again.', 'error');
-            }
+                loadDataFromSupabase();
+            }, 1000);
         }
 
         // Handle logout
         function handleLogout() {
-            console.log('Logging out...');
             currentUser = null;
             sessionStorage.removeItem('currentUser');
             document.getElementById('dashboard-container').classList.add('d-none');
@@ -1349,102 +790,90 @@
             document.getElementById('login-error').classList.add('d-none');
         }
 
+        // Show change password modal
+        function showChangePasswordModal(e) {
+            e.preventDefault();
+            const changePasswordModal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
+            changePasswordModal.show();
+        }
+
         // Handle change password
-        function handleChangePassword() {
+        async function handleChangePassword() {
             const currentPassword = document.getElementById('current-password').value;
             const newPassword = document.getElementById('new-password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
             
-            // Validate current password
             if (currentPassword !== currentUser.password) {
-                showToast('Current password is incorrect!', 'error');
+                showToast('Current password is incorrect', 'error');
                 return;
             }
             
-            // Check if passwords match
             if (newPassword !== confirmPassword) {
-                showToast('New password and confirmation do not match!', 'error');
+                showToast('Passwords do not match', 'error');
                 return;
             }
             
-            // Update password
-            currentUser.password = newPassword;
-            
-            // Close modal and show success message
-            const changePasswordModal = bootstrap.Modal.getInstance(document.getElementById('changePasswordModal'));
-            changePasswordModal.hide();
-            
-            showToast('Password changed successfully!', 'success');
+            try {
+                const { error } = await supabase
+                    .from('users')
+                    .update({ password: newPassword })
+                    .eq('id', currentUser.id);
+                
+                if (error) throw error;
+                
+                currentUser.password = newPassword;
+                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                const changePasswordModal = bootstrap.Modal.getInstance(document.getElementById('changePasswordModal'));
+                changePasswordModal.hide();
+                
+                showToast('Password changed successfully', 'success');
+                
+            } catch (error) {
+                showToast('Error changing password', 'error');
+            }
         }
 
         // Handle add member
         async function handleAddMember() {
             const firstName = document.getElementById('first-name').value;
             const lastName = document.getElementById('last-name').value;
-            const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
             const role = document.getElementById('member-role').value;
-            const address = document.getElementById('address').value;
             
-            if (!firstName || !lastName || !phone || !role) {
-                showToast('Please fill all required fields!', 'error');
+            if (!firstName || !lastName || !phone) {
+                showToast('Please fill required fields', 'error');
                 return;
             }
             
             try {
-                // Save to Supabase
-                const { data, error } = await supabaseClient
+                const username = lastName.toLowerCase();
+                const password = 'password123';
+                
+                const { data, error } = await supabase
                     .from('users')
-                    .insert([
-                        {
-                            first_name: firstName,
-                            last_name: lastName,
-                            email: email,
-                            phone: phone,
-                            role: role,
-                            address: address,
-                            username: lastName.toLowerCase(),
-                            password: 'password123',
-                            is_active: true
-                        }
-                    ]);
-
+                    .insert([{ username, password, role, first_name: firstName, last_name: lastName, phone }])
+                    .select();
+                
                 if (error) throw error;
-
-                // Create new user for local state
-                const newUser = {
-                    id: data[0].id,
-                    username: lastName.toLowerCase(),
-                    password: 'password123',
-                    role: role,
-                    name: `${firstName} ${lastName}`,
-                    lastLogin: null
-                };
                 
-                users.push(newUser);
-                
-                // Add notification
                 addNotification({
                     id: Date.now(),
-                    title: 'New Member Added',
-                    message: `${firstName} ${lastName} has been added to the system as ${roleDisplayNames[role]}.`,
+                    title: 'New Member',
+                    message: `${firstName} ${lastName} added as ${role}`,
                     type: 'success',
                     timestamp: new Date(),
                     read: false
                 });
                 
-                // Close modal and show success message
                 const addMemberModal = bootstrap.Modal.getInstance(document.getElementById('addMemberModal'));
                 addMemberModal.hide();
                 
-                showToast(`Member ${firstName} ${lastName} added successfully!`, 'success');
-                
-                // Reset form
+                showToast('Member added successfully', 'success');
                 document.getElementById('add-member-form').reset();
 
             } catch (error) {
-                console.error('Error adding member:', error);
-                showToast('Error adding member. Please try again.', 'error');
+                showToast('Error adding member', 'error');
             }
         }
 
@@ -1456,65 +885,37 @@
             const link = document.getElementById('photo-link').value;
             
             if (!title || !link) {
-                showToast('Please enter title and photo URL!', 'error');
+                showToast('Please enter title and photo URL', 'error');
                 return;
             }
             
             try {
-                // Get current user ID from sample users
-                const uploaderId = currentUser.id;
-                
-                // Save to Supabase
-                const { data, error } = await supabaseClient
+                const { data, error } = await supabase
                     .from('church_photos')
-                    .insert([
-                        {
-                            title: title,
-                            description: description,
-                            event_type: event,
-                            photo_url: link,
-                            uploaded_by: uploaderId,
-                            is_approved: true
-                        }
-                    ]);
-
+                    .insert([{ title, description, event_type: event, photo_url: link, uploaded_by: currentUser.id }])
+                    .select();
+                
                 if (error) throw error;
-
-                // Add new photo entry to local state
-                const newPhoto = {
-                    id: data[0].id,
-                    title: title,
-                    description: description,
-                    event: event,
-                    url: link,
-                    uploadedBy: currentUser.name,
-                    date: new Date().toLocaleDateString()
-                };
                 
-                churchPhotos.unshift(newPhoto);
+                churchPhotos.unshift(data[0]);
                 
-                // Add notification for all members
                 addNotification({
                     id: Date.now(),
-                    title: 'New Photos Uploaded',
-                    message: `New church photos "${title}" have been uploaded. Check the photos section.`,
+                    title: 'Photos Uploaded',
+                    message: `New photos "${title}" uploaded`,
                     type: 'info',
                     timestamp: new Date(),
                     read: false
                 });
                 
-                // Close modal and show success message
                 const uploadPhotosModal = bootstrap.Modal.getInstance(document.getElementById('uploadPhotosModal'));
                 uploadPhotosModal.hide();
                 
-                showToast('Photos uploaded successfully! All members can now view them.', 'success');
-                
-                // Reset form
+                showToast('Photos uploaded successfully', 'success');
                 document.getElementById('upload-photos-form').reset();
 
             } catch (error) {
-                console.error('Error uploading photos:', error);
-                showToast('Error uploading photos. Please try again.', 'error');
+                showToast('Error uploading photos', 'error');
             }
         }
 
@@ -1523,309 +924,166 @@
             const title = document.getElementById('announcement-title').value;
             const content = document.getElementById('announcement-content').value;
             const type = document.getElementById('announcement-type').value;
-            const share = document.getElementById('announcement-share').checked;
             
             if (!title || !content) {
-                showToast('Please fill all required fields!', 'error');
+                showToast('Please enter title and content', 'error');
                 return;
             }
             
             try {
-                // Get current user ID from sample users
-                const authorId = currentUser.id;
-                
-                // Save to Supabase
-                const { data, error } = await supabaseClient
+                const { data, error } = await supabase
                     .from('announcements')
-                    .insert([
-                        {
-                            title: title,
-                            content: content,
-                            announcement_type: type,
-                            author_id: authorId,
-                            is_shared: share
-                        }
-                    ]);
-
+                    .insert([{ title, content, announcement_type: type, author_id: currentUser.id }])
+                    .select();
+                
                 if (error) throw error;
-
-                // Add new announcement to local state
-                const newAnnouncement = {
-                    id: data[0].id,
-                    title: title,
-                    content: content,
-                    type: type,
-                    author: currentUser.name,
-                    date: new Date().toLocaleDateString(),
-                    shared: share
-                };
                 
-                announcements.unshift(newAnnouncement);
+                announcements.unshift(data[0]);
                 
-                // Add notification if shared with members
-                if (share) {
-                    addNotification({
-                        id: Date.now(),
-                        title: 'New Announcement',
-                        message: `New announcement: ${title}`,
-                        type: 'warning',
-                        timestamp: new Date(),
-                        read: false
-                    });
-                }
-                
-                // Close modal and show success message
-                const createAnnouncementModal = bootstrap.Modal.getInstance(document.getElementById('createAnnouncementModal'));
-                createAnnouncementModal.hide();
-                
-                showToast('Announcement published successfully!', 'success');
-                
-                // Reset form
-                document.getElementById('create-announcement-form').reset();
-
-            } catch (error) {
-                console.error('Error creating announcement:', error);
-                showToast('Error publishing announcement. Please try again.', 'error');
-            }
-        }
-
-        // Handle create contribution announcement
-        async function handleCreateContributionAnnouncement() {
-            const title = document.getElementById('contribution-title').value;
-            const description = document.getElementById('contribution-description').value;
-            const target = document.getElementById('contribution-target').value;
-            const deadline = document.getElementById('contribution-deadline').value;
-            
-            if (!title || !description || !target || !deadline) {
-                showToast('Please fill all required fields!', 'error');
-                return;
-            }
-            
-            try {
-                // Get current user ID from sample users
-                const authorId = currentUser.id;
-                
-                // Save to Supabase
-                const { data, error } = await supabaseClient
-                    .from('announcements')
-                    .insert([
-                        {
-                            title: title,
-                            content: description,
-                            announcement_type: 'contribution',
-                            author_id: authorId,
-                            is_shared: true,
-                            target_amount: target,
-                            deadline: deadline
-                        }
-                    ]);
-
-                if (error) throw error;
-
-                // Add new contribution announcement to local state
-                const newContribution = {
-                    id: data[0].id,
-                    title: title,
-                    description: description,
-                    target: target,
-                    deadline: deadline,
-                    author: currentUser.name,
-                    date: new Date().toLocaleDateString()
-                };
-                
-                announcements.unshift(newContribution);
-                
-                // Add notification for all members
                 addNotification({
                     id: Date.now(),
-                    title: 'New Contribution Announcement',
-                    message: `New contribution: ${title}. Target: ${target} TZS`,
-                    type: 'warning',
-                    timestamp: new Date(),
-                    read: false
-                });
-                
-                // Close modal and show success message
-                const createContributionModal = bootstrap.Modal.getInstance(document.getElementById('createContributionModal'));
-                createContributionModal.hide();
-                
-                showToast('Contribution announcement published successfully!', 'success');
-                
-                // Reset form
-                document.getElementById('create-contribution-form').reset();
-
-            } catch (error) {
-                console.error('Error creating contribution announcement:', error);
-                showToast('Error publishing contribution announcement. Please try again.', 'error');
-            }
-        }
-
-        // Handle update payment methods
-        function handleUpdatePaymentMethods() {
-            // Update payment methods
-            paymentMethods.mpesa = document.getElementById('mpesa-number').value;
-            paymentMethods.tigo = document.getElementById('tigo-number').value;
-            paymentMethods.airtel = document.getElementById('airtel-number').value;
-            paymentMethods.bankName = document.getElementById('bank-name').value;
-            paymentMethods.accountNumber = document.getElementById('account-number').value;
-            paymentMethods.accountName = document.getElementById('account-name').value;
-            paymentMethods.lipaNumber = document.getElementById('lipa-number').value;
-            paymentMethods.instructions = document.getElementById('payment-instructions').value;
-            
-            // Add notification
-            addNotification({
-                id: Date.now(),
-                title: 'Payment Methods Updated',
-                message: 'Church payment methods have been updated.',
-                type: 'info',
-                timestamp: new Date(),
-                read: false
-            });
-            
-            // Close modal and show success message
-            const updatePaymentsModal = bootstrap.Modal.getInstance(document.getElementById('updatePaymentsModal'));
-            updatePaymentsModal.hide();
-            
-            showToast('Payment methods updated successfully!', 'success');
-        }
-
-        // Handle save services
-        async function handleSaveServices() {
-            const skills = document.getElementById('service-skills').value;
-            const availability = document.getElementById('service-availability').value;
-            
-            // Get selected services
-            const selectedServices = [];
-            if (document.getElementById('service-prayer').checked) selectedServices.push('Prayer Team');
-            if (document.getElementById('service-choir').checked) selectedServices.push('Choir');
-            if (document.getElementById('service-usher').checked) selectedServices.push('Ushering');
-            if (document.getElementById('service-teaching').checked) selectedServices.push('Teaching/Sabbath School');
-            if (document.getElementById('service-outreach').checked) selectedServices.push('Evangelism');
-            
-            try {
-                // Get current user ID
-                const memberId = currentUser.id;
-                
-                // Save each service to Supabase
-                for (const serviceType of selectedServices) {
-                    const { error } = await supabaseClient
-                        .from('member_services')
-                        .insert([
-                            {
-                                member_id: memberId,
-                                service_type: serviceType,
-                                skills: skills,
-                                availability: availability,
-                                is_active: true
-                            }
-                        ]);
-
-                    if (error) throw error;
-                }
-                
-                // Save member services to local state
-                currentUser.services = selectedServices;
-                currentUser.skills = skills;
-                currentUser.availability = availability;
-                
-                // Close modal and show success message
-                const memberServicesModal = bootstrap.Modal.getInstance(document.getElementById('memberServicesModal'));
-                memberServicesModal.hide();
-                
-                showToast('Your church services have been saved successfully!', 'success');
-
-            } catch (error) {
-                console.error('Error saving services:', error);
-                showToast('Error saving services. Please try again.', 'error');
-            }
-        }
-
-        // Handle create family event
-        async function handleCreateFamilyEvent() {
-            const title = document.getElementById('event-title').value;
-            const description = document.getElementById('event-description').value;
-            const date = document.getElementById('event-date').value;
-            const time = document.getElementById('event-time').value;
-            const location = document.getElementById('event-location').value;
-            const category = document.getElementById('event-category').value;
-            const audience = document.getElementById('event-audience').value;
-            
-            if (!title || !description || !date || !time || !location) {
-                showToast('Please fill all required fields!', 'error');
-                return;
-            }
-            
-            try {
-                // Get current user ID from sample users
-                const creatorId = currentUser.id;
-                
-                // Save to Supabase
-                const { data, error } = await supabaseClient
-                    .from('family_events')
-                    .insert([
-                        {
-                            title: title,
-                            description: description,
-                            event_date: date,
-                            event_time: time,
-                            location: location,
-                            category: category,
-                            target_audience: audience,
-                            created_by: creatorId,
-                            is_active: true
-                        }
-                    ]);
-
-                if (error) throw error;
-
-                // Add new family event to local state
-                const newEvent = {
-                    id: data[0].id,
-                    title: title,
-                    description: description,
-                    date: date,
-                    time: time,
-                    location: location,
-                    category: category,
-                    audience: audience,
-                    createdBy: currentUser.name,
-                    createdAt: new Date().toLocaleDateString()
-                };
-                
-                familyEvents.unshift(newEvent);
-                
-                // Add notification
-                addNotification({
-                    id: Date.now(),
-                    title: 'New Family Event',
-                    message: `New ${category} event: ${title} on ${date} at ${time} ${location}`,
+                    title: 'New Announcement',
+                    message: `New announcement "${title}" published`,
                     type: 'info',
                     timestamp: new Date(),
                     read: false
                 });
                 
-                // Close modal and show success message
-                const familyEventsModal = bootstrap.Modal.getInstance(document.getElementById('familyEventsModal'));
-                familyEventsModal.hide();
+                const createAnnouncementModal = bootstrap.Modal.getInstance(document.getElementById('createAnnouncementModal'));
+                createAnnouncementModal.hide();
                 
-                showToast('Family event created successfully!', 'success');
-                
-                // Reset form
-                document.getElementById('family-events-form').reset();
+                showToast('Announcement created successfully', 'success');
+                document.getElementById('create-announcement-form').reset();
 
             } catch (error) {
-                console.error('Error creating family event:', error);
-                showToast('Error creating family event. Please try again.', 'error');
+                showToast('Error creating announcement', 'error');
             }
         }
 
-        // Initialize dashboard based on user role
+        // Handle create contribution
+        async function handleCreateContribution() {
+            const type = document.getElementById('contribution-type').value;
+            const amount = document.getElementById('contribution-amount').value;
+            const method = document.getElementById('payment-method').value;
+            const transactionId = document.getElementById('transaction-id').value;
+            
+            if (!type || !amount || !method) {
+                showToast('Please fill required fields', 'error');
+                return;
+            }
+            
+            try {
+                const { data, error } = await supabase
+                    .from('contributions')
+                    .insert([{ 
+                        member_id: currentUser.id, 
+                        contribution_type: type, 
+                        amount: amount, 
+                        payment_method: method,
+                        transaction_id: transactionId,
+                        status: 'pending'
+                    }])
+                    .select();
+                
+                if (error) throw error;
+                
+                contributions.unshift(data[0]);
+                
+                showToast('Contribution submitted successfully', 'success');
+                const createContributionModal = bootstrap.Modal.getInstance(document.getElementById('createContributionModal'));
+                createContributionModal.hide();
+                document.getElementById('create-contribution-form').reset();
+
+            } catch (error) {
+                showToast('Error submitting contribution', 'error');
+            }
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const toastContainer = document.querySelector('.toast-container');
+            
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-bg-${type === 'error' ? 'danger' : type} border-0`;
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+            
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">${message}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            const bsToast = new bootstrap.Toast(toast, { autohide: true, delay: 5000 });
+            bsToast.show();
+            
+            toast.addEventListener('hidden.bs.toast', function() {
+                toast.remove();
+            });
+        }
+
+        // Add notification
+        function addNotification(notification) {
+            notifications.unshift(notification);
+            updateNotificationDisplay();
+        }
+
+        // Update notification display
+        function updateNotificationDisplay() {
+            const notificationList = document.getElementById('notification-list');
+            const notificationCount = document.getElementById('notification-count');
+            
+            const itemsToRemove = notificationList.querySelectorAll('li:not(.dropdown-header):not(.dropdown-divider)');
+            itemsToRemove.forEach(item => item.remove());
+            
+            const unreadCount = notifications.filter(n => !n.read).length;
+            
+            if (unreadCount > 0) {
+                notificationCount.textContent = unreadCount;
+                notificationCount.classList.remove('d-none');
+            } else {
+                notificationCount.classList.add('d-none');
+            }
+            
+            notifications.forEach(notification => {
+                const notificationItem = document.createElement('li');
+                const timeAgo = getTimeAgo(notification.timestamp);
+                
+                notificationItem.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">${notification.title}</h6>
+                        <small>${timeAgo}</small>
+                    </div>
+                    <p class="mb-1">${notification.message}</p>
+                `;
+                
+                notificationList.appendChild(notificationItem);
+            });
+        }
+
+        // Get time ago
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMins / 60);
+            const diffDays = Math.floor(diffHours / 24);
+            
+            if (diffMins < 1) return 'Just now';
+            else if (diffMins < 60) return `${diffMins}m ago`;
+            else if (diffHours < 24) return `${diffHours}h ago`;
+            else return `${diffDays}d ago`;
+        }
+
+        // Initialize dashboard
         function initializeDashboard(role) {
-            // Set dashboard title and role display
             document.getElementById('dashboard-title').textContent = `${roleDisplayNames[role]} Dashboard`;
             document.getElementById('role-display').textContent = roleDisplayNames[role];
             
-            // Populate sidebar menu
             const sidebarMenu = document.getElementById('sidebar-menu');
             sidebarMenu.innerHTML = '';
             
@@ -1842,36 +1100,30 @@
                     sidebarMenu.appendChild(menuItem);
                 });
                 
-                // Set first menu item as active
                 if (sidebarMenu.firstElementChild) {
                     sidebarMenu.firstElementChild.querySelector('.nav-link').classList.add('active');
                 }
             }
             
-            // Load dashboard content
             loadSectionContent('dashboard', role);
             
-            // Add event listeners to menu items
             document.querySelectorAll('#sidebar-menu .nav-link').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     
-                    // Remove active class from all links
                     document.querySelectorAll('#sidebar-menu .nav-link').forEach(item => {
                         item.classList.remove('active');
                     });
                     
-                    // Add active class to clicked link
                     this.classList.add('active');
                     
-                    // Load section content
                     const section = this.getAttribute('data-section');
                     loadSectionContent(section, role);
                 });
             });
         }
 
-        // Load section content based on role and section
+        // Load section content
         function loadSectionContent(section, role) {
             const dashboardContent = document.getElementById('dashboard-content');
             
@@ -1884,9 +1136,6 @@
                 case 'members':
                     content = getMembersContent(role);
                     break;
-                case 'approvals':
-                    content = getApprovalsContent(role);
-                    break;
                 case 'announcements':
                     content = getAnnouncementsContent(role);
                     break;
@@ -1896,17 +1145,11 @@
                 case 'contributions':
                     content = getContributionsContent(role);
                     break;
-                case 'promote-contributions':
-                    content = getPromoteContributionsContent(role);
-                    break;
                 case 'payment-methods':
                     content = getPaymentMethodsContent(role);
                     break;
                 case 'family-events':
                     content = getFamilyEventsContent(role);
-                    break;
-                case 'spiritual-matters':
-                    content = getSpiritualMattersContent(role);
                     break;
                 case 'discipline-cases':
                     content = getDisciplineCasesContent(role);
@@ -1926,392 +1169,108 @@
                 case 'counseling':
                     content = getCounselingContent(role);
                     break;
-                case 'women-ministry':
-                    content = getWomenMinistryContent(role);
+                case 'men-ministry':
+                    content = getMenMinistryContent(role);
                     break;
                 default:
                     content = getDashboardContent(role);
             }
             
             dashboardContent.innerHTML = content;
-            
-            // Add event listeners for dynamic buttons
             addDynamicEventListeners(role, section);
         }
 
-        // Get dashboard content based on role
+        // Get dashboard content
         function getDashboardContent(role) {
-            let stats = '';
-            let additionalContent = '';
+            const memberCount = 156;
+            const totalContributions = '2,450,000';
+            const pendingRequests = 3;
             
-            if (role === 'chairperson') {
-                stats = `
-                    <div class="row">
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card blue">
-                                <i class="fas fa-users fa-2x mb-2"></i>
-                                <h4>${users.length}</h4>
-                                <p>Total Members</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card green">
-                                <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
-                                <h4>2,450,000 TZS</h4>
-                                <p>Total Contributions</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card orange">
-                                <i class="fas fa-user-clock fa-2x mb-2"></i>
-                                <h4>${pendingApprovals.length}</h4>
-                                <p>Pending Requests</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card red">
-                                <i class="fas fa-bell fa-2x mb-2"></i>
-                                <h4>${notifications.filter(n => !n.read).length}</h4>
-                                <p>New Notifications</p>
-                            </div>
+            return `
+                <div class="row">
+                    <div class="col-md-3 mb-4">
+                        <div class="stat-card blue">
+                            <i class="fas fa-users fa-2x mb-2"></i>
+                            <h4>${memberCount}</h4>
+                            <p>Members</p>
                         </div>
                     </div>
-                `;
-                
-                additionalContent = `
-                    <div class="row mt-4">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Welcome Chairperson</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Welcome to CASFETA TAYOMI Church Management System. As Chairperson, you can:</p>
-                                    <ul>
-                                        <li>Manage all church members</li>
-                                        <li>Approve new account requests</li>
-                                        <li>Create and manage announcements</li>
-                                        <li>View church reports</li>
-                                        <li>Manage all church activities</li>
-                                    </ul>
-                                </div>
-                            </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="stat-card green">
+                            <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
+                            <h4>${totalContributions}</h4>
+                            <p>Contributions</p>
                         </div>
                     </div>
-                `;
-            } else if (role === 'member') {
-                stats = `
-                    <div class="row">
-                        <div class="col-md-4 mb-4">
-                            <div class="stat-card blue">
-                                <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
-                                <h4>75,000 TZS</h4>
-                                <p>My Contributions</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="stat-card green">
-                                <i class="fas fa-hands-helping fa-2x mb-2"></i>
-                                <h4>${currentUser.services ? currentUser.services.length : 0}</h4>
-                                <p>My Services</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="stat-card orange">
-                                <i class="fas fa-bell fa-2x mb-2"></i>
-                                <h4>${notifications.filter(n => !n.read).length}</h4>
-                                <p>Notifications</p>
-                            </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="stat-card orange">
+                            <i class="fas fa-calendar fa-2x mb-2"></i>
+                            <h4>${familyEvents.length}</h4>
+                            <p>Events</p>
                         </div>
                     </div>
-                `;
-                
-                additionalContent = `
-                    <div class="row mt-4">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Welcome Member</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Welcome to CASFETA TAYOMI Church Management System. Here you can:</p>
-                                    <ul>
-                                        <li>Make contributions and offerings</li>
-                                        <li>Participate in church services</li>
-                                        <li>View church announcements</li>
-                                        <li>See church event photos</li>
-                                        <li>Contact church leaders</li>
-                                    </ul>
-                                    <button class="btn btn-primary" id="setup-services-btn">
-                                        <i class="fas fa-hands-helping"></i> Set Up My Services
-                                    </button>
-                                </div>
-                            </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="stat-card red">
+                            <i class="fas fa-bell fa-2x mb-2"></i>
+                            <h4>${notifications.filter(n => !n.read).length}</h4>
+                            <p>Notifications</p>
                         </div>
                     </div>
-                `;
-            } else if (role === 'treasurer') {
-                stats = `
-                    <div class="row">
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card blue">
-                                <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
-                                <h4>2,450,000 TZS</h4>
-                                <p>Total Contributions</p>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Welcome ${roleDisplayNames[role]}</h5>
                             </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card green">
-                                <i class="fas fa-users fa-2x mb-2"></i>
-                                <h4>156</h4>
-                                <p>Active Contributors</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card orange">
-                                <i class="fas fa-bullhorn fa-2x mb-2"></i>
-                                <h4>5</h4>
-                                <p>Active Campaigns</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card red">
-                                <i class="fas fa-bell fa-2x mb-2"></i>
-                                <h4>${notifications.filter(n => !n.read).length}</h4>
-                                <p>New Notifications</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                additionalContent = `
-                    <div class="row mt-4">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Welcome Treasurer</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>As Church Treasurer, you now have access to all church photos along with your financial responsibilities.</p>
+                            <div class="card-body">
+                                <p>Welcome to CASFETA TAYOMI Church Management System</p>
+                                ${role === 'treasurer' ? `
                                     <div class="alert alert-info">
-                                        <i class="fas fa-info-circle"></i> <strong>New Feature:</strong> You can now view all shared church photos in the "Church Photos" section.
+                                        <strong>Payment Methods Available:</strong><br>
+                                        M-Pesa: ${paymentMethods.mpesa}<br>
+                                        Tigo Pesa: ${paymentMethods.tigo}<br>
+                                        Airtel Money: ${paymentMethods.airtel}<br>
+                                        Bank: ${paymentMethods.bankName} - ${paymentMethods.accountNumber}
                                     </div>
-                                    <h6>Your Responsibilities:</h6>
-                                    <ul>
-                                        <li>Manage church contributions and offerings</li>
-                                        <li>Promote fundraising campaigns</li>
-                                        <li>Update payment methods</li>
-                                        <li>View church activities through photos</li>
-                                        <li>Create financial reports</li>
-                                    </ul>
-                                </div>
+                                ` : ''}
                             </div>
                         </div>
                     </div>
-                `;
-            } else if (role === 'makada') {
-                stats = `
-                    <div class="row">
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card blue">
-                                <i class="fas fa-calendar fa-2x mb-2"></i>
-                                <h4>${familyEvents.length}</h4>
-                                <p>Family Events</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card green">
-                                <i class="fas fa-pray fa-2x mb-2"></i>
-                                <h4>12</h4>
-                                <p>Spiritual Matters</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card orange">
-                                <i class="fas fa-gavel fa-2x mb-2"></i>
-                                <h4>3</h4>
-                                <p>Discipline Cases</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card red">
-                                <i class="fas fa-bell fa-2x mb-2"></i>
-                                <h4>${notifications.filter(n => !n.read).length}</h4>
-                                <p>New Notifications</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                additionalContent = `
-                    <div class="row mt-4">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Welcome Makada</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Welcome to CASFETA TAYOMI Church Management System. As Makada (Discipline Committee - Men), you can:</p>
-                                    <ul>
-                                        <li>Manage family events</li>
-                                        <li>Handle spiritual matters</li>
-                                        <li>Manage discipline cases</li>
-                                        <li>Provide spiritual counseling</li>
-                                        <li>View church activity photos</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else if (role === 'bakada') {
-                stats = `
-                    <div class="row">
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card blue">
-                                <i class="fas fa-calendar fa-2x mb-2"></i>
-                                <h4>${familyEvents.length}</h4>
-                                <p>Family Events</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card green">
-                                <i class="fas fa-pray fa-2x mb-2"></i>
-                                <h4>8</h4>
-                                <p>Spiritual Matters</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card orange">
-                                <i class="fas fa-gavel fa-2x mb-2"></i>
-                                <h4>2</h4>
-                                <p>Discipline Cases</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="stat-card red">
-                                <i class="fas fa-bell fa-2x mb-2"></i>
-                                <h4>${notifications.filter(n => !n.read).length}</h4>
-                                <p>New Notifications</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                additionalContent = `
-                    <div class="row mt-4">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Welcome Bakada</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Welcome to CASFETA TAYOMI Church Management System. As Bakada (Discipline Committee - Women), you can:</p>
-                                    <ul>
-                                        <li>Manage family events</li>
-                                        <li>Handle spiritual matters</li>
-                                        <li>Manage discipline cases</li>
-                                        <li>Manage women's ministry</li>
-                                        <li>View church activity photos</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                // Default dashboard for other roles
-                stats = `
-                    <div class="row">
-                        <div class="col-md-4 mb-4">
-                            <div class="stat-card blue">
-                                <i class="fas fa-users fa-2x mb-2"></i>
-                                <h4>${users.length}</h4>
-                                <p>Members</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="stat-card green">
-                                <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
-                                <h4>2,450,000 TZS</h4>
-                                <p>Contributions</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="stat-card orange">
-                                <i class="fas fa-bell fa-2x mb-2"></i>
-                                <h4>${notifications.filter(n => !n.read).length}</h4>
-                                <p>Notifications</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                additionalContent = `
-                    <div class="row mt-4">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Welcome ${roleDisplayNames[role]}</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Welcome to CASFETA TAYOMI Church Management System. Use the left menu to access different parts of the system according to your role.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            return stats + additionalContent;
+                </div>
+            `;
         }
 
         // Get members content
         function getMembersContent(role) {
-            let actionButton = '';
-            
-            if (role === 'chairperson' || role === 'secretary') {
-                actionButton = `
-                    <div class="mb-3">
-                        <button class="btn btn-primary" id="add-member-btn">
-                            <i class="fas fa-plus"></i> Add Member
-                        </button>
-                    </div>
-                `;
-            }
-            
             return `
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Church Members</h5>
+                        ${role === 'chairperson' || role === 'secretary' ? `
+                            <button class="btn btn-primary" id="add-member-btn">
+                                <i class="fas fa-plus"></i> Add Member
+                            </button>
+                        ` : ''}
                     </div>
                     <div class="card-body">
-                        ${actionButton}
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Full Name</th>
-                                        <th>Phone Number</th>
+                                        <th>Name</th>
+                                        <th>Phone</th>
                                         <th>Role</th>
-                                        <th>Join Date</th>
-                                        ${(role === 'chairperson' || role === 'secretary') ? '<th>Actions</th>' : ''}
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    ${users.map(user => `
-                                        <tr>
-                                            <td>${user.name}</td>
-                                            <td>${user.phone || 'Not available'}</td>
-                                            <td>${roleDisplayNames[user.role]}</td>
-                                            <td>${user.lastLogin || 'Recently'}</td>
-                                            ${(role === 'chairperson' || role === 'secretary') ? 
-                                                `<td>
-                                                    <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                                </td>` : ''}
-                                        </tr>
-                                    `).join('')}
+                                    <tr>
+                                        <td>${currentUser.first_name} ${currentUser.last_name}</td>
+                                        <td>${currentUser.phone || 'N/A'}</td>
+                                        <td><span class="badge bg-primary">${roleDisplayNames[currentUser.role]}</span></td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -2320,442 +1279,153 @@
             `;
         }
 
-        // Get approvals content
-        function getApprovalsContent(role) {
-            return `
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Account Requests</h5>
-                        <button class="btn btn-primary" id="view-approvals-btn">
-                            <i class="fas fa-eye"></i> View Requests
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <p>Here you can review and approve all account requests from new members.</p>
-                        <div class="alert alert-info">
-                            There are <strong>${pendingApprovals.length}</strong> account requests awaiting your approval.
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
         // Get announcements content
         function getAnnouncementsContent(role) {
-            let actionButton = '';
-            
-            if (role === 'chairperson' || role === 'secretary') {
-                actionButton = `
-                    <div class="mb-3">
-                        <button class="btn btn-primary" id="create-announcement-btn">
-                            <i class="fas fa-plus"></i> Create Announcement
-                        </button>
-                    </div>
-                `;
-            }
-            
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Church Announcements</h5>
-                    </div>
-                    <div class="card-body">
-                        ${actionButton}
-                        <div class="list-group">
-                            ${announcements.map(announcement => `
-                                <div class="list-group-item">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">${announcement.title}</h5>
-                                        <small>${announcement.date}</small>
-                                    </div>
-                                    <p class="mb-1">${announcement.content || announcement.description}</p>
-                                    <small class="text-muted">Posted by: ${announcement.author}</small>
-                                    ${announcement.shared ? '<span class="badge bg-info ms-2">Shared</span>' : ''}
-                                    ${announcement.target ? `<div class="mt-2"><strong>Target:</strong> ${announcement.target} TZS | <strong>Deadline:</strong> ${announcement.deadline}</div>` : ''}
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Get photos content - NOW WITH UPLOAD AND VIEW BUTTONS
-        function getPhotosContent(role) {
-            let actionButton = '';
-            
-            // Treasurer and Secretary can upload photos
-            if (role === 'secretary' || role === 'treasurer') {
-                actionButton = `
-                    <div class="mb-3">
-                        <button class="btn btn-primary" id="upload-photos-btn">
-                            <i class="fas fa-upload"></i> Upload Photos
-                        </button>
-                    </div>
-                `;
-            }
-            
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Church Photos</h5>
-                    </div>
-                    <div class="card-body">
-                        ${actionButton}
-                        <div class="photo-gallery">
-                            ${churchPhotos.length > 0 ? churchPhotos.map(photo => `
-                                <div class="photo-item">
-                                    <div class="photo-img">
-                                        <i class="fas fa-image"></i>
-                                    </div>
-                                    <div class="photo-info">
-                                        <div class="photo-title">${photo.title || 'Church Event'}</div>
-                                        <p class="photo-meta">${photo.description || 'Church activity photo'}</p>
-                                        <div class="photo-meta">
-                                            <small><i class="fas fa-calendar"></i> ${photo.date}</small><br>
-                                            <small><i class="fas fa-user"></i> ${photo.uploadedBy}</small>
-                                        </div>
-                                    </div>
-                                    <div class="photo-actions">
-                                        <button class="btn btn-sm btn-primary view-photo" data-url="${photo.url}">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                        <button class="btn btn-sm btn-success download-photo" data-url="${photo.url}" data-title="${photo.title || 'church_photo'}">
-                                            <i class="fas fa-download"></i> Download
-                                        </button>
-                                    </div>
-                                </div>
-                            `).join('') : `
-                                <div class="col-12 text-center py-5">
-                                    <i class="fas fa-image fa-3x text-muted mb-3"></i>
-                                    <p class="text-muted">No photos uploaded yet</p>
-                                    ${(role === 'secretary' || role === 'treasurer') ? '<p>Use the "Upload Photos" button to add church photos</p>' : ''}
-                                </div>
-                            `}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Get contributions content for members
-        function getContributionsContent(role) {
-            if (role === 'member') {
-                return `
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Make Contribution</h5>
-                        </div>
-                        <div class="card-body">
-                            <form id="contribution-form">
-                                <div class="mb-3">
-                                    <label for="contribution-type" class="form-label">Contribution Type</label>
-                                    <select class="form-select" id="contribution-type">
-                                        <option value="offering">Regular Offering</option>
-                                        <option value="tithes">Tithes</option>
-                                        <option value="building">Building Fund</option>
-                                        <option value="event">Special Event</option>
-                                        <option value="assistance">Assistance Fund</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="amount" class="form-label">Amount (TZS)</label>
-                                    <input type="number" class="form-control" id="amount" min="1000" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="payment-method" class="form-label">Payment Method</label>
-                                    <select class="form-select" id="payment-method">
-                                        <option value="mpesa">M-Pesa</option>
-                                        <option value="tigo">Tigo Pesa</option>
-                                        <option value="airtel">Airtel Money</option>
-                                        <option value="bank">Bank</option>
-                                        <option value="cash">Cash</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Submit Contribution</button>
-                            </form>
-                        </div>
-                    </div>
-                `;
-            } else {
-                return `
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Contributions Overview</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Member Name</th>
-                                            <th>Contribution Type</th>
-                                            <th>Amount (TZS)</th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Church Member</td>
-                                            <td>Regular Offering</td>
-                                            <td>50,000</td>
-                                            <td>15/11/2023</td>
-                                            <td><span class="badge bg-success">Received</span></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        // Get promote contributions content for treasurer
-        function getPromoteContributionsContent(role) {
             return `
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Promote Contributions</h5>
-                        <button class="btn btn-primary" id="create-contribution-btn">
-                            <i class="fas fa-plus"></i> Create Contribution Announcement
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <p>Create announcements to promote contributions and fundraising activities for the church.</p>
-                        <div class="alert alert-info">
-                            Use this section to encourage members to contribute towards church projects and activities.
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Get payment methods content for treasurer
-        function getPaymentMethodsContent(role) {
-            return `
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Payment Methods</h5>
-                        <button class="btn btn-primary" id="update-payments-btn">
-                            <i class="fas fa-edit"></i> Update Payment Methods
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <h6>Current Payment Methods:</h6>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h6>Mobile Payments:</h6>
-                                <p><strong>M-Pesa:</strong> ${paymentMethods.mpesa}</p>
-                                <p><strong>Tigo Pesa:</strong> ${paymentMethods.tigo}</p>
-                                <p><strong>Airtel Money:</strong> ${paymentMethods.airtel}</p>
-                                <p><strong>Lipa Number:</strong> ${paymentMethods.lipaNumber}</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h6>Bank Account:</h6>
-                                <p><strong>Bank:</strong> ${paymentMethods.bankName}</p>
-                                <p><strong>Account Number:</strong> ${paymentMethods.accountNumber}</p>
-                                <p><strong>Account Name:</strong> ${paymentMethods.accountName}</p>
-                            </div>
-                        </div>
-                        ${paymentMethods.instructions ? `
-                            <div class="mt-3">
-                                <h6>Instructions:</h6>
-                                <p>${paymentMethods.instructions}</p>
-                            </div>
+                        <h5 class="mb-0">Announcements</h5>
+                        ${role !== 'member' ? `
+                            <button class="btn btn-primary" id="create-announcement-btn">
+                                <i class="fas fa-plus"></i> Create
+                            </button>
                         ` : ''}
                     </div>
-                </div>
-            `;
-        }
-
-        // Get family events content
-        function getFamilyEventsContent(role) {
-            let actionButton = '';
-            
-            if (role === 'makada' || role === 'bakada') {
-                actionButton = `
-                    <div class="mb-3">
-                        <button class="btn btn-primary" id="create-event-btn">
-                            <i class="fas fa-plus"></i> Create Family Event
-                        </button>
-                    </div>
-                `;
-            }
-            
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Family Events</h5>
-                    </div>
                     <div class="card-body">
-                        ${actionButton}
-                        <div class="list-group">
-                            ${familyEvents.map(event => `
-                                <div class="list-group-item">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">${event.title}</h5>
-                                        <small>${event.date} at ${event.time}</small>
-                                    </div>
-                                    <p class="mb-1">${event.description}</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <small class="text-muted">
-                                            <strong>Location:</strong> ${event.location} | 
-                                            <strong>Category:</strong> ${event.category} |
-                                            <strong>Audience:</strong> ${event.audience}
-                                        </small>
-                                        <span class="badge bg-info">${event.category}</span>
+                        ${announcements.length > 0 ? 
+                            announcements.map(announcement => `
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${announcement.title}</h5>
+                                        <p class="card-text">${announcement.content}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">${getTimeAgo(new Date(announcement.created_at))}</small>
+                                            <span class="badge bg-${announcement.announcement_type === 'urgent' ? 'danger' : 'info'}">${announcement.announcement_type}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            `).join('')}
-                        </div>
+                            `).join('') : 
+                            `<div class="alert alert-info">No announcements</div>`
+                        }
                     </div>
                 </div>
             `;
         }
 
-        // Get spiritual matters content
-        function getSpiritualMattersContent(role) {
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Spiritual Matters</h5>
-                    </div>
-                    <div class="card-body">
-                        <p>This section is for managing spiritual guidance, counseling, and religious matters.</p>
-                        <div class="alert alert-info">
-                            As ${roleDisplayNames[role]}, you can provide spiritual guidance and assistance to church members.
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Get discipline cases content
-        function getDisciplineCasesContent(role) {
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Discipline Cases</h5>
-                    </div>
-                    <div class="card-body">
-                        <p>This section is for managing church discipline matters and cases.</p>
-                        <div class="alert alert-info">
-                            As ${roleDisplayNames[role]}, you can handle discipline matters according to church guidelines.
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Get services content for members
-        function getServicesContent(role) {
+        // Get photos content
+        function getPhotosContent(role) {
             return `
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">My Church Services</h5>
-                        <button class="btn btn-primary" id="edit-services-btn">
-                            <i class="fas fa-edit"></i> Edit Services
-                        </button>
+                        <h5 class="mb-0">Church Photos</h5>
+                        ${role !== 'member' ? `
+                            <button class="btn btn-primary" id="upload-photos-btn">
+                                <i class="fas fa-upload"></i> Upload
+                            </button>
+                        ` : ''}
                     </div>
                     <div class="card-body">
-                        ${currentUser.services && currentUser.services.length > 0 ? `
-                            <h6>Services I Participate In:</h6>
-                            <ul>
-                                ${currentUser.services.map(service => `<li>${service}</li>`).join('')}
-                            </ul>
-                            ${currentUser.skills ? `
-                                <h6 class="mt-3">My Skills/Talents:</h6>
-                                <p>${currentUser.skills}</p>
-                            ` : ''}
-                            ${currentUser.availability ? `
-                                <h6 class="mt-3">My Availability:</h6>
-                                <p>${currentUser.availability}</p>
-                            ` : ''}
+                        ${churchPhotos.length > 0 ? `
+                            <div class="photo-gallery">
+                                ${churchPhotos.map(photo => `
+                                    <div class="photo-item">
+                                        <div class="photo-img">
+                                            <i class="fas fa-image"></i>
+                                        </div>
+                                        <div class="photo-info">
+                                            <div class="photo-title">${photo.title}</div>
+                                            <div class="photo-meta">${photo.event_type || 'General'}</div>
+                                        </div>
+                                        <div class="photo-actions">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="window.open('${photo.photo_url}', '_blank')">
+                                                <i class="fas fa-eye"></i> View
+                                            </button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
                         ` : `
-                            <p>You haven't set up your church services yet. Click the "Edit Services" button to get involved in church activities.</p>
+                            <div class="alert alert-info">No photos</div>
                         `}
                     </div>
                 </div>
             `;
         }
 
-        // Additional content functions for new menu items
-        function getReportsContent(role) {
+        // Get contributions content
+        function getContributionsContent(role) {
+            const userContributions = contributions.filter(c => c.member_id === currentUser.id);
+            
             return `
                 <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Church Reports</h5>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">${role === 'member' ? 'My Contributions' : 'All Contributions'}</h5>
+                        <button class="btn btn-primary" id="create-contribution-btn">
+                            <i class="fas fa-plus"></i> New
+                        </button>
                     </div>
                     <div class="card-body">
-                        <p>This section contains various church reports for the Chairperson.</p>
-                        <div class="alert alert-info">
-                            Reports on members, contributions, and all church activities are displayed here.
+                        <div class="contribution-form">
+                            <h6>Payment Methods:</h6>
+                            <p><strong>M-Pesa:</strong> ${paymentMethods.mpesa}</p>
+                            <p><strong>Tigo Pesa:</strong> ${paymentMethods.tigo}</p>
+                            <p><strong>Airtel Money:</strong> ${paymentMethods.airtel}</p>
+                            <p><strong>Bank:</strong> ${paymentMethods.bankName} - ${paymentMethods.accountNumber}</p>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Method</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${userContributions.length > 0 ? 
+                                        userContributions.map(contribution => `
+                                            <tr>
+                                                <td>${new Date(contribution.created_at).toLocaleDateString()}</td>
+                                                <td>${contribution.contribution_type}</td>
+                                                <td>${contribution.amount} TZS</td>
+                                                <td>${contribution.payment_method}</td>
+                                                <td><span class="badge bg-${contribution.status === 'confirmed' ? 'success' : 'warning'}">${contribution.status}</span></td>
+                                            </tr>
+                                        `).join('') : 
+                                        `<tr><td colspan="5" class="text-center">No contributions</td></tr>`
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        function getEventsContent(role) {
+        // Add other content functions here (similar pattern)
+        function getPaymentMethodsContent(role) {
             return `
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Church Events</h5>
+                        <h5 class="mb-0">Payment Methods</h5>
                     </div>
                     <div class="card-body">
-                        <p>This section lists all church events for the Secretary.</p>
-                        <div class="alert alert-info">
-                            You can view, add, and manage all church events here.
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function getFinancialReportsContent(role) {
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Financial Reports</h5>
-                    </div>
-                    <div class="card-body">
-                        <p>This section contains financial reports for the Treasurer.</p>
-                        <div class="alert alert-info">
-                            Reports on income, expenses, and church financial balance are displayed here.
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function getCounselingContent(role) {
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Spiritual Counseling</h5>
-                    </div>
-                    <div class="card-body">
-                        <p>This section is for providing spiritual counseling and guidance for Makada.</p>
-                        <div class="alert alert-info">
-                            Spiritual counseling service and guidance for members.
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function getWomenMinistryContent(role) {
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Women Ministry</h5>
-                    </div>
-                    <div class="card-body">
-                        <p>This section is for managing special services for women for Bakada.</p>
-                        <div class="alert alert-info">
-                            Activities, training, and special meetings for church women.
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Mobile Money</h6>
+                                <p><strong>M-Pesa:</strong> ${paymentMethods.mpesa}</p>
+                                <p><strong>Tigo Pesa:</strong> ${paymentMethods.tigo}</p>
+                                <p><strong>Airtel Money:</strong> ${paymentMethods.airtel}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Bank Transfer</h6>
+                                <p><strong>Bank:</strong> ${paymentMethods.bankName}</p>
+                                <p><strong>Account:</strong> ${paymentMethods.accountNumber}</p>
+                                <p><strong>Name:</strong> ${paymentMethods.accountName}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2764,351 +1434,67 @@
 
         // Add dynamic event listeners
         function addDynamicEventListeners(role, section) {
-            // Add member button
             const addMemberBtn = document.getElementById('add-member-btn');
             if (addMemberBtn) {
                 addMemberBtn.addEventListener('click', function() {
-                    const addMemberModal = new bootstrap.Modal(document.getElementById('addMemberModal'));
-                    addMemberModal.show();
+                    new bootstrap.Modal(document.getElementById('addMemberModal')).show();
                 });
             }
             
-            // View approvals button
-            const viewApprovalsBtn = document.getElementById('view-approvals-btn');
-            if (viewApprovalsBtn) {
-                viewApprovalsBtn.addEventListener('click', function() {
-                    const approvalsModal = new bootstrap.Modal(document.getElementById('approvalsModal'));
-                    loadApprovalsTable();
-                    approvalsModal.show();
-                });
-            }
-            
-            // Upload photos button
             const uploadPhotosBtn = document.getElementById('upload-photos-btn');
             if (uploadPhotosBtn) {
                 uploadPhotosBtn.addEventListener('click', function() {
-                    const uploadPhotosModal = new bootstrap.Modal(document.getElementById('uploadPhotosModal'));
-                    uploadPhotosModal.show();
+                    new bootstrap.Modal(document.getElementById('uploadPhotosModal')).show();
                 });
             }
             
-            // Create announcement button
             const createAnnouncementBtn = document.getElementById('create-announcement-btn');
             if (createAnnouncementBtn) {
                 createAnnouncementBtn.addEventListener('click', function() {
-                    const createAnnouncementModal = new bootstrap.Modal(document.getElementById('createAnnouncementModal'));
-                    createAnnouncementModal.show();
+                    new bootstrap.Modal(document.getElementById('createAnnouncementModal')).show();
                 });
             }
             
-            // Create contribution announcement button
             const createContributionBtn = document.getElementById('create-contribution-btn');
             if (createContributionBtn) {
                 createContributionBtn.addEventListener('click', function() {
-                    const createContributionModal = new bootstrap.Modal(document.getElementById('createContributionModal'));
-                    createContributionModal.show();
+                    new bootstrap.Modal(document.getElementById('createContributionModal')).show();
                 });
-            }
-            
-            // Update payments button
-            const updatePaymentsBtn = document.getElementById('update-payments-btn');
-            if (updatePaymentsBtn) {
-                updatePaymentsBtn.addEventListener('click', function() {
-                    const updatePaymentsModal = new bootstrap.Modal(document.getElementById('updatePaymentsModal'));
-                    // Pre-fill current values
-                    document.getElementById('mpesa-number').value = paymentMethods.mpesa;
-                    document.getElementById('tigo-number').value = paymentMethods.tigo;
-                    document.getElementById('airtel-number').value = paymentMethods.airtel;
-                    document.getElementById('bank-name').value = paymentMethods.bankName;
-                    document.getElementById('account-number').value = paymentMethods.accountNumber;
-                    document.getElementById('account-name').value = paymentMethods.accountName;
-                    document.getElementById('lipa-number').value = paymentMethods.lipaNumber;
-                    document.getElementById('payment-instructions').value = paymentMethods.instructions;
-                    updatePaymentsModal.show();
-                });
-            }
-            
-            // Setup services button
-            const setupServicesBtn = document.getElementById('setup-services-btn');
-            if (setupServicesBtn) {
-                setupServicesBtn.addEventListener('click', function() {
-                    const memberServicesModal = new bootstrap.Modal(document.getElementById('memberServicesModal'));
-                    memberServicesModal.show();
-                });
-            }
-            
-            // Edit services button
-            const editServicesBtn = document.getElementById('edit-services-btn');
-            if (editServicesBtn) {
-                editServicesBtn.addEventListener('click', function() {
-                    const memberServicesModal = new bootstrap.Modal(document.getElementById('memberServicesModal'));
-                    memberServicesModal.show();
-                });
-            }
-            
-            // Create event button
-            const createEventBtn = document.getElementById('create-event-btn');
-            if (createEventBtn) {
-                createEventBtn.addEventListener('click', function() {
-                    const familyEventsModal = new bootstrap.Modal(document.getElementById('familyEventsModal'));
-                    familyEventsModal.show();
-                });
-            }
-            
-            // Contribution form
-            const contributionForm = document.getElementById('contribution-form');
-            if (contributionForm) {
-                contributionForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    showToast('Your contribution has been submitted successfully! Thank you for your support.', 'success');
-                    this.reset();
-                });
-            }
-            
-            // Photo view/download buttons
-            document.querySelectorAll('.view-photo').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const photoUrl = this.getAttribute('data-url');
-                    window.open(photoUrl, '_blank');
-                });
-            });
-            
-            document.querySelectorAll('.download-photo').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const photoUrl = this.getAttribute('data-url');
-                    const photoTitle = this.getAttribute('data-title');
-                    
-                    // Create a temporary link for download
-                    const link = document.createElement('a');
-                    link.href = photoUrl;
-                    link.download = `${photoTitle}.jpg`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    
-                    showToast('Photo download started!', 'success');
-                });
-            });
-        }
-
-        // Load approvals table
-        function loadApprovalsTable() {
-            const tableBody = document.getElementById('pending-approvals-table');
-            tableBody.innerHTML = '';
-            
-            pendingApprovals.forEach(approval => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${approval.firstName} ${approval.lastName}</td>
-                    <td>${approval.phone}</td>
-                    <td>${approval.email || 'None'}</td>
-                    <td>${approval.date}</td>
-                    <td>
-                        <button class="btn btn-sm btn-success approve-btn" data-id="${approval.id}">
-                            <i class="fas fa-check"></i> Approve
-                        </button>
-                        <button class="btn btn-sm btn-danger reject-btn" data-id="${approval.id}">
-                            <i class="fas fa-times"></i> Reject
-                        </button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-            
-            // Add event listeners for approve and reject buttons
-            document.querySelectorAll('.approve-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    approveAccount(id);
-                });
-            });
-            
-            document.querySelectorAll('.reject-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    rejectAccount(id);
-                });
-            });
-        }
-
-        // Approve account
-        async function approveAccount(id) {
-            const approval = pendingApprovals.find(a => a.id == id);
-            if (approval) {
-                try {
-                    // Create new user account in Supabase
-                    const { data, error } = await supabaseClient
-                        .from('users')
-                        .insert([
-                            {
-                                first_name: approval.firstName,
-                                last_name: approval.lastName,
-                                email: approval.email,
-                                phone: approval.phone,
-                                address: approval.address,
-                                role: approval.role || 'member',
-                                username: approval.lastName.toLowerCase(),
-                                password: 'password123',
-                                is_active: true
-                            }
-                        ]);
-
-                    if (error) throw error;
-
-                    // Create new user for local state
-                    const newUser = {
-                        id: data[0].id,
-                        username: approval.lastName.toLowerCase(),
-                        password: 'password123',
-                        role: approval.role || 'member',
-                        name: `${approval.firstName} ${approval.lastName}`,
-                        lastLogin: null
-                    };
-                    
-                    users.push(newUser);
-                    
-                    // Remove from pending approvals
-                    pendingApprovals = pendingApprovals.filter(a => a.id != id);
-                    
-                    // Add notification
-                    addNotification({
-                        id: Date.now(),
-                        title: 'Account Approved',
-                        message: `Account for ${approval.firstName} ${approval.lastName} has been approved.`,
-                        type: 'success',
-                        timestamp: new Date(),
-                        read: false
-                    });
-                    
-                    showToast(`Account for ${approval.firstName} ${approval.lastName} has been approved successfully!`, 'success');
-                    
-                    // Refresh approvals table
-                    loadApprovalsTable();
-
-                } catch (error) {
-                    console.error('Error approving account:', error);
-                    showToast('Error approving account. Please try again.', 'error');
-                }
             }
         }
 
-        // Reject account
-        async function rejectAccount(id) {
-            const approval = pendingApprovals.find(a => a.id == id);
-            if (approval) {
-                try {
-                    // Remove from pending approvals
-                    pendingApprovals = pendingApprovals.filter(a => a.id != id);
-                    
-                    showToast(`Account request for ${approval.firstName} ${approval.lastName} has been rejected!`, 'success');
-                    
-                    // Refresh approvals table
-                    loadApprovalsTable();
-
-                } catch (error) {
-                    console.error('Error rejecting account:', error);
-                    showToast('Error rejecting account. Please try again.', 'error');
-                }
-            }
+        // Add remaining content functions
+        function getFamilyEventsContent(role) {
+            return `<div class="card"><div class="card-body"><p>Family events management</p></div></div>`;
         }
 
-        // Add a new notification
-        function addNotification(notification) {
-            notifications.unshift(notification);
-            updateNotificationDisplay();
+        function getDisciplineCasesContent(role) {
+            return `<div class="card"><div class="card-body"><p>Discipline cases management</p></div></div>`;
         }
 
-        // Update notification display
-        function updateNotificationDisplay() {
-            const notificationList = document.getElementById('notification-list');
-            const notificationCount = document.getElementById('notification-count');
-            
-            // Clear existing notifications (except header)
-            const itemsToRemove = notificationList.querySelectorAll('li:not(.dropdown-header):not(.dropdown-divider)');
-            itemsToRemove.forEach(item => item.remove());
-            
-            // Add notifications to list
-            const unreadCount = notifications.filter(n => !n.read).length;
-            
-            if (unreadCount > 0) {
-                notificationCount.textContent = unreadCount;
-                notificationCount.classList.remove('d-none');
-            } else {
-                notificationCount.classList.add('d-none');
-            }
-            
-            // Add notifications to dropdown
-            notifications.forEach(notification => {
-                const notificationItem = document.createElement('li');
-                
-                const timeAgo = getTimeAgo(notification.timestamp);
-                
-                notificationItem.innerHTML = `
-                    <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">${notification.title}</h6>
-                        <small>${timeAgo}</small>
-                    </div>
-                    <p class="mb-1">${notification.message}</p>
-                `;
-                
-                notificationList.appendChild(notificationItem);
-            });
+        function getServicesContent(role) {
+            return `<div class="card"><div class="card-body"><p>Member services</p></div></div>`;
         }
 
-        // Helper function to get time ago
-        function getTimeAgo(date) {
-            const now = new Date();
-            const diffMs = now - date;
-            const diffMins = Math.floor(diffMs / 60000);
-            const diffHours = Math.floor(diffMins / 60);
-            const diffDays = Math.floor(diffHours / 24);
-            
-            if (diffMins < 1) {
-                return 'Just now';
-            } else if (diffMins < 60) {
-                return `${diffMins} minutes ago`;
-            } else if (diffHours < 24) {
-                return `${diffHours} hours ago`;
-            } else {
-                return `${diffDays} days ago`;
-            }
+        function getReportsContent(role) {
+            return `<div class="card"><div class="card-body"><p>Church reports</p></div></div>`;
         }
 
-        // Toast notification function
-        function showToast(message, type = 'info') {
-            const toastContainer = document.querySelector('.toast-container');
-            
-            const toast = document.createElement('div');
-            toast.className = `toast align-items-center text-bg-${type === 'error' ? 'danger' : type} border-0`;
-            toast.setAttribute('role', 'alert');
-            toast.setAttribute('aria-live', 'assertive');
-            toast.setAttribute('aria-atomic', 'true');
-            
-            toast.innerHTML = `
-                <div class="d-flex">
-                    <div class="toast-body">
-                        ${message}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-            `;
-            
-            toastContainer.appendChild(toast);
-            
-            const bsToast = new bootstrap.Toast(toast, {
-                autohide: true,
-                delay: 5000
-            });
-            
-            bsToast.show();
-            
-            // Remove toast from DOM after it's hidden
-            toast.addEventListener('hidden.bs.toast', function() {
-                toast.remove();
-            });
+        function getEventsContent(role) {
+            return `<div class="card"><div class="card-body"><p>Church events</p></div></div>`;
+        }
+
+        function getFinancialReportsContent(role) {
+            return `<div class="card"><div class="card-body"><p>Financial reports</p></div></div>`;
+        }
+
+        function getCounselingContent(role) {
+            return `<div class="card"><div class="card-body"><p>Spiritual counseling</p></div></div>`;
+        }
+
+        function getMenMinistryContent(role) {
+            return `<div class="card"><div class="card-body"><p>Men ministry</p></div></div>`;
         }
     </script>
-    <!-- Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </body>
 </html>
