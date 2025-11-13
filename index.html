@@ -165,20 +165,42 @@
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             background: #f8f9fa;
-            height: 150px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .photo-img {
+            height: 140px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        
-        .photo-placeholder {
-            text-align: center;
-            color: #6c757d;
-        }
-        
-        .photo-placeholder i {
+            color: white;
             font-size: 2rem;
-            margin-bottom: 10px;
+        }
+        
+        .photo-actions {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            background: white;
+        }
+        
+        .photo-info {
+            padding: 10px;
+            flex-grow: 1;
+        }
+        
+        .photo-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+        
+        .photo-meta {
+            font-size: 0.8rem;
+            color: #6c757d;
         }
         
         @media (max-width: 768px) {
@@ -427,11 +449,11 @@
                             <textarea class="form-control" id="photo-description" rows="3"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="photo-event" class="form-label">Event</label>
+                            <label for="photo-event" class="form-label">Event Type</label>
                             <input type="text" class="form-control" id="photo-event">
                         </div>
                         <div class="mb-3">
-                            <label for="photo-link" class="form-label">Photo Link</label>
+                            <label for="photo-link" class="form-label">Photo URL</label>
                             <input type="url" class="form-control" id="photo-link" placeholder="https://example.com/photos" required>
                         </div>
                     </form>
@@ -735,9 +757,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Database configuration
+        // Supabase Configuration
         const SUPABASE_URL = 'https://uyxlwlgxlhoffrbxobxa.supabase.co';
-        const SUPABASE_KEY = 'sb_secret_Hlj1gu82Kpy-LHlJl9keMQ_ltPAgJGZ';
+        const SUPABASE_ANON_KEY = 'sb_publishable_jj-07F9GdzK_8zOfY_hdwg_5c8L3ZEy';
+        
+        // Initialize Supabase client
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Current user data
         let currentUser = null;
@@ -757,14 +782,14 @@
             instructions: 'Please include your name as reference when making payments.'
         };
 
-        // Sample users data
+        // Sample users data (for demo - will be replaced with Supabase data)
         const users = [
-            { username: 'chairperson', password: 'password123', role: 'chairperson', name: 'Church Chairperson', lastLogin: '2023-11-18' },
-            { username: 'secretary', password: 'password123', role: 'secretary', name: 'Church Secretary', lastLogin: '2023-11-17' },
-            { username: 'treasurer', password: 'password123', role: 'treasurer', name: 'Church Treasurer', lastLogin: '2023-11-16' },
-            { username: 'discipline-men', password: 'password123', role: 'discipline-men', name: 'Discipline Men Leader', lastLogin: '2023-11-15' },
-            { username: 'discipline-women', password: 'password123', role: 'discipline-women', name: 'Discipline Women Leader', lastLogin: '2023-11-14' },
-            { username: 'member', password: 'password123', role: 'member', name: 'Church Member', lastLogin: '2023-11-13' }
+            { id: '1', username: 'chairperson', password: 'password123', role: 'chairperson', name: 'Church Chairperson', lastLogin: '2023-11-18' },
+            { id: '2', username: 'secretary', password: 'password123', role: 'secretary', name: 'Church Secretary', lastLogin: '2023-11-17' },
+            { id: '3', username: 'treasurer', password: 'password123', role: 'treasurer', name: 'Church Treasurer', lastLogin: '2023-11-16' },
+            { id: '4', username: 'discipline-men', password: 'password123', role: 'discipline-men', name: 'Discipline Men Leader', lastLogin: '2023-11-15' },
+            { id: '5', username: 'discipline-women', password: 'password123', role: 'discipline-women', name: 'Discipline Women Leader', lastLogin: '2023-11-14' },
+            { id: '6', username: 'member', password: 'password123', role: 'member', name: 'Church Member', lastLogin: '2023-11-13' }
         ];
 
         // Menu structure based on roles
@@ -787,7 +812,8 @@
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
                 { id: 'contributions', name: 'Contributions', icon: 'fas fa-hand-holding-usd' },
                 { id: 'promote-contributions', name: 'Promote Contributions', icon: 'fas fa-bullhorn' },
-                { id: 'payment-methods', name: 'Payment Methods', icon: 'fas fa-money-check' }
+                { id: 'payment-methods', name: 'Payment Methods', icon: 'fas fa-money-check' },
+                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
             ],
             'discipline-men': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
@@ -826,7 +852,77 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeEventListeners();
             loadSampleData();
+            loadDataFromSupabase();
         });
+
+        // Load data from Supabase - FIXED FOR YOUR SCHEMA
+        async function loadDataFromSupabase() {
+            try {
+                // Load photos from Supabase - FIXED COLUMN NAMES
+                const { data: photos, error: photosError } = await supabaseClient
+                    .from('church_photos')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (!photosError && photos) {
+                    churchPhotos = photos.map(photo => ({
+                        id: photo.id,
+                        title: photo.title,
+                        description: photo.description,
+                        event: photo.event_type, // CHANGED: event_name -> event_type
+                        url: photo.photo_url,
+                        uploadedBy: photo.uploaded_by,
+                        date: new Date(photo.created_at).toLocaleDateString()
+                    }));
+                }
+
+                // Load announcements from Supabase - FIXED COLUMN NAMES
+                const { data: announcementsData, error: announcementsError } = await supabaseClient
+                    .from('announcements')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (!announcementsError && announcementsData) {
+                    announcements = announcementsData.map(announcement => ({
+                        id: announcement.id,
+                        title: announcement.title,
+                        content: announcement.content,
+                        type: announcement.announcement_type, // CHANGED: type -> announcement_type
+                        author: announcement.author_id, // CHANGED: author -> author_id
+                        date: new Date(announcement.created_at).toLocaleDateString(),
+                        shared: announcement.is_shared,
+                        target: announcement.target_amount,
+                        deadline: announcement.deadline
+                    }));
+                }
+
+                // Load family events from Supabase
+                const { data: eventsData, error: eventsError } = await supabaseClient
+                    .from('family_events')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (!eventsError && eventsData) {
+                    familyEvents = eventsData.map(event => ({
+                        id: event.id,
+                        title: event.title,
+                        description: event.description,
+                        date: event.event_date,
+                        time: event.event_time,
+                        location: event.location,
+                        category: event.category,
+                        audience: event.target_audience,
+                        createdBy: event.created_by,
+                        createdAt: new Date(event.created_at).toLocaleDateString()
+                    }));
+                }
+
+                console.log('Loaded data:', { photos: churchPhotos.length, announcements: announcements.length, events: familyEvents.length });
+
+            } catch (error) {
+                console.error('Error loading data from Supabase:', error);
+            }
+        }
 
         // Initialize event listeners
         function initializeEventListeners() {
@@ -892,34 +988,6 @@
                 }
             ];
             
-            // Sample announcements
-            announcements = [
-                {
-                    id: 1,
-                    title: 'Weekly Prayer Meeting',
-                    content: 'Join us for our weekly prayer meeting every Wednesday at 6 PM.',
-                    type: 'general',
-                    author: 'Secretary',
-                    date: '2023-11-15',
-                    shared: true
-                }
-            ];
-            
-            // Sample family events
-            familyEvents = [
-                {
-                    id: 1,
-                    title: 'Family Counseling Session',
-                    description: 'Monthly family counseling and guidance session for couples and families.',
-                    date: '2023-11-25',
-                    time: '14:00',
-                    location: 'Church Hall',
-                    category: 'family',
-                    audience: 'all',
-                    createdBy: 'Discipline Women Leader'
-                }
-            ];
-            
             updateNotificationDisplay();
         }
 
@@ -953,7 +1021,7 @@
         }
 
         // Handle registration
-        function handleRegistration() {
+        async function handleRegistration() {
             const firstName = document.getElementById('reg-first-name').value;
             const lastName = document.getElementById('reg-last-name').value;
             const phone = document.getElementById('reg-phone').value;
@@ -965,38 +1033,44 @@
                 return;
             }
             
-            // Add to pending approvals
-            const newApproval = {
-                id: Date.now(),
-                firstName: firstName,
-                lastName: lastName,
-                phone: phone,
-                email: email,
-                address: address,
-                date: new Date().toLocaleDateString(),
-                status: 'pending'
-            };
-            
-            pendingApprovals.push(newApproval);
-            
-            // Add notification for chairperson and secretary
-            addNotification({
-                id: Date.now(),
-                title: 'New Account Request',
-                message: `${firstName} ${lastName} has requested a new account. Please review and approve.`,
-                type: 'info',
-                timestamp: new Date(),
-                read: false
-            });
-            
-            // Close modal and show success message
-            const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
-            registerModal.hide();
-            
-            alert('Your request has been submitted successfully! It will be reviewed by the church committee.');
-            
-            // Reset form
-            document.getElementById('register-form').reset();
+            try {
+                // Since account_requests table doesn't exist, we'll use notifications as temporary storage
+                const newApproval = {
+                    id: Date.now(),
+                    firstName: firstName,
+                    lastName: lastName,
+                    phone: phone,
+                    email: email,
+                    address: address,
+                    date: new Date().toLocaleDateString(),
+                    status: 'pending'
+                };
+                
+                pendingApprovals.push(newApproval);
+                
+                // Add notification for chairperson and secretary
+                addNotification({
+                    id: Date.now(),
+                    title: 'New Account Request',
+                    message: `${firstName} ${lastName} has requested a new account. Please review and approve.`,
+                    type: 'info',
+                    timestamp: new Date(),
+                    read: false
+                });
+                
+                // Close modal and show success message
+                const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+                registerModal.hide();
+                
+                alert('Your request has been submitted successfully! It will be reviewed by the church committee.');
+                
+                // Reset form
+                document.getElementById('register-form').reset();
+
+            } catch (error) {
+                console.error('Error saving registration:', error);
+                alert('Error submitting request. Please try again.');
+            }
         }
 
         // Handle logout
@@ -1036,7 +1110,7 @@
         }
 
         // Handle add member
-        function handleAddMember() {
+        async function handleAddMember() {
             const firstName = document.getElementById('first-name').value;
             const lastName = document.getElementById('last-name').value;
             const email = document.getElementById('email').value;
@@ -1049,84 +1123,135 @@
                 return;
             }
             
-            // Create new user
-            const newUser = {
-                username: lastName.toLowerCase(),
-                password: 'password123',
-                role: role,
-                name: `${firstName} ${lastName}`,
-                lastLogin: null
-            };
-            
-            users.push(newUser);
-            
-            // Add notification
-            addNotification({
-                id: Date.now(),
-                title: 'New Member Added',
-                message: `${firstName} ${lastName} has been added to the system as ${roleDisplayNames[role]}.`,
-                type: 'success',
-                timestamp: new Date(),
-                read: false
-            });
-            
-            // Close modal and show success message
-            const addMemberModal = bootstrap.Modal.getInstance(document.getElementById('addMemberModal'));
-            addMemberModal.hide();
-            
-            alert(`Member ${firstName} ${lastName} added successfully!`);
-            
-            // Reset form
-            document.getElementById('add-member-form').reset();
+            try {
+                // Save to Supabase
+                const { data, error } = await supabaseClient
+                    .from('users')
+                    .insert([
+                        {
+                            first_name: firstName,
+                            last_name: lastName,
+                            email: email,
+                            phone: phone,
+                            role: role,
+                            address: address,
+                            username: lastName.toLowerCase(),
+                            password: 'password123',
+                            is_active: true
+                        }
+                    ]);
+
+                if (error) throw error;
+
+                // Create new user for local state
+                const newUser = {
+                    id: data[0].id,
+                    username: lastName.toLowerCase(),
+                    password: 'password123',
+                    role: role,
+                    name: `${firstName} ${lastName}`,
+                    lastLogin: null
+                };
+                
+                users.push(newUser);
+                
+                // Add notification
+                addNotification({
+                    id: Date.now(),
+                    title: 'New Member Added',
+                    message: `${firstName} ${lastName} has been added to the system as ${roleDisplayNames[role]}.`,
+                    type: 'success',
+                    timestamp: new Date(),
+                    read: false
+                });
+                
+                // Close modal and show success message
+                const addMemberModal = bootstrap.Modal.getInstance(document.getElementById('addMemberModal'));
+                addMemberModal.hide();
+                
+                alert(`Member ${firstName} ${lastName} added successfully!`);
+                
+                // Reset form
+                document.getElementById('add-member-form').reset();
+
+            } catch (error) {
+                console.error('Error adding member:', error);
+                alert('Error adding member. Please try again.');
+            }
         }
 
-        // Handle upload photos
-        function handleUploadPhotos() {
+        // Handle upload photos - FIXED FOR YOUR SCHEMA
+        async function handleUploadPhotos() {
             const title = document.getElementById('photo-title').value;
             const description = document.getElementById('photo-description').value;
             const event = document.getElementById('photo-event').value;
             const link = document.getElementById('photo-link').value;
             
             if (!title || !link) {
-                alert('Please enter title and photo link!');
+                alert('Please enter title and photo URL!');
                 return;
             }
             
-            // Add new photo entry
-            const newPhoto = {
-                id: Date.now(),
-                title: title,
-                description: description,
-                event: event,
-                url: link,
-                uploadedBy: currentUser.name,
-                date: new Date().toLocaleDateString()
-            };
-            
-            churchPhotos.unshift(newPhoto);
-            
-            // Add notification for all members
-            addNotification({
-                id: Date.now(),
-                title: 'New Photos Uploaded',
-                message: `New church photos "${title}" have been uploaded. Check the photos section.`,
-                type: 'info',
-                timestamp: new Date(),
-                read: false
-            });
-            
-            // Close modal and show success message
-            const uploadPhotosModal = bootstrap.Modal.getInstance(document.getElementById('uploadPhotosModal'));
-            uploadPhotosModal.hide();
-            
-            alert('Photos uploaded successfully! All members can now view them.');
-            
-            // Reset form
-            document.getElementById('upload-photos-form').reset();
+            try {
+                // Get current user ID from sample users (in real app, this would come from auth)
+                const uploaderId = users.find(u => u.name === currentUser.name)?.id || '1';
+                
+                // Save to Supabase - USING CORRECT COLUMN NAMES
+                const { data, error } = await supabaseClient
+                    .from('church_photos')
+                    .insert([
+                        {
+                            title: title,
+                            description: description,
+                            event_type: event, // CHANGED: event_name -> event_type
+                            photo_url: link,
+                            uploaded_by: uploaderId, // CHANGED: uploaded_by is UUID now
+                            is_approved: true
+                        }
+                    ]);
+
+                if (error) throw error;
+
+                // Add new photo entry to local state
+                const newPhoto = {
+                    id: data[0].id,
+                    title: title,
+                    description: description,
+                    event: event,
+                    url: link,
+                    uploadedBy: currentUser.name,
+                    date: new Date().toLocaleDateString()
+                };
+                
+                churchPhotos.unshift(newPhoto);
+                
+                // Add notification for all members
+                addNotification({
+                    id: Date.now(),
+                    title: 'New Photos Uploaded',
+                    message: `New church photos "${title}" have been uploaded. Check the photos section.`,
+                    type: 'info',
+                    timestamp: new Date(),
+                    read: false
+                });
+                
+                // Close modal and show success message
+                const uploadPhotosModal = bootstrap.Modal.getInstance(document.getElementById('uploadPhotosModal'));
+                uploadPhotosModal.hide();
+                
+                alert('Photos uploaded successfully! All members can now view them.');
+                
+                // Reset form
+                document.getElementById('upload-photos-form').reset();
+
+            } catch (error) {
+                console.error('Error uploading photos:', error);
+                alert('Error uploading photos. Please try again.');
+            }
         }
 
-        // Handle create announcement
-        function handleCreateAnnouncement() {
+        // Handle create announcement - FIXED FOR YOUR SCHEMA
+        async function handleCreateAnnouncement() {
             const title = document.getElementById('announcement-title').value;
             const content = document.getElementById('announcement-content').value;
             const type = document.getElementById('announcement-type').value;
@@ -1137,43 +1262,67 @@
                 return;
             }
             
-            // Add new announcement
-            const newAnnouncement = {
-                id: Date.now(),
-                title: title,
-                content: content,
-                type: type,
-                author: currentUser.name,
-                date: new Date().toLocaleDateString(),
-                shared: share
-            };
-            
-            announcements.unshift(newAnnouncement);
-            
-            // Add notification if shared with members
-            if (share) {
-                addNotification({
-                    id: Date.now(),
-                    title: 'New Announcement',
-                    message: `New announcement: ${title}`,
-                    type: 'warning',
-                    timestamp: new Date(),
-                    read: false
-                });
+            try {
+                // Get current user ID from sample users
+                const authorId = users.find(u => u.name === currentUser.name)?.id || '1';
+                
+                // Save to Supabase - USING CORRECT COLUMN NAMES
+                const { data, error } = await supabaseClient
+                    .from('announcements')
+                    .insert([
+                        {
+                            title: title,
+                            content: content,
+                            announcement_type: type, // CHANGED: type -> announcement_type
+                            author_id: authorId, // CHANGED: author -> author_id
+                            is_shared: share
+                        }
+                    ]);
+
+                if (error) throw error;
+
+                // Add new announcement to local state
+                const newAnnouncement = {
+                    id: data[0].id,
+                    title: title,
+                    content: content,
+                    type: type,
+                    author: currentUser.name,
+                    date: new Date().toLocaleDateString(),
+                    shared: share
+                };
+                
+                announcements.unshift(newAnnouncement);
+                
+                // Add notification if shared with members
+                if (share) {
+                    addNotification({
+                        id: Date.now(),
+                        title: 'New Announcement',
+                        message: `New announcement: ${title}`,
+                        type: 'warning',
+                        timestamp: new Date(),
+                        read: false
+                    });
+                }
+                
+                // Close modal and show success message
+                const createAnnouncementModal = bootstrap.Modal.getInstance(document.getElementById('createAnnouncementModal'));
+                createAnnouncementModal.hide();
+                
+                alert('Announcement published successfully!');
+                
+                // Reset form
+                document.getElementById('create-announcement-form').reset();
+
+            } catch (error) {
+                console.error('Error creating announcement:', error);
+                alert('Error publishing announcement. Please try again.');
             }
-            
-            // Close modal and show success message
-            const createAnnouncementModal = bootstrap.Modal.getInstance(document.getElementById('createAnnouncementModal'));
-            createAnnouncementModal.hide();
-            
-            alert('Announcement published successfully!');
-            
-            // Reset form
-            document.getElementById('create-announcement-form').reset();
         }
 
-        // Handle create contribution announcement
-        function handleCreateContributionAnnouncement() {
+        // Handle create contribution announcement - FIXED FOR YOUR SCHEMA
+        async function handleCreateContributionAnnouncement() {
             const title = document.getElementById('contribution-title').value;
             const description = document.getElementById('contribution-description').value;
             const target = document.getElementById('contribution-target').value;
@@ -1184,37 +1333,63 @@
                 return;
             }
             
-            // Add new contribution announcement
-            const newContribution = {
-                id: Date.now(),
-                title: title,
-                description: description,
-                target: target,
-                deadline: deadline,
-                author: currentUser.name,
-                date: new Date().toLocaleDateString()
-            };
-            
-            announcements.unshift(newContribution);
-            
-            // Add notification for all members
-            addNotification({
-                id: Date.now(),
-                title: 'New Contribution Announcement',
-                message: `New contribution: ${title}. Target: ${target} TZS`,
-                type: 'warning',
-                timestamp: new Date(),
-                read: false
-            });
-            
-            // Close modal and show success message
-            const createContributionModal = bootstrap.Modal.getInstance(document.getElementById('createContributionModal'));
-            createContributionModal.hide();
-            
-            alert('Contribution announcement published successfully!');
-            
-            // Reset form
-            document.getElementById('create-contribution-form').reset();
+            try {
+                // Get current user ID from sample users
+                const authorId = users.find(u => u.name === currentUser.name)?.id || '1';
+                
+                // Save to Supabase - USING CORRECT COLUMN NAMES
+                const { data, error } = await supabaseClient
+                    .from('announcements')
+                    .insert([
+                        {
+                            title: title,
+                            content: description,
+                            announcement_type: 'contribution', // CHANGED: type -> announcement_type
+                            author_id: authorId, // CHANGED: author -> author_id
+                            is_shared: true,
+                            target_amount: target,
+                            deadline: deadline
+                        }
+                    ]);
+
+                if (error) throw error;
+
+                // Add new contribution announcement to local state
+                const newContribution = {
+                    id: data[0].id,
+                    title: title,
+                    description: description,
+                    target: target,
+                    deadline: deadline,
+                    author: currentUser.name,
+                    date: new Date().toLocaleDateString()
+                };
+                
+                announcements.unshift(newContribution);
+                
+                // Add notification for all members
+                addNotification({
+                    id: Date.now(),
+                    title: 'New Contribution Announcement',
+                    message: `New contribution: ${title}. Target: ${target} TZS`,
+                    type: 'warning',
+                    timestamp: new Date(),
+                    read: false
+                });
+                
+                // Close modal and show success message
+                const createContributionModal = bootstrap.Modal.getInstance(document.getElementById('createContributionModal'));
+                createContributionModal.hide();
+                
+                alert('Contribution announcement published successfully!');
+                
+                // Reset form
+                document.getElementById('create-contribution-form').reset();
+
+            } catch (error) {
+                console.error('Error creating contribution announcement:', error);
+                alert('Error publishing contribution announcement. Please try again.');
+            }
         }
 
         // Handle update payment methods
@@ -1247,32 +1422,58 @@
         }
 
         // Handle save services
-        function handleSaveServices() {
+        async function handleSaveServices() {
             const skills = document.getElementById('service-skills').value;
             const availability = document.getElementById('service-availability').value;
             
             // Get selected services
             const selectedServices = [];
-            if (document.getElementById('service-prayer').checked) selectedServices.push('Prayer Team');
-            if (document.getElementById('service-choir').checked) selectedServices.push('Choir');
-            if (document.getElementById('service-usher').checked) selectedServices.push('Ushering');
-            if (document.getElementById('service-teaching').checked) selectedServices.push('Teaching/Sabbath School');
-            if (document.getElementById('service-outreach').checked) selectedServices.push('Community Outreach');
+            if (document.getElementById('service-prayer').checked) selectedServices.push('prayer-team');
+            if (document.getElementById('service-choir').checked) selectedServices.push('choir');
+            if (document.getElementById('service-usher').checked) selectedServices.push('ushering');
+            if (document.getElementById('service-teaching').checked) selectedServices.push('teaching');
+            if (document.getElementById('service-outreach').checked) selectedServices.push('outreach');
             
-            // Save member services
-            currentUser.services = selectedServices;
-            currentUser.skills = skills;
-            currentUser.availability = availability;
-            
-            // Close modal and show success message
-            const memberServicesModal = bootstrap.Modal.getInstance(document.getElementById('memberServicesModal'));
-            memberServicesModal.hide();
-            
-            alert('Your church services have been saved successfully!');
+            try {
+                // Get current user ID
+                const memberId = users.find(u => u.name === currentUser.name)?.id || '1';
+                
+                // Save each service to Supabase
+                for (const serviceType of selectedServices) {
+                    const { error } = await supabaseClient
+                        .from('member_services')
+                        .insert([
+                            {
+                                member_id: memberId,
+                                service_type: serviceType,
+                                skills: skills,
+                                availability: availability,
+                                is_active: true
+                            }
+                        ]);
+
+                    if (error) throw error;
+                }
+                
+                // Save member services to local state
+                currentUser.services = selectedServices;
+                currentUser.skills = skills;
+                currentUser.availability = availability;
+                
+                // Close modal and show success message
+                const memberServicesModal = bootstrap.Modal.getInstance(document.getElementById('memberServicesModal'));
+                memberServicesModal.hide();
+                
+                alert('Your church services have been saved successfully!');
+
+            } catch (error) {
+                console.error('Error saving services:', error);
+                alert('Error saving services. Please try again.');
+            }
         }
 
-        // Handle create family event
-        function handleCreateFamilyEvent() {
+        // Handle create family event - FIXED FOR YOUR SCHEMA
+        async function handleCreateFamilyEvent() {
             const title = document.getElementById('event-title').value;
             const description = document.getElementById('event-description').value;
             const date = document.getElementById('event-date').value;
@@ -1286,40 +1487,68 @@
                 return;
             }
             
-            // Add new family event
-            const newEvent = {
-                id: Date.now(),
-                title: title,
-                description: description,
-                date: date,
-                time: time,
-                location: location,
-                category: category,
-                audience: audience,
-                createdBy: currentUser.name,
-                createdAt: new Date().toLocaleDateString()
-            };
-            
-            familyEvents.unshift(newEvent);
-            
-            // Add notification
-            addNotification({
-                id: Date.now(),
-                title: 'New Family Event',
-                message: `New ${category} event: ${title} on ${date} at ${location}`,
-                type: 'info',
-                timestamp: new Date(),
-                read: false
-            });
-            
-            // Close modal and show success message
-            const familyEventsModal = bootstrap.Modal.getInstance(document.getElementById('familyEventsModal'));
-            familyEventsModal.hide();
-            
-            alert('Family event created successfully!');
-            
-            // Reset form
-            document.getElementById('family-events-form').reset();
+            try {
+                // Get current user ID from sample users
+                const creatorId = users.find(u => u.name === currentUser.name)?.id || '1';
+                
+                // Save to Supabase
+                const { data, error } = await supabaseClient
+                    .from('family_events')
+                    .insert([
+                        {
+                            title: title,
+                            description: description,
+                            event_date: date,
+                            event_time: time,
+                            location: location,
+                            category: category,
+                            target_audience: audience,
+                            created_by: creatorId,
+                            is_active: true
+                        }
+                    ]);
+
+                if (error) throw error;
+
+                // Add new family event to local state
+                const newEvent = {
+                    id: data[0].id,
+                    title: title,
+                    description: description,
+                    date: date,
+                    time: time,
+                    location: location,
+                    category: category,
+                    audience: audience,
+                    createdBy: currentUser.name,
+                    createdAt: new Date().toLocaleDateString()
+                };
+                
+                familyEvents.unshift(newEvent);
+                
+                // Add notification
+                addNotification({
+                    id: Date.now(),
+                    title: 'New Family Event',
+                    message: `New ${category} event: ${title} on ${date} at ${location}`,
+                    type: 'info',
+                    timestamp: new Date(),
+                    read: false
+                });
+                
+                // Close modal and show success message
+                const familyEventsModal = bootstrap.Modal.getInstance(document.getElementById('familyEventsModal'));
+                familyEventsModal.hide();
+                
+                alert('Family event created successfully!');
+                
+                // Reset form
+                document.getElementById('family-events-form').reset();
+
+            } catch (error) {
+                console.error('Error creating family event:', error);
+                alert('Error creating family event. Please try again.');
+            }
         }
 
         // Initialize dashboard based on user role
@@ -1662,11 +1891,12 @@
             `;
         }
 
-        // Get photos content
+        // Get photos content - NOW WITH DOWNLOAD/VIEW BUTTONS
         function getPhotosContent(role) {
             let actionButton = '';
             
-            if (role === 'secretary') {
+            // Treasurer can now see photos too!
+            if (role === 'secretary' || role === 'treasurer') {
                 actionButton = `
                     <div class="mb-3">
                         <button class="btn btn-primary" id="upload-photos-btn">
@@ -1686,17 +1916,31 @@
                         <div class="photo-gallery">
                             ${churchPhotos.length > 0 ? churchPhotos.map(photo => `
                                 <div class="photo-item">
-                                    <div class="photo-placeholder">
+                                    <div class="photo-img">
                                         <i class="fas fa-image"></i>
-                                        <div>${photo.title}</div>
-                                        <small>${photo.event}</small>
+                                    </div>
+                                    <div class="photo-info">
+                                        <div class="photo-title">${photo.title || 'Church Event'}</div>
+                                        <p class="photo-meta">${photo.description || 'Church activity photo'}</p>
+                                        <div class="photo-meta">
+                                            <small><i class="fas fa-calendar"></i> ${photo.date}</small><br>
+                                            <small><i class="fas fa-user"></i> ${photo.uploadedBy}</small>
+                                        </div>
+                                    </div>
+                                    <div class="photo-actions">
+                                        <button class="btn btn-sm btn-primary view-photo" data-url="${photo.url}">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                        <button class="btn btn-sm btn-success download-photo" data-url="${photo.url}" data-title="${photo.title || 'church_photo'}">
+                                            <i class="fas fa-download"></i> Download
+                                        </button>
                                     </div>
                                 </div>
                             `).join('') : `
                                 <div class="col-12 text-center py-5">
                                     <i class="fas fa-image fa-3x text-muted mb-3"></i>
                                     <p class="text-muted">No photos uploaded yet</p>
-                                    ${role === 'secretary' ? '<p>Use the "Upload Photos" button to add church photos</p>' : ''}
+                                    ${(role === 'secretary' || role === 'treasurer') ? '<p>Use the "Upload Photos" button to add church photos</p>' : ''}
                                 </div>
                             `}
                         </div>
@@ -2050,6 +2294,31 @@
                     this.reset();
                 });
             }
+            
+            // Photo view/download buttons
+            document.querySelectorAll('.view-photo').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const photoUrl = this.getAttribute('data-url');
+                    window.open(photoUrl, '_blank');
+                });
+            });
+            
+            document.querySelectorAll('.download-photo').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const photoUrl = this.getAttribute('data-url');
+                    const photoTitle = this.getAttribute('data-title');
+                    
+                    // Create a temporary link for download
+                    const link = document.createElement('a');
+                    link.href = photoUrl;
+                    link.download = `${photoTitle}.jpg`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    alert('Photo download started!');
+                });
+            });
         }
 
         // Load approvals table
@@ -2093,51 +2362,83 @@
         }
 
         // Approve account
-        function approveAccount(id) {
+        async function approveAccount(id) {
             const approval = pendingApprovals.find(a => a.id == id);
             if (approval) {
-                // Create new user account
-                const newUser = {
-                    username: approval.lastName.toLowerCase(),
-                    password: 'password123',
-                    role: 'member',
-                    name: `${approval.firstName} ${approval.lastName}`,
-                    lastLogin: null
-                };
-                
-                users.push(newUser);
-                
-                // Remove from pending approvals
-                pendingApprovals = pendingApprovals.filter(a => a.id != id);
-                
-                // Add notification
-                addNotification({
-                    id: Date.now(),
-                    title: 'Account Approved',
-                    message: `Account for ${approval.firstName} ${approval.lastName} has been approved.`,
-                    type: 'success',
-                    timestamp: new Date(),
-                    read: false
-                });
-                
-                alert(`Account for ${approval.firstName} ${approval.lastName} has been approved successfully!`);
-                
-                // Refresh approvals table
-                loadApprovalsTable();
+                try {
+                    // Create new user account in Supabase
+                    const { data, error } = await supabaseClient
+                        .from('users')
+                        .insert([
+                            {
+                                first_name: approval.firstName,
+                                last_name: approval.lastName,
+                                email: approval.email,
+                                phone: approval.phone,
+                                address: approval.address,
+                                role: 'member',
+                                username: approval.lastName.toLowerCase(),
+                                password: 'password123',
+                                is_active: true
+                            }
+                        ]);
+
+                    if (error) throw error;
+
+                    // Create new user for local state
+                    const newUser = {
+                        id: data[0].id,
+                        username: approval.lastName.toLowerCase(),
+                        password: 'password123',
+                        role: 'member',
+                        name: `${approval.firstName} ${approval.lastName}`,
+                        lastLogin: null
+                    };
+                    
+                    users.push(newUser);
+                    
+                    // Remove from pending approvals
+                    pendingApprovals = pendingApprovals.filter(a => a.id != id);
+                    
+                    // Add notification
+                    addNotification({
+                        id: Date.now(),
+                        title: 'Account Approved',
+                        message: `Account for ${approval.firstName} ${approval.lastName} has been approved.`,
+                        type: 'success',
+                        timestamp: new Date(),
+                        read: false
+                    });
+                    
+                    alert(`Account for ${approval.firstName} ${approval.lastName} has been approved successfully!`);
+                    
+                    // Refresh approvals table
+                    loadApprovalsTable();
+
+                } catch (error) {
+                    console.error('Error approving account:', error);
+                    alert('Error approving account. Please try again.');
+                }
             }
         }
 
         // Reject account
-        function rejectAccount(id) {
+        async function rejectAccount(id) {
             const approval = pendingApprovals.find(a => a.id == id);
             if (approval) {
-                // Remove from pending approvals
-                pendingApprovals = pendingApprovals.filter(a => a.id != id);
-                
-                alert(`Account request for ${approval.firstName} ${approval.lastName} has been rejected!`);
-                
-                // Refresh approvals table
-                loadApprovalsTable();
+                try {
+                    // Remove from pending approvals
+                    pendingApprovals = pendingApprovals.filter(a => a.id != id);
+                    
+                    alert(`Account request for ${approval.firstName} ${approval.lastName} has been rejected!`);
+                    
+                    // Refresh approvals table
+                    loadApprovalsTable();
+
+                } catch (error) {
+                    console.error('Error rejecting account:', error);
+                    alert('Error rejecting account. Please try again.');
+                }
             }
         }
 
@@ -2203,5 +2504,7 @@
             }
         }
     </script>
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </body>
 </html>
