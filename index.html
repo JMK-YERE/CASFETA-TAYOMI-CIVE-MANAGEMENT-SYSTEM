@@ -237,6 +237,19 @@
         .quick-login-btn:hover {
             transform: translateY(-2px);
         }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
     </style>
 </head>
 <body>
@@ -248,14 +261,21 @@
                 <p class="text-muted">Ingia kwenye Mfumo wa Usimamizi wa Kanisa</p>
             </div>
 
+            <!-- Error Message Display -->
+            <div id="login-error" class="alert alert-danger d-none" role="alert">
+                Jina la mtumiaji au nenosiri batili! Tafadhali jaribu tena.
+            </div>
+
             <form id="login-form">
                 <div class="mb-3">
                     <label for="username" class="form-label">Jina la Mtumiaji</label>
                     <input type="text" class="form-control" id="username" required>
+                    <div class="error-message" id="username-error">Tafadhali ingiza jina la mtumiaji</div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Nenosiri</label>
                     <input type="password" class="form-control" id="password" required>
+                    <div class="error-message" id="password-error">Tafadhali ingiza nenosiri</div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">
                     <span id="login-text">Ingia</span>
@@ -265,21 +285,12 @@
                 </button>
             </form>
 
-            <!-- Quick Login Info -->
+            <!-- Admin Info (Iliyorahisishwa) -->
             <div class="mt-4 p-3 bg-light rounded">
-                <h6 class="text-center mb-3">Majaribio ya Mfumo</h6>
+                <h6 class="text-center mb-3">Maelekezo kwa Watumiaji</h6>
                 <div class="text-center small text-muted">
-                    <p>Tumia hati za kujiandikisha zifuatazo kwa majaribio:</p>
-                    <div class="row">
-                        <div class="col-6">
-                            <strong>Jina la Mtumiaji:</strong> mwenyekiti<br>
-                            <strong>Nenosiri:</strong> nenosiri123
-                        </div>
-                        <div class="col-6">
-                            <strong>Jina la Mtumiaji:</strong> mwanachama<br>
-                            <strong>Nenosiri:</strong> nenosiri123
-                        </div>
-                    </div>
+                    <p>Ikiwa huna akaunti, tafadhali wasilisha ombi la akaunti mpya kwa kutumia kiungo hapo chini.</p>
+                    <p>Kwa msaada wa ziada, wasiliana na Mwenyekiti au Katibu wa kanisa.</p>
                 </div>
             </div>
 
@@ -326,6 +337,18 @@
                         <div class="mb-3">
                             <label for="reg-address" class="form-label">Anwani</label>
                             <textarea class="form-control" id="reg-address" rows="2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reg-role" class="form-label">Aina ya Akaunti Unayoombwa</label>
+                            <select class="form-select" id="reg-role" required>
+                                <option value="">Chagua aina ya akaunti</option>
+                                <option value="member">Mwanachama wa Kawaida</option>
+                                <option value="chairperson">Mwenyekiti</option>
+                                <option value="secretary">Katibu</option>
+                                <option value="treasurer">Mhazina</option>
+                                <option value="makada">Makada (Kamati ya Nidhamu - Wanaume)</option>
+                                <option value="bakada">Bakada (Kamati ya Nidhamu - Wanawake)</option>
+                            </select>
                         </div>
                     </form>
                 </div>
@@ -1065,6 +1088,10 @@
                 handleLogin();
             });
             
+            // Form validation
+            document.getElementById('username').addEventListener('blur', validateUsername);
+            document.getElementById('password').addEventListener('blur', validatePassword);
+            
             // Register link
             document.getElementById('register-link').addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1110,6 +1137,35 @@
             document.getElementById('save-event-btn').addEventListener('click', handleCreateFamilyEvent);
         }
 
+        // Form validation functions
+        function validateUsername() {
+            const username = document.getElementById('username').value;
+            const errorElement = document.getElementById('username-error');
+            
+            if (!username.trim()) {
+                errorElement.textContent = 'Tafadhali ingiza jina la mtumiaji';
+                errorElement.style.display = 'block';
+                return false;
+            } else {
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validatePassword() {
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('password-error');
+            
+            if (!password.trim()) {
+                errorElement.textContent = 'Tafadhali ingiza nenosiri';
+                errorElement.style.display = 'block';
+                return false;
+            } else {
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+
         // Load sample data
         function loadSampleData() {
             // Sample notifications
@@ -1131,8 +1187,19 @@
         function handleLogin() {
             console.log('Imekuwa jaribio la kuingia...');
             
+            // Validate form
+            const isUsernameValid = validateUsername();
+            const isPasswordValid = validatePassword();
+            
+            if (!isUsernameValid || !isPasswordValid) {
+                return;
+            }
+            
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            
+            // Hide any previous error messages
+            document.getElementById('login-error').classList.add('d-none');
             
             // Show loading state
             document.getElementById('login-text').classList.add('d-none');
@@ -1155,7 +1222,7 @@
                 } else {
                     // Login failed
                     console.log('Kuingia hakukufanikiwa kwa:', username);
-                    alert('Jina la mtumiaji au nenosiri batili! Tafadhali tumia hati za kujiandikisha zilizopendekezwa.');
+                    document.getElementById('login-error').classList.remove('d-none');
                 }
                 
                 // Reset loading state
@@ -1195,8 +1262,9 @@
             const phone = document.getElementById('reg-phone').value;
             const email = document.getElementById('reg-email').value;
             const address = document.getElementById('reg-address').value;
+            const role = document.getElementById('reg-role').value;
             
-            if (!firstName || !lastName || !phone) {
+            if (!firstName || !lastName || !phone || !role) {
                 alert('Tafadhali jaza sehemu zote zinazohitajika!');
                 return;
             }
@@ -1210,6 +1278,7 @@
                     phone: phone,
                     email: email,
                     address: address,
+                    role: role,
                     date: new Date().toLocaleDateString(),
                     status: 'pending'
                 };
@@ -1220,7 +1289,7 @@
                 addNotification({
                     id: Date.now(),
                     title: 'Ombi Jipya la Akaunti',
-                    message: `${firstName} ${lastName} ameomba akaunti mpya. Tafadhali pitia na idhinisha.`,
+                    message: `${firstName} ${lastName} ameomba akaunti mpya kama ${roleDisplayNames[role]}. Tafadhali pitia na idhinisha.`,
                     type: 'info',
                     timestamp: new Date(),
                     read: false
@@ -1249,6 +1318,7 @@
             document.getElementById('dashboard-container').classList.add('d-none');
             document.getElementById('login-page').classList.remove('d-none');
             document.getElementById('login-form').reset();
+            document.getElementById('login-error').classList.add('d-none');
         }
 
         // Handle change password
@@ -2011,6 +2081,116 @@
                         </div>
                     </div>
                 `;
+            } else if (role === 'makada') {
+                stats = `
+                    <div class="row">
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card blue">
+                                <i class="fas fa-calendar fa-2x mb-2"></i>
+                                <h4>${familyEvents.length}</h4>
+                                <p>Matukio ya Familia</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card green">
+                                <i class="fas fa-pray fa-2x mb-2"></i>
+                                <h4>12</h4>
+                                <p>Masuala ya Kiroho</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card orange">
+                                <i class="fas fa-gavel fa-2x mb-2"></i>
+                                <h4>3</h4>
+                                <p>Kesi za Nidhamu</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card red">
+                                <i class="fas fa-bell fa-2x mb-2"></i>
+                                <h4>${notifications.filter(n => !n.read).length}</h4>
+                                <p>Arifa Mpya</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                additionalContent = `
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Karibu Makada</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Karibu kwenye Mfumo wa Usimamizi wa Kanisa la CASFETA TAYOMI. Kama Makada (Kamati ya Nidhamu - Wanaume), unaweza:</p>
+                                    <ul>
+                                        <li>Kusimamia matukio ya familia</li>
+                                        <li>Kushughulikia masuala ya kiroho</li>
+                                        <li>Kusimamia kesi za nidhamu</li>
+                                        <li>Kutoa usaidizi wa kiroho</li>
+                                        <li>Kutazama picha za shughuli za kanisa</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (role === 'bakada') {
+                stats = `
+                    <div class="row">
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card blue">
+                                <i class="fas fa-calendar fa-2x mb-2"></i>
+                                <h4>${familyEvents.length}</h4>
+                                <p>Matukio ya Familia</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card green">
+                                <i class="fas fa-pray fa-2x mb-2"></i>
+                                <h4>8</h4>
+                                <p>Masuala ya Kiroho</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card orange">
+                                <i class="fas fa-gavel fa-2x mb-2"></i>
+                                <h4>2</h4>
+                                <p>Kesi za Nidhamu</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card red">
+                                <i class="fas fa-bell fa-2x mb-2"></i>
+                                <h4>${notifications.filter(n => !n.read).length}</h4>
+                                <p>Arifa Mpya</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                additionalContent = `
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Karibu Bakada</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Karibu kwenye Mfumo wa Usimamizi wa Kanisa la CASFETA TAYOMI. Kama Bakada (Kamati ya Nidhamu - Wanawake), unaweza:</p>
+                                    <ul>
+                                        <li>Kusimamia matukio ya familia</li>
+                                        <li>Kushughulikia masuala ya kiroho</li>
+                                        <li>Kusimamia kesi za nidhamu</li>
+                                        <li>Kusimamia huduma ya wanawake</li>
+                                        <li>Kutazama picha za shughuli za kanisa</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
             } else {
                 // Default dashboard for other roles
                 stats = `
@@ -2738,7 +2918,7 @@
                                 email: approval.email,
                                 phone: approval.phone,
                                 address: approval.address,
-                                role: 'member',
+                                role: approval.role || 'member',
                                 username: approval.lastName.toLowerCase(),
                                 password: 'nenosiri123',
                                 is_active: true
@@ -2752,7 +2932,7 @@
                         id: data[0].id,
                         username: approval.lastName.toLowerCase(),
                         password: 'nenosiri123',
-                        role: 'member',
+                        role: approval.role || 'member',
                         name: `${approval.firstName} ${approval.lastName}`,
                         lastLogin: null
                     };
