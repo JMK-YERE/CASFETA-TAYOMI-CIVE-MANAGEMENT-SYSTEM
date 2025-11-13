@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sw">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CASFETA TAYOMI - Church Management System</title>
+    <title>CASFETA TAYOMI - Mfumo wa Usimamizi wa Kanisa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -222,6 +222,21 @@
                 margin-left: 80px;
             }
         }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .quick-login-btn {
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        .quick-login-btn:hover {
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -229,24 +244,57 @@
     <div id="login-page" class="container">
         <div class="login-container">
             <div class="text-center mb-4">
-                <h2>CASFETA TAYOMI CHURCH</h2>
-                <p class="text-muted">Login to Church Management System</p>
+                <h2>KANISA LA CASFETA TAYOMI</h2>
+                <p class="text-muted">Ingia kwenye Mfumo wa Usimamizi wa Kanisa</p>
             </div>
+
             <form id="login-form">
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
+                    <label for="username" class="form-label">Jina la Mtumiaji</label>
                     <input type="text" class="form-control" id="username" required>
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
+                    <label for="password" class="form-label">Nenosiri</label>
                     <input type="password" class="form-control" id="password" required>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Login</button>
+                <button type="submit" class="btn btn-primary w-100">
+                    <span id="login-text">Ingia</span>
+                    <div class="spinner-border spinner-border-sm d-none" id="login-spinner" role="status">
+                        <span class="visually-hidden">Inapakia...</span>
+                    </div>
+                </button>
             </form>
+
+            <!-- Quick Login Info -->
+            <div class="mt-4 p-3 bg-light rounded">
+                <h6 class="text-center mb-3">Majaribio ya Mfumo</h6>
+                <div class="text-center small text-muted">
+                    <p>Tumia hati za kujiandikisha zifuatazo kwa majaribio:</p>
+                    <div class="row">
+                        <div class="col-6">
+                            <strong>Jina la Mtumiaji:</strong> mwenyekiti<br>
+                            <strong>Nenosiri:</strong> nenosiri123
+                        </div>
+                        <div class="col-6">
+                            <strong>Jina la Mtumiaji:</strong> mwanachama<br>
+                            <strong>Nenosiri:</strong> nenosiri123
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="text-center mt-4">
-                <p>Don't have an account? <a href="#" id="register-link">Request Account</a></p>
+                <p>Huna akaunti? <a href="#" id="register-link">Omba Akaunti</a></p>
             </div>
         </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Inapakia...</span>
+        </div>
+        <p class="mt-2">Inapakia dashibodi...</p>
     </div>
 
     <!-- Registration Modal -->
@@ -254,36 +302,36 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">Request New Account</h5>
+                    <h5 class="modal-title" id="registerModalLabel">Omba Akaunti Mpya</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="register-form">
                         <div class="mb-3">
-                            <label for="reg-first-name" class="form-label">First Name</label>
+                            <label for="reg-first-name" class="form-label">Jina la Kwanza</label>
                             <input type="text" class="form-control" id="reg-first-name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="reg-last-name" class="form-label">Last Name</label>
+                            <label for="reg-last-name" class="form-label">Jina la Mwisho</label>
                             <input type="text" class="form-control" id="reg-last-name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="reg-phone" class="form-label">Phone Number</label>
+                            <label for="reg-phone" class="form-label">Namba ya Simu</label>
                             <input type="tel" class="form-control" id="reg-phone" required>
                         </div>
                         <div class="mb-3">
-                            <label for="reg-email" class="form-label">Email</label>
+                            <label for="reg-email" class="form-label">Barua Pepe</label>
                             <input type="email" class="form-control" id="reg-email">
                         </div>
                         <div class="mb-3">
-                            <label for="reg-address" class="form-label">Address</label>
+                            <label for="reg-address" class="form-label">Anwani</label>
                             <textarea class="form-control" id="reg-address" rows="2"></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="submit-registration">Submit Request</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Funga</button>
+                    <button type="button" class="btn btn-primary" id="submit-registration">Wasilisha Ombi</button>
                 </div>
             </div>
         </div>
@@ -305,8 +353,8 @@
             <div class="dashboard-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h3 id="dashboard-title">Dashboard</h3>
-                        <p id="user-role-display" class="mb-0">Role: <span id="role-display"></span></p>
+                        <h3 id="dashboard-title">Dashibodi</h3>
+                        <p id="user-role-display" class="mb-0">Wajibu: <span id="role-display"></span></p>
                     </div>
                     <div class="d-flex align-items-center">
                         <div class="dropdown me-3">
@@ -315,7 +363,7 @@
                                 <span class="notification-badge d-none" id="notification-count">0</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" id="notification-list">
-                                <li><h6 class="dropdown-header">Your Notifications</h6></li>
+                                <li><h6 class="dropdown-header">Arifa Zako</h6></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <!-- Notifications will be populated here -->
                             </ul>
@@ -323,13 +371,13 @@
                         <div class="dropdown">
                             <button class="btn btn-light d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="https://via.placeholder.com/40" class="profile-img" alt="User">
-                                <span id="user-name">User</span>
+                                <span id="user-name">Mtumiaji</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item" href="#" id="profile-link"><i class="fas fa-user me-2"></i>My Profile</a></li>
-                                <li><a class="dropdown-item" href="#" id="change-password-link"><i class="fas fa-key me-2"></i>Change Password</a></li>
+                                <li><a class="dropdown-item" href="#" id="profile-link"><i class="fas fa-user me-2"></i>Wasifu Wangu</a></li>
+                                <li><a class="dropdown-item" href="#" id="change-password-link"><i class="fas fa-key me-2"></i>Badilisha Nenosiri</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#" id="logout-btn"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                                <li><a class="dropdown-item" href="#" id="logout-btn"><i class="fas fa-sign-out-alt me-2"></i>Toka</a></li>
                             </ul>
                         </div>
                     </div>
@@ -347,28 +395,28 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                    <h5 class="modal-title" id="changePasswordModalLabel">Badilisha Nenosiri</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="change-password-form">
                         <div class="mb-3">
-                            <label for="current-password" class="form-label">Current Password</label>
+                            <label for="current-password" class="form-label">Nenosiri la Sasa</label>
                             <input type="password" class="form-control" id="current-password" required>
                         </div>
                         <div class="mb-3">
-                            <label for="new-password" class="form-label">New Password</label>
+                            <label for="new-password" class="form-label">Nenosiri Jipya</label>
                             <input type="password" class="form-control" id="new-password" required>
                         </div>
                         <div class="mb-3">
-                            <label for="confirm-password" class="form-label">Confirm New Password</label>
+                            <label for="confirm-password" class="form-label">Thibitisha Nenosiri Jipya</label>
                             <input type="password" class="form-control" id="confirm-password" required>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-password-btn">Save Password</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Funga</button>
+                    <button type="button" class="btn btn-primary" id="save-password-btn">Hifadhi Nenosiri</button>
                 </div>
             </div>
         </div>
@@ -379,52 +427,52 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addMemberModalLabel">Add New Member</h5>
+                    <h5 class="modal-title" id="addMemberModalLabel">Ongeza Mwanachama Mpya</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="add-member-form">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="first-name" class="form-label">First Name</label>
+                                <label for="first-name" class="form-label">Jina la Kwanza</label>
                                 <input type="text" class="form-control" id="first-name" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="last-name" class="form-label">Last Name</label>
+                                <label for="last-name" class="form-label">Jina la Mwisho</label>
                                 <input type="text" class="form-control" id="last-name" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">Email</label>
+                                <label for="email" class="form-label">Barua Pepe</label>
                                 <input type="email" class="form-control" id="email">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="phone" class="form-label">Phone Number</label>
+                                <label for="phone" class="form-label">Namba ya Simu</label>
                                 <input type="tel" class="form-control" id="phone" required>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="role" class="form-label">Role</label>
+                            <label for="role" class="form-label">Wajibu</label>
                             <select class="form-select" id="member-role" required>
-                                <option value="">Select Role</option>
-                                <option value="member">Member</option>
-                                <option value="chairperson">Chairperson</option>
-                                <option value="secretary">Secretary</option>
-                                <option value="treasurer">Treasurer</option>
-                                <option value="discipline-men">Discipline Committee (Men)</option>
-                                <option value="discipline-women">Discipline Committee (Women)</option>
+                                <option value="">Chagua Wajibu</option>
+                                <option value="member">Mwanachama</option>
+                                <option value="chairperson">Mwenyekiti</option>
+                                <option value="secretary">Katibu</option>
+                                <option value="treasurer">Mhazina</option>
+                                <option value="makada">Makada (Kamati ya Nidhamu - Wanaume)</option>
+                                <option value="bakada">Bakada (Kamati ya Nidhamu - Wanawake)</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
+                            <label for="address" class="form-label">Anwani</label>
                             <textarea class="form-control" id="address" rows="2"></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-member-btn">Save Member</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Funga</button>
+                    <button type="button" class="btn btn-primary" id="save-member-btn">Hifadhi Mwanachama</button>
                 </div>
             </div>
         </div>
@@ -435,32 +483,32 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="uploadPhotosModalLabel">Upload Church Photos</h5>
+                    <h5 class="modal-title" id="uploadPhotosModalLabel">Pakia Picha za Kanisa</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="upload-photos-form">
                         <div class="mb-3">
-                            <label for="photo-title" class="form-label">Photo Title</label>
+                            <label for="photo-title" class="form-label">Kichwa cha Picha</label>
                             <input type="text" class="form-control" id="photo-title" required>
                         </div>
                         <div class="mb-3">
-                            <label for="photo-description" class="form-label">Description</label>
+                            <label for="photo-description" class="form-label">Maelezo</label>
                             <textarea class="form-control" id="photo-description" rows="3"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="photo-event" class="form-label">Event Type</label>
+                            <label for="photo-event" class="form-label">Aina ya Tukio</label>
                             <input type="text" class="form-control" id="photo-event">
                         </div>
                         <div class="mb-3">
-                            <label for="photo-link" class="form-label">Photo URL</label>
-                            <input type="url" class="form-control" id="photo-link" placeholder="https://example.com/photos" required>
+                            <label for="photo-link" class="form-label">URL ya Picha</label>
+                            <input type="url" class="form-control" id="photo-link" placeholder="https://mfano.com/picha" required>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-photos-btn">Upload Photos</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Funga</button>
+                    <button type="button" class="btn btn-primary" id="save-photos-btn">Pakia Picha</button>
                 </div>
             </div>
         </div>
@@ -471,37 +519,37 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createAnnouncementModalLabel">Create Announcement</h5>
+                    <h5 class="modal-title" id="createAnnouncementModalLabel">Tengeneza Tangazo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="create-announcement-form">
                         <div class="mb-3">
-                            <label for="announcement-title" class="form-label">Title</label>
+                            <label for="announcement-title" class="form-label">Kichwa</label>
                             <input type="text" class="form-control" id="announcement-title" required>
                         </div>
                         <div class="mb-3">
-                            <label for="announcement-content" class="form-label">Content</label>
+                            <label for="announcement-content" class="form-label">Maudhui</label>
                             <textarea class="form-control" id="announcement-content" rows="5" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="announcement-type" class="form-label">Type</label>
+                            <label for="announcement-type" class="form-label">Aina</label>
                             <select class="form-select" id="announcement-type">
-                                <option value="general">General</option>
-                                <option value="urgent">Urgent</option>
-                                <option value="event">Event</option>
-                                <option value="contribution">Contribution</option>
+                                <option value="general">Jumla</option>
+                                <option value="urgent">Ya Haraka</option>
+                                <option value="event">Tukio</option>
+                                <option value="contribution">Mchango</option>
                             </select>
                         </div>
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="announcement-share">
-                            <label class="form-check-label" for="announcement-share">Share with all members</label>
+                            <label class="form-check-label" for="announcement-share">Shiriki na wanachama wote</label>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-announcement-btn">Publish Announcement</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Funga</button>
+                    <button type="button" class="btn btn-primary" id="save-announcement-btn">Chapisha Tangazo</button>
                 </div>
             </div>
         </div>
@@ -512,32 +560,32 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createContributionModalLabel">Create Contribution Announcement</h5>
+                    <h5 class="modal-title" id="createContributionModalLabel">Tengeneza Tangazo la Mchango</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="create-contribution-form">
                         <div class="mb-3">
-                            <label for="contribution-title" class="form-label">Title</label>
+                            <label for="contribution-title" class="form-label">Kichwa</label>
                             <input type="text" class="form-control" id="contribution-title" required>
                         </div>
                         <div class="mb-3">
-                            <label for="contribution-description" class="form-label">Description</label>
+                            <label for="contribution-description" class="form-label">Maelezo</label>
                             <textarea class="form-control" id="contribution-description" rows="4" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="contribution-target" class="form-label">Target Amount (TZS)</label>
+                            <label for="contribution-target" class="form-label">Kiwango cha Lengo (TZS)</label>
                             <input type="number" class="form-control" id="contribution-target" required>
                         </div>
                         <div class="mb-3">
-                            <label for="contribution-deadline" class="form-label">Deadline</label>
+                            <label for="contribution-deadline" class="form-label">Mwisho wa Muda</label>
                             <input type="date" class="form-control" id="contribution-deadline" required>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-contribution-btn">Publish Announcement</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Funga</button>
+                    <button type="button" class="btn btn-primary" id="save-contribution-btn">Chapisha Tangazo</button>
                 </div>
             </div>
         </div>
@@ -548,60 +596,60 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="updatePaymentsModalLabel">Update Payment Methods</h5>
+                    <h5 class="modal-title" id="updatePaymentsModalLabel">Sasisha Mbinu za Malipo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="update-payments-form">
                         <div class="mb-3">
-                            <label class="form-label">Mobile Money Payments</label>
+                            <label class="form-label">Malipo ya M-Pesa</label>
                             <div class="row">
                                 <div class="col-md-4 mb-2">
-                                    <label for="mpesa-number" class="form-label small">M-Pesa Number</label>
+                                    <label for="mpesa-number" class="form-label small">Namba ya M-Pesa</label>
                                     <input type="text" class="form-control" id="mpesa-number" placeholder="0757123456">
                                 </div>
                                 <div class="col-md-4 mb-2">
-                                    <label for="tigo-number" class="form-label small">Tigo Pesa Number</label>
+                                    <label for="tigo-number" class="form-label small">Namba ya Tigo Pesa</label>
                                     <input type="text" class="form-control" id="tigo-number" placeholder="0712123456">
                                 </div>
                                 <div class="col-md-4 mb-2">
-                                    <label for="airtel-number" class="form-label small">Airtel Money Number</label>
+                                    <label for="airtel-number" class="form-label small">Namba ya Airtel Money</label>
                                     <input type="text" class="form-control" id="airtel-number" placeholder="0682123456">
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Bank Account Information</label>
+                            <label class="form-label">Taarifa za Akaunti ya Benki</label>
                             <div class="row">
                                 <div class="col-md-6 mb-2">
-                                    <label for="bank-name" class="form-label small">Bank Name</label>
+                                    <label for="bank-name" class="form-label small">Jina la Benki</label>
                                     <input type="text" class="form-control" id="bank-name" placeholder="CRDB Bank">
                                 </div>
                                 <div class="col-md-6 mb-2">
-                                    <label for="account-number" class="form-label small">Account Number</label>
+                                    <label for="account-number" class="form-label small">Namba ya Akaunti</label>
                                     <input type="text" class="form-control" id="account-number" placeholder="015D12345678">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 mb-2">
-                                    <label for="account-name" class="form-label small">Account Name</label>
+                                    <label for="account-name" class="form-label small">Jina la Akaunti</label>
                                     <input type="text" class="form-control" id="account-name" placeholder="CASFETA TAYOMI">
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Lipa Number</label>
+                            <label class="form-label">Namba ya Lipa</label>
                             <input type="text" class="form-control" id="lipa-number" placeholder="123456">
                         </div>
                         <div class="mb-3">
-                            <label for="payment-instructions" class="form-label">Payment Instructions</label>
-                            <textarea class="form-control" id="payment-instructions" rows="3" placeholder="Additional instructions for members..."></textarea>
+                            <label for="payment-instructions" class="form-label">Maagizo ya Malipo</label>
+                            <textarea class="form-control" id="payment-instructions" rows="3" placeholder="Maagizo ya ziada kwa wanachama..."></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-payments-btn">Update Payment Methods</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Funga</button>
+                    <button type="button" class="btn btn-primary" id="save-payments-btn">Sasisha Mbinu za Malipo</button>
                 </div>
             </div>
         </div>
@@ -612,52 +660,52 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="memberServicesModalLabel">My Church Services</h5>
+                    <h5 class="modal-title" id="memberServicesModalLabel">Huduma Zangu Kanisani</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="member-services-form">
                         <div class="mb-3">
-                            <label class="form-label">Select Services You Participate In:</label>
+                            <label class="form-label">Chagua Huduma Unazoshiriki:</label>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="service-prayer">
-                                <label class="form-check-label" for="service-prayer">Prayer Team</label>
+                                <label class="form-check-label" for="service-prayer">Timu ya Maombi</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="service-choir">
-                                <label class="form-check-label" for="service-choir">Choir</label>
+                                <label class="form-check-label" for="service-choir">Kwaya</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="service-usher">
-                                <label class="form-check-label" for="service-usher">Ushering</label>
+                                <label class="form-check-label" for="service-usher">Ukaribisho</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="service-teaching">
-                                <label class="form-check-label" for="service-teaching">Teaching/Sabbath School</label>
+                                <label class="form-check-label" for="service-teaching">Kufundisha/Shule ya Sabato</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="service-outreach">
-                                <label class="form-check-label" for="service-outreach">Community Outreach</label>
+                                <label class="form-check-label" for="service-outreach">Uenezaji wa Injili</label>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="service-skills" class="form-label">Your Skills/Talents</label>
-                            <textarea class="form-control" id="service-skills" rows="3" placeholder="List any skills or talents you can contribute..."></textarea>
+                            <label for="service-skills" class="form-label">Ujuzi/Talanta Zako</label>
+                            <textarea class="form-control" id="service-skills" rows="3" placeholder="Orodhesha ujuzi wowote au talanta unazoweza kuchangia..."></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="service-availability" class="form-label">Availability</label>
+                            <label for="service-availability" class="form-label">Upatikanaji</label>
                             <select class="form-select" id="service-availability">
-                                <option value="weekends">Weekends Only</option>
-                                <option value="weekdays">Weekdays</option>
-                                <option value="flexible">Flexible</option>
-                                <option value="specific">Specific Times</option>
+                                <option value="weekends">Wikendi Pekee</option>
+                                <option value="weekdays">Siku za Kazi</option>
+                                <option value="flexible">Kubadilika</option>
+                                <option value="specific">Nyakati Maalum</option>
                             </select>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-services-btn">Save Services</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Funga</button>
+                    <button type="button" class="btn btn-primary" id="save-services-btn">Hifadhi Huduma</button>
                 </div>
             </div>
         </div>
@@ -668,58 +716,58 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="familyEventsModalLabel">Create Family Event</h5>
+                    <h5 class="modal-title" id="familyEventsModalLabel">Unda Tukio la Familia</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="family-events-form">
                         <div class="mb-3">
-                            <label for="event-title" class="form-label">Event Title</label>
+                            <label for="event-title" class="form-label">Kichwa cha Tukio</label>
                             <input type="text" class="form-control" id="event-title" required>
                         </div>
                         <div class="mb-3">
-                            <label for="event-description" class="form-label">Description</label>
+                            <label for="event-description" class="form-label">Maelezo</label>
                             <textarea class="form-control" id="event-description" rows="4" required></textarea>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="event-date" class="form-label">Event Date</label>
+                                <label for="event-date" class="form-label">Tarehe ya Tukio</label>
                                 <input type="date" class="form-control" id="event-date" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="event-time" class="form-label">Event Time</label>
+                                <label for="event-time" class="form-label">Muda wa Tukio</label>
                                 <input type="time" class="form-control" id="event-time" required>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="event-location" class="form-label">Location</label>
+                            <label for="event-location" class="form-label">Mahali</label>
                             <input type="text" class="form-control" id="event-location" required>
                         </div>
                         <div class="mb-3">
-                            <label for="event-category" class="form-label">Category</label>
+                            <label for="event-category" class="form-label">Kategoria</label>
                             <select class="form-select" id="event-category">
-                                <option value="spiritual">Spiritual</option>
-                                <option value="family">Family</option>
-                                <option value="discipline">Discipline</option>
-                                <option value="social">Social</option>
-                                <option value="educational">Educational</option>
+                                <option value="spiritual">Kiroho</option>
+                                <option value="family">Familia</option>
+                                <option value="discipline">Nidhamu</option>
+                                <option value="social">Kijamii</option>
+                                <option value="educational">Elimu</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="event-audience" class="form-label">Target Audience</label>
+                            <label for="event-audience" class="form-label">Lengo la Hadhira</label>
                             <select class="form-select" id="event-audience">
-                                <option value="all">All Members</option>
-                                <option value="men">Men Only</option>
-                                <option value="women">Women Only</option>
-                                <option value="youth">Youth</option>
-                                <option value="couples">Couples</option>
+                                <option value="all">Wanachama Wote</option>
+                                <option value="men">Wanaume Pekee</option>
+                                <option value="women">Wanawake Pekee</option>
+                                <option value="youth">Vijana</option>
+                                <option value="couples">Wenye Ndoa</option>
                             </select>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-event-btn">Create Event</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Funga</button>
+                    <button type="button" class="btn btn-primary" id="save-event-btn">Unda Tukio</button>
                 </div>
             </div>
         </div>
@@ -730,7 +778,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="approvalsModalLabel">Account Requests</h5>
+                    <h5 class="modal-title" id="approvalsModalLabel">Maombi ya Akaunti</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -738,11 +786,11 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Phone</th>
-                                    <th>Email</th>
-                                    <th>Request Date</th>
-                                    <th>Actions</th>
+                                    <th>Jina</th>
+                                    <th>Simu</th>
+                                    <th>Barua Pepe</th>
+                                    <th>Tarehe ya Ombi</th>
+                                    <th>Vitendo</th>
                                 </tr>
                             </thead>
                             <tbody id="pending-approvals-table">
@@ -759,7 +807,7 @@
     <script>
         // Supabase Configuration
         const SUPABASE_URL = 'https://uyxlwlgxlhoffrbxobxa.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_jj-07F9GdzK_8zOfY_hdwg_5c8L3ZEy';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5eGx3bGd4bGhvZmZyYm94YnhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI2OTAxMTgsImV4cCI6MjA3ODI2NjExOH0.DuO3pa9qT3FV6hUGVqN8f8yPEteedAHvzCGwBXmkZ7c';
         
         // Initialize Supabase client
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -775,125 +823,206 @@
             mpesa: '0757123456',
             tigo: '0712123456',
             airtel: '0682123456',
-            bankName: 'CRDB Bank',
+            bankName: 'Benki ya CRDB',
             accountNumber: '015D12345678',
             accountName: 'CASFETA TAYOMI',
             lipaNumber: '123456',
-            instructions: 'Please include your name as reference when making payments.'
+            instructions: 'Tafadhali weka jina lako kama kumbukumbu unapofanya malipo.'
         };
 
-        // Sample users data (for demo - will be replaced with Supabase data)
+        // Sample users data - SASA INA MAJINA YA KISWAHILI
         const users = [
-            { id: '1', username: 'chairperson', password: 'password123', role: 'chairperson', name: 'Church Chairperson', lastLogin: '2023-11-18' },
-            { id: '2', username: 'secretary', password: 'password123', role: 'secretary', name: 'Church Secretary', lastLogin: '2023-11-17' },
-            { id: '3', username: 'treasurer', password: 'password123', role: 'treasurer', name: 'Church Treasurer', lastLogin: '2023-11-16' },
-            { id: '4', username: 'discipline-men', password: 'password123', role: 'discipline-men', name: 'Discipline Men Leader', lastLogin: '2023-11-15' },
-            { id: '5', username: 'discipline-women', password: 'password123', role: 'discipline-women', name: 'Discipline Women Leader', lastLogin: '2023-11-14' },
-            { id: '6', username: 'member', password: 'password123', role: 'member', name: 'Church Member', lastLogin: '2023-11-13' }
+            { 
+                id: '1', 
+                username: 'mwenyekiti', 
+                password: 'nenosiri123', 
+                role: 'chairperson', 
+                name: 'Mwenyekiti wa Kanisa', 
+                lastLogin: '2023-11-18',
+                first_name: 'Mwenyekiti',
+                last_name: 'wa Kanisa'
+            },
+            { 
+                id: '2', 
+                username: 'katibu', 
+                password: 'nenosiri123', 
+                role: 'secretary', 
+                name: 'Katibu wa Kanisa', 
+                lastLogin: '2023-11-17',
+                first_name: 'Katibu',
+                last_name: 'wa Kanisa'
+            },
+            { 
+                id: '3', 
+                username: 'mhazina', 
+                password: 'nenosiri123', 
+                role: 'treasurer', 
+                name: 'Mhazina wa Kanisa', 
+                lastLogin: '2023-11-16',
+                first_name: 'Mhazina',
+                last_name: 'wa Kanisa'
+            },
+            { 
+                id: '4', 
+                username: 'makada', 
+                password: 'nenosiri123', 
+                role: 'makada', 
+                name: 'Makada - Kamati ya Nidhamu', 
+                lastLogin: '2023-11-15',
+                first_name: 'Makada',
+                last_name: 'Kamati ya Nidhamu'
+            },
+            { 
+                id: '5', 
+                username: 'bakada', 
+                password: 'nenosiri123', 
+                role: 'bakada', 
+                name: 'Bakada - Kamati ya Nidhamu', 
+                lastLogin: '2023-11-14',
+                first_name: 'Bakada',
+                last_name: 'Kamati ya Nidhamu'
+            },
+            { 
+                id: '6', 
+                username: 'mwanachama', 
+                password: 'nenosiri123', 
+                role: 'member', 
+                name: 'Mwanachama wa Kanisa', 
+                lastLogin: '2023-11-13',
+                first_name: 'Mwanachama',
+                last_name: 'wa Kanisa'
+            }
         ];
 
-        // Menu structure based on roles
+        // Menu structure based on roles - SASA INA MAJUKUMU HALISI
         const menuStructure = {
             'chairperson': [
-                { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'members', name: 'Members', icon: 'fas fa-users' },
-                { id: 'approvals', name: 'Account Requests', icon: 'fas fa-user-plus' },
-                { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+                { id: 'dashboard', name: 'Dashibodi', icon: 'fas fa-tachometer-alt' },
+                { id: 'members', name: 'Wanachama', icon: 'fas fa-users' },
+                { id: 'approvals', name: 'Maombi ya Akaunti', icon: 'fas fa-user-plus' },
+                { id: 'announcements', name: 'Matangazo', icon: 'fas fa-bullhorn' },
+                { id: 'photos', name: 'Picha za Kanisa', icon: 'fas fa-images' },
+                { id: 'reports', name: 'Ripoti', icon: 'fas fa-chart-bar' }
             ],
             'secretary': [
-                { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'members', name: 'Members', icon: 'fas fa-users' },
-                { id: 'approvals', name: 'Account Requests', icon: 'fas fa-user-plus' },
-                { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+                { id: 'dashboard', name: 'Dashibodi', icon: 'fas fa-tachometer-alt' },
+                { id: 'members', name: 'Wanachama', icon: 'fas fa-users' },
+                { id: 'approvals', name: 'Maombi ya Akaunti', icon: 'fas fa-user-plus' },
+                { id: 'announcements', name: 'Matangazo', icon: 'fas fa-bullhorn' },
+                { id: 'photos', name: 'Picha za Kanisa', icon: 'fas fa-images' },
+                { id: 'events', name: 'Matukio', icon: 'fas fa-calendar' }
             ],
             'treasurer': [
-                { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'contributions', name: 'Contributions', icon: 'fas fa-hand-holding-usd' },
-                { id: 'promote-contributions', name: 'Promote Contributions', icon: 'fas fa-bullhorn' },
-                { id: 'payment-methods', name: 'Payment Methods', icon: 'fas fa-money-check' },
-                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+                { id: 'dashboard', name: 'Dashibodi', icon: 'fas fa-tachometer-alt' },
+                { id: 'contributions', name: 'Michango', icon: 'fas fa-hand-holding-usd' },
+                { id: 'promote-contributions', name: 'Kuhamasisha Michango', icon: 'fas fa-bullhorn' },
+                { id: 'payment-methods', name: 'Mbinu za Malipo', icon: 'fas fa-money-check' },
+                { id: 'photos', name: 'Picha za Kanisa', icon: 'fas fa-images' },
+                { id: 'financial-reports', name: 'Ripoti za Kifedha', icon: 'fas fa-chart-line' }
             ],
-            'discipline-men': [
-                { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'family-events', name: 'Family Events', icon: 'fas fa-calendar' },
-                { id: 'spiritual-matters', name: 'Spiritual Matters', icon: 'fas fa-pray' },
-                { id: 'discipline-cases', name: 'Discipline Cases', icon: 'fas fa-gavel' },
-                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+            'makada': [
+                { id: 'dashboard', name: 'Dashibodi', icon: 'fas fa-tachometer-alt' },
+                { id: 'family-events', name: 'Matukio ya Familia', icon: 'fas fa-calendar' },
+                { id: 'spiritual-matters', name: 'Mambo ya Kiroho', icon: 'fas fa-pray' },
+                { id: 'discipline-cases', name: 'Kesi za Nidhamu', icon: 'fas fa-gavel' },
+                { id: 'photos', name: 'Picha za Kanisa', icon: 'fas fa-images' },
+                { id: 'counseling', name: 'Usaidizi wa Kiroho', icon: 'fas fa-hands-helping' }
             ],
-            'discipline-women': [
-                { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'family-events', name: 'Family Events', icon: 'fas fa-calendar' },
-                { id: 'spiritual-matters', name: 'Spiritual Matters', icon: 'fas fa-pray' },
-                { id: 'discipline-cases', name: 'Discipline Cases', icon: 'fas fa-gavel' },
-                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+            'bakada': [
+                { id: 'dashboard', name: 'Dashibodi', icon: 'fas fa-tachometer-alt' },
+                { id: 'family-events', name: 'Matukio ya Familia', icon: 'fas fa-calendar' },
+                { id: 'spiritual-matters', name: 'Mambo ya Kiroho', icon: 'fas fa-pray' },
+                { id: 'discipline-cases', name: 'Kesi za Nidhamu', icon: 'fas fa-gavel' },
+                { id: 'photos', name: 'Picha za Kanisa', icon: 'fas fa-images' },
+                { id: 'women-ministry', name: 'Huduma ya Wanawake', icon: 'fas fa-female' }
             ],
             'member': [
-                { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'contributions', name: 'My Contributions', icon: 'fas fa-hand-holding-usd' },
-                { id: 'services', name: 'My Services', icon: 'fas fa-hands-helping' },
-                { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' }
+                { id: 'dashboard', name: 'Dashibodi', icon: 'fas fa-tachometer-alt' },
+                { id: 'contributions', name: 'Michango Yangu', icon: 'fas fa-hand-holding-usd' },
+                { id: 'services', name: 'Huduma Zangu', icon: 'fas fa-hands-helping' },
+                { id: 'announcements', name: 'Matangazo', icon: 'fas fa-bullhorn' },
+                { id: 'photos', name: 'Picha za Kanisa', icon: 'fas fa-images' },
+                { id: 'events', name: 'Matukio', icon: 'fas fa-calendar' }
             ]
         };
 
-        // Role display names
+        // Role display names - SASA INA MAJINA YA KISWAHILI
         const roleDisplayNames = {
-            'chairperson': 'Chairperson',
-            'secretary': 'Secretary',
-            'treasurer': 'Treasurer',
-            'discipline-men': 'Discipline Committee (Men)',
-            'discipline-women': 'Discipline Committee (Women)',
-            'member': 'Member'
+            'chairperson': 'Mwenyekiti',
+            'secretary': 'Katibu',
+            'treasurer': 'Mhazina',
+            'makada': 'Makada (Kamati ya Nidhamu)',
+            'bakada': 'Bakada (Kamati ya Nidhamu)',
+            'member': 'Mwanachama'
         };
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Inaanzisha programu...');
             initializeEventListeners();
             loadSampleData();
             loadDataFromSupabase();
+            
+            // Check if user is already logged in (from session storage)
+            const savedUser = sessionStorage.getItem('currentUser');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    showDashboard();
+                } catch (e) {
+                    console.error('Hitilafu ya kusoma mtumiaji aliyehifadhiwa:', e);
+                    sessionStorage.removeItem('currentUser');
+                }
+            }
         });
 
-        // Load data from Supabase - FIXED FOR YOUR SCHEMA
+        // Load data from Supabase
         async function loadDataFromSupabase() {
             try {
-                // Load photos from Supabase - FIXED COLUMN NAMES
+                console.log('Inapakia data kutoka Supabase...');
+                
+                // Load photos from Supabase
                 const { data: photos, error: photosError } = await supabaseClient
                     .from('church_photos')
                     .select('*')
                     .order('created_at', { ascending: false });
 
-                if (!photosError && photos) {
+                if (photosError) {
+                    console.error('Hitilafu ya kupakia picha:', photosError);
+                } else if (photos) {
                     churchPhotos = photos.map(photo => ({
                         id: photo.id,
                         title: photo.title,
                         description: photo.description,
-                        event: photo.event_type, // CHANGED: event_name -> event_type
+                        event: photo.event_type,
                         url: photo.photo_url,
                         uploadedBy: photo.uploaded_by,
                         date: new Date(photo.created_at).toLocaleDateString()
                     }));
+                    console.log('Picha zilizopakuliwa:', churchPhotos.length);
                 }
 
-                // Load announcements from Supabase - FIXED COLUMN NAMES
+                // Load announcements from Supabase
                 const { data: announcementsData, error: announcementsError } = await supabaseClient
                     .from('announcements')
                     .select('*')
                     .order('created_at', { ascending: false });
 
-                if (!announcementsError && announcementsData) {
+                if (announcementsError) {
+                    console.error('Hitilafu ya kupakia matangazo:', announcementsError);
+                } else if (announcementsData) {
                     announcements = announcementsData.map(announcement => ({
                         id: announcement.id,
                         title: announcement.title,
                         content: announcement.content,
-                        type: announcement.announcement_type, // CHANGED: type -> announcement_type
-                        author: announcement.author_id, // CHANGED: author -> author_id
+                        type: announcement.announcement_type,
+                        author: announcement.author_id,
                         date: new Date(announcement.created_at).toLocaleDateString(),
                         shared: announcement.is_shared,
                         target: announcement.target_amount,
                         deadline: announcement.deadline
                     }));
+                    console.log('Matangazo yaliyopakuliwa:', announcements.length);
                 }
 
                 // Load family events from Supabase
@@ -902,7 +1031,9 @@
                     .select('*')
                     .order('created_at', { ascending: false });
 
-                if (!eventsError && eventsData) {
+                if (eventsError) {
+                    console.error('Hitilafu ya kupakia matukio:', eventsError);
+                } else if (eventsData) {
                     familyEvents = eventsData.map(event => ({
                         id: event.id,
                         title: event.title,
@@ -915,19 +1046,24 @@
                         createdBy: event.created_by,
                         createdAt: new Date(event.created_at).toLocaleDateString()
                     }));
+                    console.log('Matukio yaliyopakuliwa:', familyEvents.length);
                 }
 
-                console.log('Loaded data:', { photos: churchPhotos.length, announcements: announcements.length, events: familyEvents.length });
-
             } catch (error) {
-                console.error('Error loading data from Supabase:', error);
+                console.error('Hitilafu ya kupakia data kutoka Supabase:', error);
             }
         }
 
         // Initialize event listeners
         function initializeEventListeners() {
+            console.log('Inaanzisha vitendo vya matukio...');
+            
             // Login form handler
-            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleLogin();
+            });
             
             // Register link
             document.getElementById('register-link').addEventListener('click', function(e) {
@@ -980,8 +1116,8 @@
             notifications = [
                 {
                     id: 1,
-                    title: 'Welcome to Church System',
-                    message: 'Welcome to CASFETA TAYOMI Church Management System.',
+                    title: 'Karibu kwenye Mfumo wa Kanisa',
+                    message: 'Karibu kwenye Mfumo wa Usimamizi wa Kanisa la CASFETA TAYOMI.',
                     type: 'info',
                     timestamp: new Date('2023-11-18 10:30:00'),
                     read: false
@@ -992,32 +1128,64 @@
         }
 
         // Handle login form submission
-        function handleLogin(e) {
-            e.preventDefault();
+        function handleLogin() {
+            console.log('Imekuwa jaribio la kuingia...');
             
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            // Find user in the users array
-            const user = users.find(u => u.username === username && u.password === password);
+            // Show loading state
+            document.getElementById('login-text').classList.add('d-none');
+            document.getElementById('login-spinner').classList.remove('d-none');
             
-            if (user) {
-                // Login successful
-                currentUser = user;
+            // Simulate loading delay
+            setTimeout(() => {
+                // Find user in the users array
+                const user = users.find(u => u.username === username && u.password === password);
                 
-                // Show dashboard and hide login
-                document.getElementById('login-page').classList.add('d-none');
+                if (user) {
+                    console.log('Kuingia kumefanikiwa kwa:', username);
+                    // Login successful
+                    currentUser = user;
+                    
+                    // Save to session storage
+                    sessionStorage.setItem('currentUser', JSON.stringify(user));
+                    
+                    showDashboard();
+                } else {
+                    // Login failed
+                    console.log('Kuingia hakukufanikiwa kwa:', username);
+                    alert('Jina la mtumiaji au nenosiri batili! Tafadhali tumia hati za kujiandikisha zilizopendekezwa.');
+                }
+                
+                // Reset loading state
+                document.getElementById('login-text').classList.remove('d-none');
+                document.getElementById('login-spinner').classList.add('d-none');
+                
+            }, 1000);
+        }
+
+        // Show dashboard function
+        function showDashboard() {
+            console.log('Inaonyesha dashibodi kwa:', currentUser.name);
+            
+            // Show loading spinner first
+            document.getElementById('login-page').classList.add('d-none');
+            document.getElementById('loading-spinner').style.display = 'block';
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                document.getElementById('loading-spinner').style.display = 'none';
                 document.getElementById('dashboard-container').classList.remove('d-none');
                 
                 // Initialize dashboard based on role
-                initializeDashboard(user.role);
+                initializeDashboard(currentUser.role);
                 
                 // Update user name in header
-                document.getElementById('user-name').textContent = user.name;
-            } else {
-                // Login failed
-                alert('Invalid username or password!');
-            }
+                document.getElementById('user-name').textContent = currentUser.name;
+                
+                console.log('Dashibodi imepakuliwa kikamilifu');
+            }, 1500);
         }
 
         // Handle registration
@@ -1029,7 +1197,7 @@
             const address = document.getElementById('reg-address').value;
             
             if (!firstName || !lastName || !phone) {
-                alert('Please fill all required fields!');
+                alert('Tafadhali jaza sehemu zote zinazohitajika!');
                 return;
             }
             
@@ -1051,8 +1219,8 @@
                 // Add notification for chairperson and secretary
                 addNotification({
                     id: Date.now(),
-                    title: 'New Account Request',
-                    message: `${firstName} ${lastName} has requested a new account. Please review and approve.`,
+                    title: 'Ombi Jipya la Akaunti',
+                    message: `${firstName} ${lastName} ameomba akaunti mpya. Tafadhali pitia na idhinisha.`,
                     type: 'info',
                     timestamp: new Date(),
                     read: false
@@ -1062,20 +1230,22 @@
                 const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
                 registerModal.hide();
                 
-                alert('Your request has been submitted successfully! It will be reviewed by the church committee.');
+                alert('Ombi lako limewasilishwa kikamilifu! Litasomwa na kamati ya kanisa.');
                 
                 // Reset form
                 document.getElementById('register-form').reset();
 
             } catch (error) {
-                console.error('Error saving registration:', error);
-                alert('Error submitting request. Please try again.');
+                console.error('Hitilafu ya kuhifadhi usajili:', error);
+                alert('Hitilafu katika kuwasilisha ombi. Tafadhali jaribu tena.');
             }
         }
 
         // Handle logout
         function handleLogout() {
+            console.log('Inatoka nje...');
             currentUser = null;
+            sessionStorage.removeItem('currentUser');
             document.getElementById('dashboard-container').classList.add('d-none');
             document.getElementById('login-page').classList.remove('d-none');
             document.getElementById('login-form').reset();
@@ -1089,13 +1259,13 @@
             
             // Validate current password
             if (currentPassword !== currentUser.password) {
-                alert('Current password is incorrect!');
+                alert('Nenosiri la sasa si sahihi!');
                 return;
             }
             
             // Check if passwords match
             if (newPassword !== confirmPassword) {
-                alert('New password and confirmation do not match!');
+                alert('Nenosiri jipya na uthibitisho havilingani!');
                 return;
             }
             
@@ -1106,7 +1276,7 @@
             const changePasswordModal = bootstrap.Modal.getInstance(document.getElementById('changePasswordModal'));
             changePasswordModal.hide();
             
-            alert('Password changed successfully!');
+            alert('Nenosiri limebadilishwa kikamilifu!');
         }
 
         // Handle add member
@@ -1119,7 +1289,7 @@
             const address = document.getElementById('address').value;
             
             if (!firstName || !lastName || !phone || !role) {
-                alert('Please fill all required fields!');
+                alert('Tafadhali jaza sehemu zote zinazohitajika!');
                 return;
             }
             
@@ -1136,7 +1306,7 @@
                             role: role,
                             address: address,
                             username: lastName.toLowerCase(),
-                            password: 'password123',
+                            password: 'nenosiri123',
                             is_active: true
                         }
                     ]);
@@ -1147,7 +1317,7 @@
                 const newUser = {
                     id: data[0].id,
                     username: lastName.toLowerCase(),
-                    password: 'password123',
+                    password: 'nenosiri123',
                     role: role,
                     name: `${firstName} ${lastName}`,
                     lastLogin: null
@@ -1158,8 +1328,8 @@
                 // Add notification
                 addNotification({
                     id: Date.now(),
-                    title: 'New Member Added',
-                    message: `${firstName} ${lastName} has been added to the system as ${roleDisplayNames[role]}.`,
+                    title: 'Mwanachama Mpya Ameongezwa',
+                    message: `${firstName} ${lastName} ameongezwa kwenye mfumo kama ${roleDisplayNames[role]}.`,
                     type: 'success',
                     timestamp: new Date(),
                     read: false
@@ -1169,18 +1339,18 @@
                 const addMemberModal = bootstrap.Modal.getInstance(document.getElementById('addMemberModal'));
                 addMemberModal.hide();
                 
-                alert(`Member ${firstName} ${lastName} added successfully!`);
+                alert(`Mwanachama ${firstName} ${lastName} ameongezwa kikamilifu!`);
                 
                 // Reset form
                 document.getElementById('add-member-form').reset();
 
             } catch (error) {
-                console.error('Error adding member:', error);
-                alert('Error adding member. Please try again.');
+                console.error('Hitilafu ya kuongeza mwanachama:', error);
+                alert('Hitilafu katika kuongeza mwanachama. Tafadhali jaribu tena.');
             }
         }
 
-        // Handle upload photos - FIXED FOR YOUR SCHEMA
+        // Handle upload photos
         async function handleUploadPhotos() {
             const title = document.getElementById('photo-title').value;
             const description = document.getElementById('photo-description').value;
@@ -1188,24 +1358,24 @@
             const link = document.getElementById('photo-link').value;
             
             if (!title || !link) {
-                alert('Please enter title and photo URL!');
+                alert('Tafadhali ingiza kichwa na URL ya picha!');
                 return;
             }
             
             try {
-                // Get current user ID from sample users (in real app, this would come from auth)
-                const uploaderId = users.find(u => u.name === currentUser.name)?.id || '1';
+                // Get current user ID from sample users
+                const uploaderId = currentUser.id;
                 
-                // Save to Supabase - USING CORRECT COLUMN NAMES
+                // Save to Supabase
                 const { data, error } = await supabaseClient
                     .from('church_photos')
                     .insert([
                         {
                             title: title,
                             description: description,
-                            event_type: event, // CHANGED: event_name -> event_type
+                            event_type: event,
                             photo_url: link,
-                            uploaded_by: uploaderId, // CHANGED: uploaded_by is UUID now
+                            uploaded_by: uploaderId,
                             is_approved: true
                         }
                     ]);
@@ -1228,8 +1398,8 @@
                 // Add notification for all members
                 addNotification({
                     id: Date.now(),
-                    title: 'New Photos Uploaded',
-                    message: `New church photos "${title}" have been uploaded. Check the photos section.`,
+                    title: 'Picha Mpya Zimepakuliwa',
+                    message: `Picha mpya za kanisa "${title}" zimepakuliwa. Angalia sehemu ya picha.`,
                     type: 'info',
                     timestamp: new Date(),
                     read: false
@@ -1239,18 +1409,18 @@
                 const uploadPhotosModal = bootstrap.Modal.getInstance(document.getElementById('uploadPhotosModal'));
                 uploadPhotosModal.hide();
                 
-                alert('Photos uploaded successfully! All members can now view them.');
+                alert('Picha zimepakuliwa kikamilifu! Wanachama wote wanaweza kuziona sasa.');
                 
                 // Reset form
                 document.getElementById('upload-photos-form').reset();
 
             } catch (error) {
-                console.error('Error uploading photos:', error);
-                alert('Error uploading photos. Please try again.');
+                console.error('Hitilafu ya kupakia picha:', error);
+                alert('Hitilafu katika kupakia picha. Tafadhali jaribu tena.');
             }
         }
 
-        // Handle create announcement - FIXED FOR YOUR SCHEMA
+        // Handle create announcement
         async function handleCreateAnnouncement() {
             const title = document.getElementById('announcement-title').value;
             const content = document.getElementById('announcement-content').value;
@@ -1258,23 +1428,23 @@
             const share = document.getElementById('announcement-share').checked;
             
             if (!title || !content) {
-                alert('Please fill all required fields!');
+                alert('Tafadhali jaza sehemu zote zinazohitajika!');
                 return;
             }
             
             try {
                 // Get current user ID from sample users
-                const authorId = users.find(u => u.name === currentUser.name)?.id || '1';
+                const authorId = currentUser.id;
                 
-                // Save to Supabase - USING CORRECT COLUMN NAMES
+                // Save to Supabase
                 const { data, error } = await supabaseClient
                     .from('announcements')
                     .insert([
                         {
                             title: title,
                             content: content,
-                            announcement_type: type, // CHANGED: type -> announcement_type
-                            author_id: authorId, // CHANGED: author -> author_id
+                            announcement_type: type,
+                            author_id: authorId,
                             is_shared: share
                         }
                     ]);
@@ -1298,8 +1468,8 @@
                 if (share) {
                     addNotification({
                         id: Date.now(),
-                        title: 'New Announcement',
-                        message: `New announcement: ${title}`,
+                        title: 'Tangazo Jipya',
+                        message: `Tangazo jipya: ${title}`,
                         type: 'warning',
                         timestamp: new Date(),
                         read: false
@@ -1310,18 +1480,18 @@
                 const createAnnouncementModal = bootstrap.Modal.getInstance(document.getElementById('createAnnouncementModal'));
                 createAnnouncementModal.hide();
                 
-                alert('Announcement published successfully!');
+                alert('Tangazo limechapishwa kikamilifu!');
                 
                 // Reset form
                 document.getElementById('create-announcement-form').reset();
 
             } catch (error) {
-                console.error('Error creating announcement:', error);
-                alert('Error publishing announcement. Please try again.');
+                console.error('Hitilafu ya kuunda tangazo:', error);
+                alert('Hitilafu katika kuchapisha tangazo. Tafadhali jaribu tena.');
             }
         }
 
-        // Handle create contribution announcement - FIXED FOR YOUR SCHEMA
+        // Handle create contribution announcement
         async function handleCreateContributionAnnouncement() {
             const title = document.getElementById('contribution-title').value;
             const description = document.getElementById('contribution-description').value;
@@ -1329,23 +1499,23 @@
             const deadline = document.getElementById('contribution-deadline').value;
             
             if (!title || !description || !target || !deadline) {
-                alert('Please fill all required fields!');
+                alert('Tafadhali jaza sehemu zote zinazohitajika!');
                 return;
             }
             
             try {
                 // Get current user ID from sample users
-                const authorId = users.find(u => u.name === currentUser.name)?.id || '1';
+                const authorId = currentUser.id;
                 
-                // Save to Supabase - USING CORRECT COLUMN NAMES
+                // Save to Supabase
                 const { data, error } = await supabaseClient
                     .from('announcements')
                     .insert([
                         {
                             title: title,
                             content: description,
-                            announcement_type: 'contribution', // CHANGED: type -> announcement_type
-                            author_id: authorId, // CHANGED: author -> author_id
+                            announcement_type: 'contribution',
+                            author_id: authorId,
                             is_shared: true,
                             target_amount: target,
                             deadline: deadline
@@ -1370,8 +1540,8 @@
                 // Add notification for all members
                 addNotification({
                     id: Date.now(),
-                    title: 'New Contribution Announcement',
-                    message: `New contribution: ${title}. Target: ${target} TZS`,
+                    title: 'Tangazo Jipya la Mchango',
+                    message: `Mchango mpya: ${title}. Lengo: ${target} TZS`,
                     type: 'warning',
                     timestamp: new Date(),
                     read: false
@@ -1381,14 +1551,14 @@
                 const createContributionModal = bootstrap.Modal.getInstance(document.getElementById('createContributionModal'));
                 createContributionModal.hide();
                 
-                alert('Contribution announcement published successfully!');
+                alert('Tangazo la mchango limechapishwa kikamilifu!');
                 
                 // Reset form
                 document.getElementById('create-contribution-form').reset();
 
             } catch (error) {
-                console.error('Error creating contribution announcement:', error);
-                alert('Error publishing contribution announcement. Please try again.');
+                console.error('Hitilafu ya kuunda tangazo la mchango:', error);
+                alert('Hitilafu katika kuchapisha tangazo la mchango. Tafadhali jaribu tena.');
             }
         }
 
@@ -1407,8 +1577,8 @@
             // Add notification
             addNotification({
                 id: Date.now(),
-                title: 'Payment Methods Updated',
-                message: 'Church payment methods have been updated.',
+                title: 'Mbinu za Malipo Zimesasishwa',
+                message: 'Mbinu za malipo za kanisa zimesasishwa.',
                 type: 'info',
                 timestamp: new Date(),
                 read: false
@@ -1418,7 +1588,7 @@
             const updatePaymentsModal = bootstrap.Modal.getInstance(document.getElementById('updatePaymentsModal'));
             updatePaymentsModal.hide();
             
-            alert('Payment methods updated successfully!');
+            alert('Mbinu za malipo zimesasishwa kikamilifu!');
         }
 
         // Handle save services
@@ -1428,15 +1598,15 @@
             
             // Get selected services
             const selectedServices = [];
-            if (document.getElementById('service-prayer').checked) selectedServices.push('prayer-team');
-            if (document.getElementById('service-choir').checked) selectedServices.push('choir');
-            if (document.getElementById('service-usher').checked) selectedServices.push('ushering');
-            if (document.getElementById('service-teaching').checked) selectedServices.push('teaching');
-            if (document.getElementById('service-outreach').checked) selectedServices.push('outreach');
+            if (document.getElementById('service-prayer').checked) selectedServices.push('Timu ya Maombi');
+            if (document.getElementById('service-choir').checked) selectedServices.push('Kwaya');
+            if (document.getElementById('service-usher').checked) selectedServices.push('Ukaribisho');
+            if (document.getElementById('service-teaching').checked) selectedServices.push('Kufundisha/Shule ya Sabato');
+            if (document.getElementById('service-outreach').checked) selectedServices.push('Uenezaji wa Injili');
             
             try {
                 // Get current user ID
-                const memberId = users.find(u => u.name === currentUser.name)?.id || '1';
+                const memberId = currentUser.id;
                 
                 // Save each service to Supabase
                 for (const serviceType of selectedServices) {
@@ -1464,15 +1634,15 @@
                 const memberServicesModal = bootstrap.Modal.getInstance(document.getElementById('memberServicesModal'));
                 memberServicesModal.hide();
                 
-                alert('Your church services have been saved successfully!');
+                alert('Huduma zako za kanisa zimehifadhiwa kikamilifu!');
 
             } catch (error) {
-                console.error('Error saving services:', error);
-                alert('Error saving services. Please try again.');
+                console.error('Hitilafu ya kuhifadhi huduma:', error);
+                alert('Hitilafu katika kuhifadhi huduma. Tafadhali jaribu tena.');
             }
         }
 
-        // Handle create family event - FIXED FOR YOUR SCHEMA
+        // Handle create family event
         async function handleCreateFamilyEvent() {
             const title = document.getElementById('event-title').value;
             const description = document.getElementById('event-description').value;
@@ -1483,13 +1653,13 @@
             const audience = document.getElementById('event-audience').value;
             
             if (!title || !description || !date || !time || !location) {
-                alert('Please fill all required fields!');
+                alert('Tafadhali jaza sehemu zote zinazohitajika!');
                 return;
             }
             
             try {
                 // Get current user ID from sample users
-                const creatorId = users.find(u => u.name === currentUser.name)?.id || '1';
+                const creatorId = currentUser.id;
                 
                 // Save to Supabase
                 const { data, error } = await supabaseClient
@@ -1529,8 +1699,8 @@
                 // Add notification
                 addNotification({
                     id: Date.now(),
-                    title: 'New Family Event',
-                    message: `New ${category} event: ${title} on ${date} at ${location}`,
+                    title: 'Tukio Jipya la Familia',
+                    message: `Tukio jipya la ${category}: ${title} tarehe ${date} saa ${time} ${location}`,
                     type: 'info',
                     timestamp: new Date(),
                     read: false
@@ -1540,21 +1710,21 @@
                 const familyEventsModal = bootstrap.Modal.getInstance(document.getElementById('familyEventsModal'));
                 familyEventsModal.hide();
                 
-                alert('Family event created successfully!');
+                alert('Tukio la familia limeundwa kikamilifu!');
                 
                 // Reset form
                 document.getElementById('family-events-form').reset();
 
             } catch (error) {
-                console.error('Error creating family event:', error);
-                alert('Error creating family event. Please try again.');
+                console.error('Hitilafu ya kuunda tukio la familia:', error);
+                alert('Hitilafu katika kuunda tukio la familia. Tafadhali jaribu tena.');
             }
         }
 
         // Initialize dashboard based on user role
         function initializeDashboard(role) {
             // Set dashboard title and role display
-            document.getElementById('dashboard-title').textContent = `${roleDisplayNames[role]} Dashboard`;
+            document.getElementById('dashboard-title').textContent = `Dashibodi ya ${roleDisplayNames[role]}`;
             document.getElementById('role-display').textContent = roleDisplayNames[role];
             
             // Populate sidebar menu
@@ -1646,6 +1816,21 @@
                 case 'services':
                     content = getServicesContent(role);
                     break;
+                case 'reports':
+                    content = getReportsContent(role);
+                    break;
+                case 'events':
+                    content = getEventsContent(role);
+                    break;
+                case 'financial-reports':
+                    content = getFinancialReportsContent(role);
+                    break;
+                case 'counseling':
+                    content = getCounselingContent(role);
+                    break;
+                case 'women-ministry':
+                    content = getWomenMinistryContent(role);
+                    break;
                 default:
                     content = getDashboardContent(role);
             }
@@ -1668,28 +1853,50 @@
                             <div class="stat-card blue">
                                 <i class="fas fa-users fa-2x mb-2"></i>
                                 <h4>${users.length}</h4>
-                                <p>Total Members</p>
+                                <p>Jumla ya Wanachama</p>
                             </div>
                         </div>
                         <div class="col-md-3 mb-4">
                             <div class="stat-card green">
                                 <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
                                 <h4>2,450,000 TZS</h4>
-                                <p>Total Contributions</p>
+                                <p>Jumla ya Michango</p>
                             </div>
                         </div>
                         <div class="col-md-3 mb-4">
                             <div class="stat-card orange">
                                 <i class="fas fa-user-clock fa-2x mb-2"></i>
                                 <h4>${pendingApprovals.length}</h4>
-                                <p>Pending Requests</p>
+                                <p>Maombi Yanayosubiri</p>
                             </div>
                         </div>
                         <div class="col-md-3 mb-4">
                             <div class="stat-card red">
                                 <i class="fas fa-bell fa-2x mb-2"></i>
                                 <h4>${notifications.filter(n => !n.read).length}</h4>
-                                <p>New Notifications</p>
+                                <p>Arifa Mpya</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                additionalContent = `
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Karibu Mwenyekiti</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Karibu kwenye Mfumo wa Usimamizi wa Kanisa la CASFETA TAYOMI. Kama Mwenyekiti, unaweza:</p>
+                                    <ul>
+                                        <li>Kusimamia wanachama wote wa kanisa</li>
+                                        <li>Kuidhinisha maombi ya akaunti mpya</li>
+                                        <li>Kutengeneza na kusimamia matangazo</li>
+                                        <li>Kutazama ripoti za kanisa</li>
+                                        <li>Kusimamia shughuli zote za kanisa</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1701,21 +1908,21 @@
                             <div class="stat-card blue">
                                 <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
                                 <h4>75,000 TZS</h4>
-                                <p>My Contributions</p>
+                                <p>Michango Yangu</p>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="stat-card green">
                                 <i class="fas fa-hands-helping fa-2x mb-2"></i>
                                 <h4>${currentUser.services ? currentUser.services.length : 0}</h4>
-                                <p>My Services</p>
+                                <p>Huduma Zangu</p>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="stat-card orange">
                                 <i class="fas fa-bell fa-2x mb-2"></i>
                                 <h4>${notifications.filter(n => !n.read).length}</h4>
-                                <p>Notifications</p>
+                                <p>Arifa</p>
                             </div>
                         </div>
                     </div>
@@ -1726,20 +1933,79 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="mb-0">Welcome Member</h5>
+                                    <h5 class="mb-0">Karibu Mwanachama</h5>
                                 </div>
                                 <div class="card-body">
-                                    <p>Welcome to CASFETA TAYOMI Church Management System. Here you can:</p>
+                                    <p>Karibu kwenye Mfumo wa Usimamizi wa Kanisa la CASFETA TAYOMI. Hapa unaweza:</p>
                                     <ul>
-                                        <li>Make contributions and donations</li>
-                                        <li>Participate in church services</li>
-                                        <li>View church announcements</li>
-                                        <li>Access church photos and events</li>
-                                        <li>Connect with church leadership</li>
+                                        <li>Kufanya michango na sadaka</li>
+                                        <li>Kushiriki katika huduma za kanisa</li>
+                                        <li>Kutazama matangazo ya kanisa</li>
+                                        <li>Kupata picha za matukio ya kanisa</li>
+                                        <li>Kuwasiliana na viongozi wa kanisa</li>
                                     </ul>
                                     <button class="btn btn-primary" id="setup-services-btn">
-                                        <i class="fas fa-hands-helping"></i> Setup My Services
+                                        <i class="fas fa-hands-helping"></i> Weka Huduma Zangu
                                     </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (role === 'treasurer') {
+                stats = `
+                    <div class="row">
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card blue">
+                                <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
+                                <h4>2,450,000 TZS</h4>
+                                <p>Jumla ya Michango</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card green">
+                                <i class="fas fa-users fa-2x mb-2"></i>
+                                <h4>156</h4>
+                                <p>Wachangiaji Waliohai</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card orange">
+                                <i class="fas fa-bullhorn fa-2x mb-2"></i>
+                                <h4>5</h4>
+                                <p>Kampeni Zilizo Hai</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="stat-card red">
+                                <i class="fas fa-bell fa-2x mb-2"></i>
+                                <h4>${notifications.filter(n => !n.read).length}</h4>
+                                <p>Arifa Mpya</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                additionalContent = `
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Karibu Mhazina</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Kama Mhazina wa kanisa, sasa una uwezo wa kutazama picha zote za kanisa pamoja na majukumu yako ya kifedha.</p>
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle"></i> <strong>Kipengele Kipya:</strong> Sasa unaweza kutazama picha zote za kanisa zilizoshirikiwa katika sehemu ya "Picha za Kanisa".
+                                    </div>
+                                    <h6>Majukumu Yako:</h6>
+                                    <ul>
+                                        <li>Kusimamia michango na sadaka za kanisa</li>
+                                        <li>Kuhamasisha kampeni za kuwakusanya fedha</li>
+                                        <li>Kusasisha mbinu za malipo</li>
+                                        <li>Kutazama shughuli za kanisa kupitia picha</li>
+                                        <li>Kutengeneza ripoti za kifedha</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -1753,21 +2019,36 @@
                             <div class="stat-card blue">
                                 <i class="fas fa-users fa-2x mb-2"></i>
                                 <h4>${users.length}</h4>
-                                <p>Members</p>
+                                <p>Wanachama</p>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="stat-card green">
                                 <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
                                 <h4>2,450,000 TZS</h4>
-                                <p>Contributions</p>
+                                <p>Michango</p>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="stat-card orange">
                                 <i class="fas fa-bell fa-2x mb-2"></i>
                                 <h4>${notifications.filter(n => !n.read).length}</h4>
-                                <p>Notifications</p>
+                                <p>Arifa</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                additionalContent = `
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Karibu ${roleDisplayNames[role]}</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Karibu kwenye Mfumo wa Usimamizi wa Kanisa la CASFETA TAYOMI. Tumia menyu upande wa kushoto kufikia sehemu mbalimbali za mfumo kulingana na majukumu yako.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1785,7 +2066,7 @@
                 actionButton = `
                     <div class="mb-3">
                         <button class="btn btn-primary" id="add-member-btn">
-                            <i class="fas fa-plus"></i> Add Member
+                            <i class="fas fa-plus"></i> Ongeza Mwanachama
                         </button>
                     </div>
                 `;
@@ -1794,7 +2075,7 @@
             return `
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Church Members</h5>
+                        <h5 class="mb-0">Wanachama wa Kanisa</h5>
                     </div>
                     <div class="card-body">
                         ${actionButton}
@@ -1802,20 +2083,20 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Full Name</th>
-                                        <th>Phone Number</th>
-                                        <th>Role</th>
-                                        <th>Join Date</th>
-                                        ${(role === 'chairperson' || role === 'secretary') ? '<th>Actions</th>' : ''}
+                                        <th>Jina Kamili</th>
+                                        <th>Namba ya Simu</th>
+                                        <th>Wajibu</th>
+                                        <th>Tarehe ya Kujiunga</th>
+                                        ${(role === 'chairperson' || role === 'secretary') ? '<th>Vitendo</th>' : ''}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     ${users.map(user => `
                                         <tr>
                                             <td>${user.name}</td>
-                                            <td>${user.phone || 'N/A'}</td>
+                                            <td>${user.phone || 'Haipo'}</td>
                                             <td>${roleDisplayNames[user.role]}</td>
-                                            <td>${user.lastLogin || 'Recently'}</td>
+                                            <td>${user.lastLogin || 'Hivi karibuni'}</td>
                                             ${(role === 'chairperson' || role === 'secretary') ? 
                                                 `<td>
                                                     <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
@@ -1836,15 +2117,15 @@
             return `
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Account Requests</h5>
+                        <h5 class="mb-0">Maombi ya Akaunti</h5>
                         <button class="btn btn-primary" id="view-approvals-btn">
-                            <i class="fas fa-eye"></i> View Requests
+                            <i class="fas fa-eye"></i> Tazama Maombi
                         </button>
                     </div>
                     <div class="card-body">
-                        <p>Here you can review and approve all account requests from new members.</p>
+                        <p>Hapa unaweza kupitia na kuidhinisha maombi yote ya akaunti kutoka kwa wanachama wapya.</p>
                         <div class="alert alert-info">
-                            There are <strong>${pendingApprovals.length}</strong> account requests waiting for your approval.
+                            Kuna <strong>${pendingApprovals.length}</strong> maombi ya akaunti yanayosubiri idhini yako.
                         </div>
                     </div>
                 </div>
@@ -1859,7 +2140,7 @@
                 actionButton = `
                     <div class="mb-3">
                         <button class="btn btn-primary" id="create-announcement-btn">
-                            <i class="fas fa-plus"></i> Create Announcement
+                            <i class="fas fa-plus"></i> Tengeneza Tangazo
                         </button>
                     </div>
                 `;
@@ -1868,7 +2149,7 @@
             return `
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Church Announcements</h5>
+                        <h5 class="mb-0">Matangazo ya Kanisa</h5>
                     </div>
                     <div class="card-body">
                         ${actionButton}
@@ -1880,9 +2161,9 @@
                                         <small>${announcement.date}</small>
                                     </div>
                                     <p class="mb-1">${announcement.content || announcement.description}</p>
-                                    <small class="text-muted">Posted by: ${announcement.author}</small>
-                                    ${announcement.shared ? '<span class="badge bg-info ms-2">Shared</span>' : ''}
-                                    ${announcement.target ? `<div class="mt-2"><strong>Target:</strong> ${announcement.target} TZS | <strong>Deadline:</strong> ${announcement.deadline}</div>` : ''}
+                                    <small class="text-muted">Imeandikwa na: ${announcement.author}</small>
+                                    ${announcement.shared ? '<span class="badge bg-info ms-2">Imeshirikiwa</span>' : ''}
+                                    ${announcement.target ? `<div class="mt-2"><strong>Lengo:</strong> ${announcement.target} TZS | <strong>Mwisho wa Muda:</strong> ${announcement.deadline}</div>` : ''}
                                 </div>
                             `).join('')}
                         </div>
@@ -1891,16 +2172,16 @@
             `;
         }
 
-        // Get photos content - NOW WITH DOWNLOAD/VIEW BUTTONS
+        // Get photos content - SASA INA VITOMBO VYA KUPakua NA KUTAZAMA
         function getPhotosContent(role) {
             let actionButton = '';
             
-            // Treasurer can now see photos too!
+            // Mhazina na Katibu wanaweza kupakia picha
             if (role === 'secretary' || role === 'treasurer') {
                 actionButton = `
                     <div class="mb-3">
                         <button class="btn btn-primary" id="upload-photos-btn">
-                            <i class="fas fa-upload"></i> Upload Photos
+                            <i class="fas fa-upload"></i> Pakia Picha
                         </button>
                     </div>
                 `;
@@ -1909,7 +2190,7 @@
             return `
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Church Photos</h5>
+                        <h5 class="mb-0">Picha za Kanisa</h5>
                     </div>
                     <div class="card-body">
                         ${actionButton}
@@ -1920,8 +2201,8 @@
                                         <i class="fas fa-image"></i>
                                     </div>
                                     <div class="photo-info">
-                                        <div class="photo-title">${photo.title || 'Church Event'}</div>
-                                        <p class="photo-meta">${photo.description || 'Church activity photo'}</p>
+                                        <div class="photo-title">${photo.title || 'Tukio la Kanisa'}</div>
+                                        <p class="photo-meta">${photo.description || 'Picha ya shughuli za kanisa'}</p>
                                         <div class="photo-meta">
                                             <small><i class="fas fa-calendar"></i> ${photo.date}</small><br>
                                             <small><i class="fas fa-user"></i> ${photo.uploadedBy}</small>
@@ -1929,18 +2210,18 @@
                                     </div>
                                     <div class="photo-actions">
                                         <button class="btn btn-sm btn-primary view-photo" data-url="${photo.url}">
-                                            <i class="fas fa-eye"></i> View
+                                            <i class="fas fa-eye"></i> Tazama
                                         </button>
-                                        <button class="btn btn-sm btn-success download-photo" data-url="${photo.url}" data-title="${photo.title || 'church_photo'}">
-                                            <i class="fas fa-download"></i> Download
+                                        <button class="btn btn-sm btn-success download-photo" data-url="${photo.url}" data-title="${photo.title || 'picha_ya_kanisa'}">
+                                            <i class="fas fa-download"></i> Pakua
                                         </button>
                                     </div>
                                 </div>
                             `).join('') : `
                                 <div class="col-12 text-center py-5">
                                     <i class="fas fa-image fa-3x text-muted mb-3"></i>
-                                    <p class="text-muted">No photos uploaded yet</p>
-                                    ${(role === 'secretary' || role === 'treasurer') ? '<p>Use the "Upload Photos" button to add church photos</p>' : ''}
+                                    <p class="text-muted">Bado hakuna picha zilizopakuliwa</p>
+                                    ${(role === 'secretary' || role === 'treasurer') ? '<p>Tumia kitufe cha "Pakia Picha" kuongeza picha za kanisa</p>' : ''}
                                 </div>
                             `}
                         </div>
@@ -1955,35 +2236,35 @@
                 return `
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="mb-0">Make Contribution</h5>
+                            <h5 class="mb-0">Fanya Mchango</h5>
                         </div>
                         <div class="card-body">
                             <form id="contribution-form">
                                 <div class="mb-3">
-                                    <label for="contribution-type" class="form-label">Contribution Type</label>
+                                    <label for="contribution-type" class="form-label">Aina ya Mchango</label>
                                     <select class="form-select" id="contribution-type">
-                                        <option value="offering">Regular Offering</option>
-                                        <option value="tithes">Tithes</option>
-                                        <option value="building">Building Fund</option>
-                                        <option value="event">Special Event</option>
-                                        <option value="assistance">Assistance Fund</option>
+                                        <option value="offering">Sadaka ya Kawaida</option>
+                                        <option value="tithes">Zaka</option>
+                                        <option value="building">Mfuko wa Ujenzi</option>
+                                        <option value="event">Tukio Maalum</option>
+                                        <option value="assistance">Mfuko wa Msaada</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="amount" class="form-label">Amount (TZS)</label>
+                                    <label for="amount" class="form-label">Kiwango (TZS)</label>
                                     <input type="number" class="form-control" id="amount" min="1000" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="payment-method" class="form-label">Payment Method</label>
+                                    <label for="payment-method" class="form-label">Mbinu ya Malipo</label>
                                     <select class="form-select" id="payment-method">
                                         <option value="mpesa">M-Pesa</option>
                                         <option value="tigo">Tigo Pesa</option>
                                         <option value="airtel">Airtel Money</option>
-                                        <option value="bank">Bank</option>
-                                        <option value="cash">Cash</option>
+                                        <option value="bank">Benki</option>
+                                        <option value="cash">Fedha Taslimu</option>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit Contribution</button>
+                                <button type="submit" class="btn btn-primary">Wasilisha Mchango</button>
                             </form>
                         </div>
                     </div>
@@ -1992,27 +2273,27 @@
                 return `
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="mb-0">Contributions Overview</h5>
+                            <h5 class="mb-0">Mapitio ya Michango</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Member Name</th>
-                                            <th>Contribution Type</th>
-                                            <th>Amount (TZS)</th>
-                                            <th>Date</th>
-                                            <th>Status</th>
+                                            <th>Jina la Mwanachama</th>
+                                            <th>Aina ya Mchango</th>
+                                            <th>Kiwango (TZS)</th>
+                                            <th>Tarehe</th>
+                                            <th>Hali</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Church Member</td>
-                                            <td>Regular Offering</td>
+                                            <td>Mwanachama wa Kanisa</td>
+                                            <td>Sadaka ya Kawaida</td>
                                             <td>50,000</td>
                                             <td>15/11/2023</td>
-                                            <td><span class="badge bg-success">Received</span></td>
+                                            <td><span class="badge bg-success">Imepokelewa</span></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -2028,15 +2309,15 @@
             return `
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Promote Contributions</h5>
+                        <h5 class="mb-0">Kuhamasisha Michango</h5>
                         <button class="btn btn-primary" id="create-contribution-btn">
-                            <i class="fas fa-plus"></i> Create Contribution Announcement
+                            <i class="fas fa-plus"></i> Tengeneza Tangazo la Mchango
                         </button>
                     </div>
                     <div class="card-body">
-                        <p>Create announcements to promote church contributions and fundraising activities.</p>
+                        <p>Tengeneza matangazo ya kuhamasisha michango na shughuli za kuwakusanya fedha za kanisa.</p>
                         <div class="alert alert-info">
-                            Use this section to motivate members to contribute towards church projects and activities.
+                            Tumia sehemu hii kuwahamasisha wanachama kuchangia kuelekea miradi na shughuli za kanisa.
                         </div>
                     </div>
                 </div>
@@ -2048,31 +2329,31 @@
             return `
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Payment Methods</h5>
+                        <h5 class="mb-0">Mbinu za Malipo</h5>
                         <button class="btn btn-primary" id="update-payments-btn">
-                            <i class="fas fa-edit"></i> Update Payment Methods
+                            <i class="fas fa-edit"></i> Sasisha Mbinu za Malipo
                         </button>
                     </div>
                     <div class="card-body">
-                        <h6>Current Payment Methods:</h6>
+                        <h6>Mbinu za Sasa za Malipo:</h6>
                         <div class="row">
                             <div class="col-md-6">
-                                <h6>Mobile Money:</h6>
+                                <h6>Malipo ya M-Pesa:</h6>
                                 <p><strong>M-Pesa:</strong> ${paymentMethods.mpesa}</p>
                                 <p><strong>Tigo Pesa:</strong> ${paymentMethods.tigo}</p>
                                 <p><strong>Airtel Money:</strong> ${paymentMethods.airtel}</p>
-                                <p><strong>Lipa Number:</strong> ${paymentMethods.lipaNumber}</p>
+                                <p><strong>Namba ya Lipa:</strong> ${paymentMethods.lipaNumber}</p>
                             </div>
                             <div class="col-md-6">
-                                <h6>Bank Account:</h6>
-                                <p><strong>Bank:</strong> ${paymentMethods.bankName}</p>
-                                <p><strong>Account Number:</strong> ${paymentMethods.accountNumber}</p>
-                                <p><strong>Account Name:</strong> ${paymentMethods.accountName}</p>
+                                <h6>Akaunti ya Benki:</h6>
+                                <p><strong>Benki:</strong> ${paymentMethods.bankName}</p>
+                                <p><strong>Namba ya Akaunti:</strong> ${paymentMethods.accountNumber}</p>
+                                <p><strong>Jina la Akaunti:</strong> ${paymentMethods.accountName}</p>
                             </div>
                         </div>
                         ${paymentMethods.instructions ? `
                             <div class="mt-3">
-                                <h6>Instructions:</h6>
+                                <h6>Maagizo:</h6>
                                 <p>${paymentMethods.instructions}</p>
                             </div>
                         ` : ''}
@@ -2085,11 +2366,11 @@
         function getFamilyEventsContent(role) {
             let actionButton = '';
             
-            if (role === 'discipline-men' || role === 'discipline-women') {
+            if (role === 'makada' || role === 'bakada') {
                 actionButton = `
                     <div class="mb-3">
                         <button class="btn btn-primary" id="create-event-btn">
-                            <i class="fas fa-plus"></i> Create Family Event
+                            <i class="fas fa-plus"></i> Unda Tukio la Familia
                         </button>
                     </div>
                 `;
@@ -2098,7 +2379,7 @@
             return `
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Family Events</h5>
+                        <h5 class="mb-0">Matukio ya Familia</h5>
                     </div>
                     <div class="card-body">
                         ${actionButton}
@@ -2107,14 +2388,14 @@
                                 <div class="list-group-item">
                                     <div class="d-flex w-100 justify-content-between">
                                         <h5 class="mb-1">${event.title}</h5>
-                                        <small>${event.date} at ${event.time}</small>
+                                        <small>${event.date} saa ${event.time}</small>
                                     </div>
                                     <p class="mb-1">${event.description}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small class="text-muted">
-                                            <strong>Location:</strong> ${event.location} | 
-                                            <strong>Category:</strong> ${event.category} |
-                                            <strong>Audience:</strong> ${event.audience}
+                                            <strong>Mahali:</strong> ${event.location} | 
+                                            <strong>Kategoria:</strong> ${event.category} |
+                                            <strong>Hadhira:</strong> ${event.audience}
                                         </small>
                                         <span class="badge bg-info">${event.category}</span>
                                     </div>
@@ -2131,12 +2412,12 @@
             return `
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Spiritual Matters</h5>
+                        <h5 class="mb-0">Mambo ya Kiroho</h5>
                     </div>
                     <div class="card-body">
-                        <p>This section is for managing spiritual guidance, counseling, and religious matters.</p>
+                        <p>Sehemu hii ni ya kusimamia mwongozo wa kiroho, ushauri, na mambo ya kidini.</p>
                         <div class="alert alert-info">
-                            As ${roleDisplayNames[role]}, you can provide spiritual guidance and support to church members.
+                            Kama ${roleDisplayNames[role]}, unaweza kutoa mwongozo wa kiroho na msaada kwa wanachama wa kanisa.
                         </div>
                     </div>
                 </div>
@@ -2148,12 +2429,12 @@
             return `
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Discipline Cases</h5>
+                        <h5 class="mb-0">Kesi za Nidhamu</h5>
                     </div>
                     <div class="card-body">
-                        <p>This section is for managing church discipline matters and cases.</p>
+                        <p>Sehemu hii ni ya kusimamia mambo ya nidhamu kanisani na kesi.</p>
                         <div class="alert alert-info">
-                            As ${roleDisplayNames[role]}, you can handle discipline matters according to church guidelines.
+                            Kama ${roleDisplayNames[role]}, unaweza kushughulikia mambo ya nidhamu kulingana na miongozo ya kanisa.
                         </div>
                     </div>
                 </div>
@@ -2165,28 +2446,109 @@
             return `
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">My Church Services</h5>
+                        <h5 class="mb-0">Huduma Zangu Kanisani</h5>
                         <button class="btn btn-primary" id="edit-services-btn">
-                            <i class="fas fa-edit"></i> Edit Services
+                            <i class="fas fa-edit"></i> Hariri Huduma
                         </button>
                     </div>
                     <div class="card-body">
                         ${currentUser.services && currentUser.services.length > 0 ? `
-                            <h6>Services I Participate In:</h6>
+                            <h6>Huduma Ninazoshiriki:</h6>
                             <ul>
                                 ${currentUser.services.map(service => `<li>${service}</li>`).join('')}
                             </ul>
                             ${currentUser.skills ? `
-                                <h6 class="mt-3">My Skills/Talents:</h6>
+                                <h6 class="mt-3">Ujuzi/Talanta Zangu:</h6>
                                 <p>${currentUser.skills}</p>
                             ` : ''}
                             ${currentUser.availability ? `
-                                <h6 class="mt-3">My Availability:</h6>
+                                <h6 class="mt-3">Upatikanaji Wangu:</h6>
                                 <p>${currentUser.availability}</p>
                             ` : ''}
                         ` : `
-                            <p>You haven't set up your church services yet. Click the "Edit Services" button to get involved in church activities.</p>
+                            <p>Bado hujaweka huduma zako za kanisa. Bonyeza kitufe cha "Hariri Huduma" kujihusisha na shughuli za kanisa.</p>
                         `}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Additional content functions for new menu items
+        function getReportsContent(role) {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Ripoti za Kanisa</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Sehemu hii ina ripoti mbalimbali za kanisa kwa ajili ya Mwenyekiti.</p>
+                        <div class="alert alert-info">
+                            Ripoti za wanachama, michango, na shughuli zote za kanisa zinaonekana hapa.
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getEventsContent(role) {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Matukio ya Kanisa</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Sehemu hii inaorodhesha matukio yote ya kanisa kwa ajili ya Katibu.</p>
+                        <div class="alert alert-info">
+                            Unaweza kuona, kuongeza, na kusimamia matukio yote ya kanisa hapa.
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getFinancialReportsContent(role) {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Ripoti za Kifedha</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Sehemu hii ina ripoti za kifedha kwa ajili ya Mhazina.</p>
+                        <div class="alert alert-info">
+                            Ripoti za mapato, matumizi, na usawa wa fedha za kanisa zinaonekana hapa.
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getCounselingContent(role) {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Usaidizi wa Kiroho</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Sehemu hii ni ya kutoa usaidizi wa kiroho na ushauri kwa ajili ya Makada.</p>
+                        <div class="alert alert-info">
+                            Huduma ya ushauri wa kiroho na mwongozo kwa wanachama.
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getWomenMinistryContent(role) {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Huduma ya Wanawake</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Sehemu hii ni ya kusimamia huduma maalum kwa wanawake kwa ajili ya Bakada.</p>
+                        <div class="alert alert-info">
+                            Shughuli, mafunzo, na mikutano maalum kwa wanawake wa kanisa.
+                        </div>
                     </div>
                 </div>
             `;
@@ -2290,7 +2652,7 @@
             if (contributionForm) {
                 contributionForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    alert('Your contribution has been submitted successfully! Thank you for your support.');
+                    alert('Mchango wako umewasilishwa kikamilifu! Asante kwa msaada wako.');
                     this.reset();
                 });
             }
@@ -2316,7 +2678,7 @@
                     link.click();
                     document.body.removeChild(link);
                     
-                    alert('Photo download started!');
+                    alert('Upakuaji wa picha umeanza!');
                 });
             });
         }
@@ -2331,14 +2693,14 @@
                 row.innerHTML = `
                     <td>${approval.firstName} ${approval.lastName}</td>
                     <td>${approval.phone}</td>
-                    <td>${approval.email || 'None'}</td>
+                    <td>${approval.email || 'Hakuna'}</td>
                     <td>${approval.date}</td>
                     <td>
                         <button class="btn btn-sm btn-success approve-btn" data-id="${approval.id}">
-                            <i class="fas fa-check"></i> Approve
+                            <i class="fas fa-check"></i> Idhinisha
                         </button>
                         <button class="btn btn-sm btn-danger reject-btn" data-id="${approval.id}">
-                            <i class="fas fa-times"></i> Reject
+                            <i class="fas fa-times"></i> Kataa
                         </button>
                     </td>
                 `;
@@ -2378,7 +2740,7 @@
                                 address: approval.address,
                                 role: 'member',
                                 username: approval.lastName.toLowerCase(),
-                                password: 'password123',
+                                password: 'nenosiri123',
                                 is_active: true
                             }
                         ]);
@@ -2389,7 +2751,7 @@
                     const newUser = {
                         id: data[0].id,
                         username: approval.lastName.toLowerCase(),
-                        password: 'password123',
+                        password: 'nenosiri123',
                         role: 'member',
                         name: `${approval.firstName} ${approval.lastName}`,
                         lastLogin: null
@@ -2403,21 +2765,21 @@
                     // Add notification
                     addNotification({
                         id: Date.now(),
-                        title: 'Account Approved',
-                        message: `Account for ${approval.firstName} ${approval.lastName} has been approved.`,
+                        title: 'Akaunti Imeldhinishwa',
+                        message: `Akaunti ya ${approval.firstName} ${approval.lastName} imeldhinishwa.`,
                         type: 'success',
                         timestamp: new Date(),
                         read: false
                     });
                     
-                    alert(`Account for ${approval.firstName} ${approval.lastName} has been approved successfully!`);
+                    alert(`Akaunti ya ${approval.firstName} ${approval.lastName} imeldhinishwa kikamilifu!`);
                     
                     // Refresh approvals table
                     loadApprovalsTable();
 
                 } catch (error) {
-                    console.error('Error approving account:', error);
-                    alert('Error approving account. Please try again.');
+                    console.error('Hitilafu ya kuidhinisha akaunti:', error);
+                    alert('Hitilafu katika kuidhinisha akaunti. Tafadhali jaribu tena.');
                 }
             }
         }
@@ -2430,14 +2792,14 @@
                     // Remove from pending approvals
                     pendingApprovals = pendingApprovals.filter(a => a.id != id);
                     
-                    alert(`Account request for ${approval.firstName} ${approval.lastName} has been rejected!`);
+                    alert(`Ombi la akaunti la ${approval.firstName} ${approval.lastName} limekataliwa!`);
                     
                     // Refresh approvals table
                     loadApprovalsTable();
 
                 } catch (error) {
-                    console.error('Error rejecting account:', error);
-                    alert('Error rejecting account. Please try again.');
+                    console.error('Hitilafu ya kukataa akaunti:', error);
+                    alert('Hitilafu katika kukataa akaunti. Tafadhali jaribu tena.');
                 }
             }
         }
@@ -2494,13 +2856,13 @@
             const diffDays = Math.floor(diffHours / 24);
             
             if (diffMins < 1) {
-                return 'Just now';
+                return 'Sasa hivi';
             } else if (diffMins < 60) {
-                return `${diffMins} minutes ago`;
+                return `${diffMins} dakika zilizopita`;
             } else if (diffHours < 24) {
-                return `${diffHours} hours ago`;
+                return `${diffHours} masaa yaliyopita`;
             } else {
-                return `${diffDays} days ago`;
+                return `${diffDays} siku zilizopita`;
             }
         }
     </script>
