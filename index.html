@@ -17,104 +17,16 @@
             --warning-color: #f39c12;
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background-color: #f8f9fa;
         }
         
-        .login-container {
-            width: 100%;
-            max-width: 400px;
-            margin: 20px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        
-        .login-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .login-header h2 {
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        
-        .login-header p {
-            opacity: 0.9;
-            margin-bottom: 0;
-        }
-        
-        .login-body {
-            padding: 30px;
-        }
-        
-        .form-control {
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 12px 15px;
-            transition: all 0.3s;
-        }
-        
-        .form-control:focus {
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
-        }
-        
-        .btn-login {
-            background: linear-gradient(135deg, var(--secondary-color), #2980b9);
-            border: none;
-            border-radius: 10px;
-            padding: 12px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
-        }
-        
-        .validation-error {
-            color: #e74c3c;
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
-            display: none;
-        }
-        
-        .password-strength {
-            height: 4px;
-            margin-top: 0.5rem;
-            border-radius: 2px;
-            transition: all 0.3s;
-        }
-        
-        .strength-weak { background-color: #e74c3c; width: 25%; }
-        .strength-fair { background-color: #f39c12; width: 50%; }
-        .strength-good { background-color: #3498db; width: 75%; }
-        .strength-strong { background-color: #2ecc71; width: 100%; }
-
-        /* Dashboard Styles */
         .sidebar {
-            background: var(--primary-color);
+            background-color: var(--primary-color);
             color: white;
             height: 100vh;
             position: fixed;
-            width: 280px;
             transition: all 0.3s;
             z-index: 1000;
         }
@@ -122,75 +34,101 @@
         .sidebar .nav-link {
             color: rgba(255, 255, 255, 0.8);
             padding: 12px 20px;
-            border-radius: 8px;
-            margin: 4px 0;
+            border-radius: 5px;
+            margin: 5px 0;
             transition: all 0.3s;
-            font-weight: 500;
         }
         
         .sidebar .nav-link:hover, .sidebar .nav-link.active {
-            background: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.1);
             color: white;
-            transform: translateX(5px);
         }
         
         .sidebar .nav-link i {
-            margin-right: 12px;
+            margin-right: 10px;
             width: 20px;
             text-align: center;
         }
         
         .main-content {
-            margin-left: 280px;
-            padding: 0;
+            margin-left: 250px;
+            padding: 20px;
             transition: all 0.3s;
-            min-height: 100vh;
-            background: #f8f9fa;
-        }
-        
-        .top-navbar {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px 30px;
-            position: sticky;
-            top: 0;
-            z-index: 999;
-        }
-        
-        .content-area {
-            padding: 30px;
         }
         
         .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
             border: none;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            margin-bottom: 25px;
-            transition: transform 0.3s;
         }
         
-        .card:hover {
-            transform: translateY(-5px);
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            padding: 15px 20px;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
         
         .stat-card {
             text-align: center;
             padding: 25px 15px;
-            border-radius: 15px;
+            border-radius: 10px;
             color: white;
+        }
+        
+        .stat-card.blue {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+        
+        .stat-card.green {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+        
+        .stat-card.orange {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+        }
+        
+        .stat-card.red {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
             border: none;
         }
         
-        .stat-card.blue { background: linear-gradient(135deg, #3498db, #2980b9); }
-        .stat-card.green { background: linear-gradient(135deg, #2ecc71, #27ae60); }
-        .stat-card.orange { background: linear-gradient(135deg, #e67e22, #d35400); }
-        .stat-card.red { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .login-container {
+            max-width: 450px;
+            margin: 100px auto;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
         
         .notification-badge {
             position: absolute;
             top: -5px;
             right: -5px;
-            background: var(--accent-color);
+            background-color: var(--accent-color);
             color: white;
             border-radius: 50%;
             width: 20px;
@@ -206,39 +144,66 @@
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
+            margin-right: 10px;
         }
         
-        .table-responsive {
+        .service-item {
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .photo-item {
+            position: relative;
             border-radius: 10px;
             overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: #f8f9fa;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
         }
         
-        .btn-primary {
-            background: var(--secondary-color);
-            border: none;
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-weight: 500;
+        .photo-img {
+            height: 140px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
         }
         
-        .btn-primary:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
+        .photo-actions {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            background: white;
         }
         
-        .loading-spinner {
-            display: none;
-            text-align: center;
-            padding: 50px;
+        .photo-info {
+            padding: 10px;
+            flex-grow: 1;
         }
         
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
+        .photo-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-color);
         }
-
+        
+        .photo-meta {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
         @media (max-width: 768px) {
             .sidebar {
                 width: 80px;
@@ -257,91 +222,79 @@
             .main-content {
                 margin-left: 80px;
             }
-            
-            .content-area {
-                padding: 20px 15px;
-            }
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .contribution-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- Login Page -->
-    <div id="login-page">
+    <div id="login-page" class="container">
         <div class="login-container">
-            <div class="login-header">
+            <div class="text-center mb-4">
                 <h2>CASFETA TAYOMI CHURCH</h2>
-                <p>Church Management System</p>
+                <p class="text-muted">Church Management System</p>
             </div>
 
-            <div class="login-body">
-                <div id="login-error" class="alert alert-danger d-none" role="alert">
-                    <span id="login-error-message">Invalid email or password!</span>
-                </div>
+            <div id="login-error" class="alert alert-danger d-none" role="alert">
+                Invalid username or password!
+            </div>
 
-                <form id="login-form">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
-                        <div class="validation-error" id="email-error">Please enter a valid email address</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter your password" required minlength="6">
-                        <div class="validation-error" id="password-error">Password must be at least 6 characters</div>
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Remember me</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-login w-100">
-                        <span id="login-text">Login to System</span>
-                        <div class="spinner-border spinner-border-sm d-none" id="login-spinner" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </button>
-                </form>
-
-                <div class="text-center mt-4">
-                    <a href="#" id="forgot-password-link" class="text-decoration-none">Forgot your password?</a>
+            <form id="login-form">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" required>
                 </div>
-
-                <div class="text-center mt-4">
-                    <p class="text-muted small">Contact church leadership for account access</p>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" required>
                 </div>
+                <button type="submit" class="btn btn-primary w-100">
+                    <span id="login-text">Login</span>
+                    <div class="spinner-border spinner-border-sm d-none" id="login-spinner" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p>Contact church leadership for account access</p>
             </div>
         </div>
     </div>
 
-    <!-- Forgot Password Modal -->
-    <div class="modal fade" id="forgotPasswordModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Password Reset</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Enter your email address and we'll send you a link to reset your password.</p>
-                    <form id="forgot-password-form">
-                        <div class="mb-3">
-                            <label for="reset-email" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="reset-email" required>
-                            <div class="validation-error" id="reset-email-error">Please enter a valid email address</div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="send-reset-link-btn">Send Reset Link</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notifications -->
     <div class="toast-container"></div>
 
-    <!-- Loading Spinner -->
     <div id="loading-spinner" class="loading-spinner">
         <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -349,42 +302,40 @@
         <p class="mt-2">Loading dashboard...</p>
     </div>
 
-    <!-- Dashboard Container -->
     <div id="dashboard-container" class="d-none">
-        <div class="sidebar">
-            <div class="p-4">
-                <h4 class="text-center mb-4">CASFETA TAYOMI</h4>
+        <div class="sidebar" id="sidebar">
+            <div class="p-3">
+                <h4 class="text-center">CASFETA TAYOMI</h4>
                 <hr>
                 <ul class="nav flex-column" id="sidebar-menu">
-                    <!-- Menu items populated dynamically -->
-                </ul>
+                    </ul>
             </div>
         </div>
 
-        <div class="main-content">
-            <nav class="top-navbar">
+        <div class="main-content" id="main-content">
+            <div class="dashboard-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h4 id="dashboard-title" class="mb-0">Dashboard</h4>
-                        <small class="text-muted" id="user-role-display">Role: <span id="role-display"></span></small>
+                        <h3 id="dashboard-title">Dashboard</h3>
+                        <p id="user-role-display" class="mb-0">Role: <span id="role-display"></span></p>
                     </div>
                     <div class="d-flex align-items-center">
                         <div class="dropdown me-3">
-                            <button class="btn btn-light position-relative" type="button" data-bs-toggle="dropdown">
+                            <button class="btn btn-light position-relative" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-bell"></i>
                                 <span class="notification-badge d-none" id="notification-count">0</span>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end" id="notification-list">
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" id="notification-list">
                                 <li><h6 class="dropdown-header">Notifications</h6></li>
                                 <li><hr class="dropdown-divider"></li>
                             </ul>
                         </div>
                         <div class="dropdown">
-                            <button class="btn btn-light d-flex align-items-center" type="button" data-bs-toggle="dropdown">
-                                <img src="https://ui-avatars.com/api/?name=User&background=3498db&color=fff" class="profile-img me-2">
+                            <button class="btn btn-light d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="https://via.placeholder.com/40" class="profile-img" alt="User">
                                 <span id="user-name">User</span>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                 <li><a class="dropdown-item" href="#" id="profile-link"><i class="fas fa-user me-2"></i>Profile</a></li>
                                 <li><a class="dropdown-item" href="#" id="change-password-link"><i class="fas fa-key me-2"></i>Change Password</a></li>
                                 <li><hr class="dropdown-divider"></li>
@@ -393,113 +344,275 @@
                         </div>
                     </div>
                 </div>
-            </nav>
+            </div>
 
-            <div class="content-area" id="dashboard-content">
-                <!-- Dashboard content populated dynamically -->
+            <div id="dashboard-content">
+                </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="change-password-form">
+                        <div class="mb-3">
+                            <label for="current-password" class="form-label">Current Password</label>
+                            <input type="password" class="form-control" id="current-password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="new-password" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="new-password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirm-password" class="form-label">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirm-password" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-password-btn">Save Password</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addMemberModal" tabindex="-1" aria-labelledby="addMemberModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMemberModalLabel">Add Member</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-member-form">
+                        <div class="mb-3">
+                            <label for="first-name" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="first-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="last-name" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="last-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="tel" class="form-control" id="phone" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="member-role" class="form-label">Role</label>
+                            <select class="form-select" id="member-role" required>
+                                <option value="member">Member</option>
+                                <option value="chairperson">Chairperson</option>
+                                <option value="secretary">Secretary</option>
+                                <option value="treasurer">Treasurer</option>
+                                <option value="makada">Makada</option>
+                                <option value="bakada">Bakada</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-member-btn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="uploadPhotosModal" tabindex="-1" aria-labelledby="uploadPhotosModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadPhotosModalLabel">Upload Photos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="upload-photos-form">
+                        <div class="mb-3">
+                            <label for="photo-title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="photo-title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="photo-description" class="form-label">Description</label>
+                            <textarea class="form-control" id="photo-description" rows="2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="photo-event" class="form-label">Event</label>
+                            <input type="text" class="form-control" id="photo-event">
+                        </div>
+                        <div class="mb-3">
+                            <label for="photo-link" class="form-label">Photo URL</label>
+                            <input type="url" class="form-control" id="photo-link" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-photos-btn">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createAnnouncementModalLabel">Create Announcement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-announcement-form">
+                        <div class="mb-3">
+                            <label for="announcement-title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="announcement-title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="announcement-content" class="form-label">Content</label>
+                            <textarea class="form-control" id="announcement-content" rows="4" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="announcement-type" class="form-label">Type</label>
+                            <select class="form-select" id="announcement-type">
+                                <option value="general">General</option>
+                                <option value="event">Event</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-announcement-btn">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="createContributionModal" tabindex="-1" aria-labelledby="createContributionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createContributionModalLabel">Create Contribution</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-contribution-form">
+                        <div class="mb-3">
+                            <label for="contribution-type" class="form-label">Type</label>
+                            <select class="form-select" id="contribution-type" required>
+                                <option value="offering">Offering</option>
+                                <option value="tithes">Tithes</option>
+                                <option value="building">Building Fund</option>
+                                <option value="event">Event</option>
+                                <option value="assistance">Assistance</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contribution-amount" class="form-label">Amount (TZS)</label>
+                            <input type="number" class="form-control" id="contribution-amount" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="payment-method" class="form-label">Payment Method</label>
+                            <select class="form-select" id="payment-method" required>
+                                <option value="mpesa">M-Pesa</option>
+                                <option value="tigo">Tigo Pesa</option>
+                                <option value="airtel">Airtel Money</option>
+                                <option value="bank">Bank</option>
+                                <option value="cash">Cash</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="transaction-id" class="form-label">Transaction ID</label>
+                            <input type="text" class="form-control" id="transaction-id">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-contribution-btn">Submit</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Test users data
-        const testUsers = {
-            'admin@casfeta.org': { 
-                password: 'Admin123!', 
-                role: 'chairperson', 
-                first_name: 'John', 
-                last_name: 'Administrator',
-                phone: '+255757111001'
-            },
-            'chairperson@casfeta.org': { 
-                password: 'Chair123!', 
-                role: 'chairperson', 
-                first_name: 'Anna', 
-                last_name: 'Mwenyekiti',
-                phone: '+255757111002'
-            },
-            'treasurer@casfeta.org': { 
-                password: 'Treasurer123!', 
-                role: 'treasurer', 
-                first_name: 'David', 
-                last_name: 'Mweka Hazina',
-                phone: '+255757111003'
-            },
-            'secretary@casfeta.org': { 
-                password: 'Secretary123!', 
-                role: 'secretary', 
-                first_name: 'Sarah', 
-                last_name: 'Katibu',
-                phone: '+255757111004'
-            },
-            'makada@casfeta.org': { 
-                password: 'Makada123!', 
-                role: 'makada', 
-                first_name: 'Michael', 
-                last_name: 'Makada',
-                phone: '+255757111005'
-            },
-            'bakada@casfeta.org': { 
-                password: 'Bakada123!', 
-                role: 'bakada', 
-                first_name: 'Grace', 
-                last_name: 'Bakada',
-                phone: '+255757111006'
-            },
-            'member@casfeta.org': { 
-                password: 'Member123!', 
-                role: 'member', 
-                first_name: 'Robert', 
-                last_name: 'Member',
-                phone: '+255757111007'
-            }
+        // Supabase Configuration
+        const supabaseUrl = "https://uyxlwlgxlhoffrbxobxa.supabase.co";
+        const supabaseKey = "sb_secret_Hlj1gu82Kpy-LHlJl9keMQ_ltPAgJGZ"; // API KEY yako niliyoiingiza
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Current user data
+        let currentUser = null;
+        let notifications = [];
+        let churchPhotos = [];
+        let announcements = [];
+        let familyEvents = [];
+        let contributions = [];
+        let paymentMethods = {
+            mpesa: '0757123456',
+            tigo: '0712123456',
+            airtel: '0682123456',
+            bankName: 'CRDB Bank',
+            accountNumber: '015D12345678',
+            accountName: 'CASFETA TAYOMI'
         };
 
-        // Menu structure based on roles
+        // Menu structure based on roles - MAREKEBISHO HAPA:
         const menuStructure = {
+            // Chairperson: Usimamizi Mkuu
             'chairperson': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'members', name: 'Members Management', icon: 'fas fa-users' },
+                { id: 'members', name: 'Members', icon: 'fas fa-users' },
                 { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' },
-                { id: 'reports', name: 'Church Reports', icon: 'fas fa-chart-bar' },
-                { id: 'events', name: 'Church Events', icon: 'fas fa-calendar' }
+                { id: 'photos', name: 'Photos', icon: 'fas fa-images' },
+                { id: 'reports', name: 'Reports', icon: 'fas fa-chart-bar' }
             ],
+            // Secretary: Usimamizi wa Taarifa na Matukio
             'secretary': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'members', name: 'Members Management', icon: 'fas fa-users' },
+                { id: 'members', name: 'Members', icon: 'fas fa-users' },
                 { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-                { id: 'meetings', name: 'Meeting Minutes', icon: 'fas fa-clipboard' },
-                { id: 'communications', name: 'Communications', icon: 'fas fa-envelope' }
+                { id: 'events', name: 'Events', icon: 'fas fa-calendar' }, // Matukio ya jumla
+                { id: 'photos', name: 'Photos', icon: 'fas fa-images' }
             ],
+            // Treasurer: Usimamizi wa Fedha
             'treasurer': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
                 { id: 'contributions', name: 'Contributions', icon: 'fas fa-hand-holding-usd' },
-                { id: 'expenses', name: 'Expenses', icon: 'fas fa-receipt' },
-                { id: 'reports', name: 'Financial Reports', icon: 'fas fa-chart-line' },
-                { id: 'budget', name: 'Budget Planning', icon: 'fas fa-coins' }
+                { id: 'payment-methods', name: 'Payment Methods', icon: 'fas fa-money-check' },
+                { id: 'financial-reports', name: 'Reports', icon: 'fas fa-chart-line' },
+                { id: 'photos', name: 'Photos', icon: 'fas fa-images' }
             ],
+            // Makada (Wanawake): Huduma za familia, ushauri, nidhamu
             'makada': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'members', name: 'Members', icon: 'fas fa-users' },
-                { id: 'discipline', name: 'Discipline Cases', icon: 'fas fa-gavel' },
-                { id: 'counseling', name: 'Spiritual Counseling', icon: 'fas fa-hands-helping' },
-                { id: 'reports', name: 'Discipline Reports', icon: 'fas fa-file-alt' }
+                { id: 'family-events', name: 'Family Events', icon: 'fas fa-calendar-heart' }, // Imebadilisha icon kwa uwazi zaidi
+                { id: 'discipline-cases', name: 'Discipline', icon: 'fas fa-gavel' },
+                { id: 'counseling', name: 'Counseling', icon: 'fas fa-hands-helping' },
+                { id: 'photos', name: 'Photos', icon: 'fas fa-images' }
             ],
+            // Bakada (Wanaume): Huduma za wanaume, ushauri, nidhamu
             'bakada': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'members', name: 'Women Members', icon: 'fas fa-female' },
-                { id: 'events', name: 'Women Events', icon: 'fas fa-calendar' },
-                { id: 'ministry', name: 'Women Ministry', icon: 'fas fa-pray' },
-                { id: 'reports', name: 'Ministry Reports', icon: 'fas fa-file-alt' }
+                { id: 'family-events', name: 'Family Events', icon: 'fas fa-calendar-heart' },
+                { id: 'discipline-cases', name: 'Discipline', icon: 'fas fa-gavel' },
+                { id: 'men-ministry', name: 'Men Ministry', icon: 'fas fa-male' },
+                { id: 'photos', name: 'Photos', icon: 'fas fa-images' }
             ],
+            // Member: Mwanachama wa Kawaida
             'member': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'contributions', name: 'My Contributions', icon: 'fas fa-hand-holding-usd' },
-                { id: 'profile', name: 'My Profile', icon: 'fas fa-user' },
+                { id: 'contributions', name: 'Contributions', icon: 'fas fa-hand-holding-usd' },
+                { id: 'services', name: 'Services', icon: 'fas fa-hands-helping' },
                 { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-                { id: 'events', name: 'Church Events', icon: 'fas fa-calendar' }
+                { id: 'photos', name: 'Photos', icon: 'fas fa-images' }
             ]
         };
 
@@ -508,29 +621,16 @@
             'chairperson': 'Chairperson',
             'secretary': 'Secretary',
             'treasurer': 'Treasurer',
-            'makada': 'Makada Leader',
-            'bakada': 'Bakada Leader',
-            'member': 'Church Member'
+            'makada': 'Makada',
+            'bakada': 'Bakada',
+            'member': 'Member'
         };
-
-        let currentUser = null;
-        let notifications = [
-            {
-                id: 1,
-                title: 'Welcome to CASFETA TAYOMI',
-                message: 'Welcome to the Church Management System',
-                type: 'info',
-                timestamp: new Date(),
-                read: false
-            }
-        ];
 
         // Initialize application
         document.addEventListener('DOMContentLoaded', function() {
             initializeEventListeners();
-            updateNotificationDisplay();
+            loadSampleData();
             
-            // Check for existing session
             const savedUser = sessionStorage.getItem('currentUser');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
@@ -538,230 +638,292 @@
             }
         });
 
+        // Load data from Supabase
+        async function loadDataFromSupabase() {
+            try {
+                // Load photos
+                const { data: photosData, error: photosError } = await supabase
+                    .from('church_photos')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (!photosError && photosData) {
+                    churchPhotos = photosData;
+                }
+                
+                // Load announcements
+                const { data: announcementsData, error: announcementsError } = await supabase
+                    .from('announcements')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (!announcementsError && announcementsData) {
+                    announcements = announcementsData;
+                }
+                
+                // Load family events
+                const { data: eventsData, error: eventsError } = await supabase
+                    .from('family_events')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (!eventsError && eventsData) {
+                    familyEvents = eventsData;
+                }
+                
+                // Load contributions
+                const { data: contributionsData, error: contributionsError } = await supabase
+                    .from('contributions')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (!contributionsError && contributionsData) {
+                    contributions = contributionsData;
+                }
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        // Load sample data
+        function loadSampleData() {
+            notifications = [
+                {
+                    id: 1,
+                    title: 'Welcome',
+                    message: 'Welcome to CASFETA TAYOMI Church System',
+                    type: 'info',
+                    timestamp: new Date(),
+                    read: false
+                }
+            ];
+            
+            updateNotificationDisplay();
+        }
+
+        // Initialize event listeners
         function initializeEventListeners() {
-            // Login form
             document.getElementById('login-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 handleLogin();
             });
             
-            // Forgot password
-            document.getElementById('forgot-password-link').addEventListener('click', function(e) {
-                e.preventDefault();
-                new bootstrap.Modal(document.getElementById('forgotPasswordModal')).show();
-            });
-            
-            document.getElementById('send-reset-link-btn').addEventListener('click', handleForgotPassword);
             document.getElementById('logout-btn').addEventListener('click', handleLogout);
             document.getElementById('change-password-link').addEventListener('click', showChangePasswordModal);
+            document.getElementById('save-password-btn').addEventListener('click', handleChangePassword);
+            document.getElementById('save-member-btn').addEventListener('click', handleAddMember);
+            document.getElementById('save-photos-btn').addEventListener('click', handleUploadPhotos);
+            document.getElementById('save-announcement-btn').addEventListener('click', handleCreateAnnouncement);
+            document.getElementById('save-contribution-btn').addEventListener('click', handleCreateContribution);
         }
 
-        function handleLogin() {
-            if (!validateLoginForm()) return;
-            
-            const email = document.getElementById('email').value;
+        // Handle login
+        async function handleLogin() {
+            const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                showToast('Please enter username and password', 'error');
+                return;
+            }
             
             document.getElementById('login-error').classList.add('d-none');
             document.getElementById('login-text').classList.add('d-none');
             document.getElementById('login-spinner').classList.remove('d-none');
             
-            // Simulate API call
-            setTimeout(() => {
-                if (testUsers[email] && testUsers[email].password === password) {
-                    currentUser = {
-                        email: email,
-                        ...testUsers[email]
-                    };
-                    
-                    sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
-                    showToast('Login successful! Welcome to CASFETA TAYOMI', 'success');
-                    showDashboard();
-                } else {
-                    document.getElementById('login-error-message').textContent = 'Invalid email or password';
-                    document.getElementById('login-error').classList.remove('d-none');
-                    showToast('Login failed: Invalid credentials', 'error');
-                }
+            try {
+                const { data: users, error } = await supabase
+                    .from('users')
+                    .select('*')
+                    .eq('username', username)
+                    .single();
                 
+                if (error || !users || users.password !== password) {
+                    document.getElementById('login-error').classList.remove('d-none');
+                    showToast('Invalid username or password!', 'error');
+                    return;
+                }
+
+                // Successful login simulation
+                currentUser = users;
+                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                showDashboard();
+                showToast(`Welcome back, ${currentUser.first_name}!`, 'success');
+
+            } catch (error) {
+                console.error('Login error:', error);
+                document.getElementById('login-error').classList.remove('d-none');
+                showToast('An error occurred during login. Please try again.', 'error');
+            } finally {
                 document.getElementById('login-text').classList.remove('d-none');
                 document.getElementById('login-spinner').classList.add('d-none');
-            }, 1500);
+            }
         }
 
-        function showDashboard() {
-            document.getElementById('login-page').style.display = 'none';
+        // Handle logout
+        function handleLogout(e) {
+            e.preventDefault();
+            sessionStorage.removeItem('currentUser');
+            currentUser = null;
+            document.getElementById('login-page').classList.remove('d-none');
+            document.getElementById('dashboard-container').classList.add('d-none');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            showToast('Logged out successfully.', 'info');
+        }
+
+        // Show Dashboard
+        async function showDashboard() {
+            document.getElementById('login-page').classList.add('d-none');
             document.getElementById('loading-spinner').style.display = 'block';
             
-            setTimeout(() => {
-                document.getElementById('loading-spinner').style.display = 'none';
-                document.getElementById('dashboard-container').classList.remove('d-none');
-                
-                initializeDashboard();
-            }, 1000);
+            await loadDataFromSupabase();
+
+            document.getElementById('dashboard-container').classList.remove('d-none');
+            document.getElementById('loading-spinner').style.display = 'none';
+
+            const userRole = currentUser.role.toLowerCase();
+            const userName = `${currentUser.first_name} ${currentUser.last_name}`;
+            const roleDisplayName = roleDisplayNames[userRole] || 'Unknown Role';
+
+            document.getElementById('user-name').textContent = currentUser.first_name;
+            document.getElementById('role-display').textContent = roleDisplayName;
+            
+            generateSidebarMenu(userRole);
+            renderContent('dashboard'); // Default view
         }
 
-        function handleLogout() {
-            currentUser = null;
-            sessionStorage.removeItem('currentUser');
-            document.getElementById('dashboard-container').classList.add('d-none');
-            document.getElementById('login-page').style.display = 'block';
-            document.getElementById('login-form').reset();
-            showToast('Logged out successfully', 'info');
-        }
+        // Generate sidebar menu based on role
+        function generateSidebarMenu(role) {
+            const menuList = document.getElementById('sidebar-menu');
+            menuList.innerHTML = '';
+            const menuItems = menuStructure[role] || menuStructure['member'];
 
-        function initializeDashboard() {
-            document.getElementById('user-name').textContent = `${currentUser.first_name} ${currentUser.last_name}`;
-            document.getElementById('role-display').textContent = roleDisplayNames[currentUser.role];
-            document.getElementById('dashboard-title').textContent = `${roleDisplayNames[currentUser.role]} Dashboard`;
-            
-            // Update profile image
-            document.querySelector('.profile-img').src = `https://ui-avatars.com/api/?name=${currentUser.first_name}+${currentUser.last_name}&background=3498db&color=fff`;
-            
-            loadMenuItems();
-            loadSectionContent('dashboard');
-        }
-
-        function loadMenuItems() {
-            const sidebarMenu = document.getElementById('sidebar-menu');
-            sidebarMenu.innerHTML = '';
-            
-            const menuItems = menuStructure[currentUser.role] || menuStructure.member;
-            
             menuItems.forEach(item => {
-                const menuItem = document.createElement('li');
-                menuItem.className = 'nav-item';
-                menuItem.innerHTML = `
-                    <a class="nav-link" href="#" data-section="${item.id}">
+                const li = document.createElement('li');
+                li.classList.add('nav-item');
+                li.innerHTML = `
+                    <a class="nav-link" href="#" data-view="${item.id}">
                         <i class="${item.icon}"></i>
                         <span>${item.name}</span>
                     </a>
                 `;
-                sidebarMenu.appendChild(menuItem);
-            });
-            
-            // Add event listeners to menu items
-            document.querySelectorAll('#sidebar-menu .nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
+                menuList.appendChild(li);
+
+                li.querySelector('a').addEventListener('click', (e) => {
                     e.preventDefault();
-                    
-                    document.querySelectorAll('#sidebar-menu .nav-link').forEach(item => {
-                        item.classList.remove('active');
-                    });
-                    
-                    this.classList.add('active');
-                    
-                    const section = this.getAttribute('data-section');
-                    loadSectionContent(section);
+                    document.querySelectorAll('.sidebar .nav-link').forEach(link => link.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    renderContent(item.id);
                 });
             });
-            
-            // Activate first menu item
-            if (sidebarMenu.firstElementChild) {
-                sidebarMenu.firstElementChild.querySelector('.nav-link').classList.add('active');
+
+            // Set the first item as active and render its content initially
+            const firstLink = menuList.querySelector('.nav-link');
+            if (firstLink) {
+                firstLink.classList.add('active');
             }
         }
 
-        function loadSectionContent(section) {
-            const dashboardContent = document.getElementById('dashboard-content');
-            
-            let content = '';
-            
-            switch(section) {
+        // Render content
+        function renderContent(viewId) {
+            const contentDiv = document.getElementById('dashboard-content');
+            document.getElementById('dashboard-title').textContent = roleDisplayNames[currentUser.role.toLowerCase()] + ' ' + (menuStructure[currentUser.role.toLowerCase()].find(item => item.id === viewId)?.name || 'Dashboard');
+            contentDiv.innerHTML = '';
+
+            switch (viewId) {
                 case 'dashboard':
-                    content = getDashboardContent();
+                    renderDashboard(contentDiv);
                     break;
                 case 'members':
-                    content = getMembersContent();
-                    break;
-                case 'announcements':
-                    content = getAnnouncementsContent();
+                    renderMembers(contentDiv);
                     break;
                 case 'contributions':
-                    content = getContributionsContent();
+                    renderContributions(contentDiv);
+                    break;
+                case 'announcements':
+                    renderAnnouncements(contentDiv);
+                    break;
+                case 'photos':
+                    renderPhotos(contentDiv);
                     break;
                 case 'reports':
-                    content = getReportsContent();
+                case 'financial-reports':
+                    renderReports(contentDiv, viewId);
                     break;
                 case 'events':
-                    content = getEventsContent();
+                case 'family-events':
+                    renderEvents(contentDiv, viewId);
+                    break;
+                case 'payment-methods':
+                    renderPaymentMethods(contentDiv);
+                    break;
+                case 'discipline-cases':
+                    renderDisciplineCases(contentDiv);
+                    break;
+                case 'counseling':
+                    renderCounseling(contentDiv);
+                    break;
+                case 'services':
+                    renderServices(contentDiv);
+                    break;
+                case 'men-ministry':
+                    renderMenMinistry(contentDiv);
                     break;
                 default:
-                    content = getDashboardContent();
+                    contentDiv.innerHTML = '<div class="alert alert-info">Content not yet implemented for this view.</div>';
             }
-            
-            dashboardContent.innerHTML = content;
-            document.getElementById('dashboard-title').textContent = `${getSectionTitle(section)} - ${roleDisplayNames[currentUser.role]}`;
         }
 
-        function getDashboardContent() {
-            return `
+        // --- Content Rendering Functions (Simplified for brevity but complete structure) ---
+
+        function renderDashboard(container) {
+            container.innerHTML = `
                 <div class="row">
-                    <div class="col-md-3 mb-4">
+                    <div class="col-md-3">
                         <div class="stat-card blue">
-                            <i class="fas fa-users fa-2x mb-2"></i>
-                            <h3>156</h3>
+                            <i class="fas fa-users fa-3x mb-2"></i>
+                            <h4>${Math.floor(Math.random() * 50) + 10}</h4>
                             <p>Total Members</p>
                         </div>
                     </div>
-                    <div class="col-md-3 mb-4">
+                    <div class="col-md-3">
                         <div class="stat-card green">
-                            <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
-                            <h3>2.45M</h3>
-                            <p>Total Contributions</p>
+                            <i class="fas fa-hand-holding-usd fa-3x mb-2"></i>
+                            <h4>${(Math.random() * 500000 + 100000).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} TZS</h4>
+                            <p>Contributions (MTD)</p>
                         </div>
                     </div>
-                    <div class="col-md-3 mb-4">
+                    <div class="col-md-3">
                         <div class="stat-card orange">
-                            <i class="fas fa-calendar fa-2x mb-2"></i>
-                            <h3>12</h3>
-                            <p>Upcoming Events</p>
+                            <i class="fas fa-bullhorn fa-3x mb-2"></i>
+                            <h4>${announcements.length}</h4>
+                            <p>Recent Announcements</p>
                         </div>
                     </div>
-                    <div class="col-md-3 mb-4">
+                    <div class="col-md-3">
                         <div class="stat-card red">
-                            <i class="fas fa-bell fa-2x mb-2"></i>
-                            <h3>${notifications.filter(n => !n.read).length}</h3>
-                            <p>Notifications</p>
+                            <i class="fas fa-images fa-3x mb-2"></i>
+                            <h4>${churchPhotos.length}</h4>
+                            <p>Gallery Photos</p>
                         </div>
                     </div>
                 </div>
-                
                 <div class="row mt-4">
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">Recent Activities</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="list-group list-group-flush">
-                                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h6 class="mb-1">New Member Registration</h6>
-                                            <p class="mb-1 text-muted">John Doe joined the church</p>
-                                        </div>
-                                        <small class="text-muted">2 hours ago</small>
-                                    </div>
-                                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h6 class="mb-1">Sunday Service Contribution</h6>
-                                            <p class="mb-1 text-muted">TZS 150,000 collected</p>
-                                        </div>
-                                        <small class="text-muted">1 day ago</small>
-                                    </div>
-                                </div>
+                            <div class="card-header">Recent Announcements</div>
+                            <div class="card-body" id="dashboard-announcements-list">
+                                ${announcements.slice(0, 5).map(ann => `<div class="service-item"><strong>${ann.title}</strong><p class="mb-0 text-muted">${ann.content.substring(0, 50)}...</p></div>`).join('') || '<p>No recent announcements.</p>'}
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">Quick Actions</h5>
-                            </div>
+                            <div class="card-header">Upcoming Events</div>
                             <div class="card-body">
-                                <button class="btn btn-primary w-100 mb-2">Add New Member</button>
-                                <button class="btn btn-outline-primary w-100 mb-2">Create Announcement</button>
-                                <button class="btn btn-outline-primary w-100 mb-2">Schedule Event</button>
-                                <button class="btn btn-outline-primary w-100">Generate Report</button>
+                                <p>Event details coming soon...</p>
                             </div>
                         </div>
                     </div>
@@ -769,44 +931,35 @@
             `;
         }
 
-        function getMembersContent() {
-            return `
+        function renderMembers(container) {
+            if (currentUser.role.toLowerCase() !== 'chairperson' && currentUser.role.toLowerCase() !== 'secretary') {
+                container.innerHTML = '<div class="alert alert-warning"><i class="fas fa-exclamation-triangle me-2"></i>You do not have permission to view this section.</div>';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="d-flex justify-content-between mb-3">
+                    <h3>Church Members List</h3>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMemberModal"><i class="fas fa-plus me-2"></i>Add New Member</button>
+                </div>
                 <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Church Members</h5>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i>Add Member
-                        </button>
-                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Name</th>
-                                        <th>Email</th>
                                         <th>Phone</th>
                                         <th>Role</th>
-                                        <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>${currentUser.first_name} ${currentUser.last_name}</td>
-                                        <td>${currentUser.email}</td>
-                                        <td>${currentUser.phone}</td>
-                                        <td><span class="badge bg-primary">${roleDisplayNames[currentUser.role]}</span></td>
-                                        <td><span class="badge bg-success">Active</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                <tbody id="members-table-body">
+                                    <tr><td>1</td><td>John Doe</td><td>0712XXXXXX</td><td>Chairperson</td><td><button class="btn btn-sm btn-info me-2"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></td></tr>
+                                    <tr><td>2</td><td>Jane Smith</td><td>0755XXXXXX</td><td>Secretary</td><td><button class="btn btn-sm btn-info me-2"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></td></tr>
+                                    <tr><td>3</td><td>Peter Paul</td><td>0688XXXXXX</td><td>Treasurer</td><td><button class="btn btn-sm btn-info me-2"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></td></tr>
+                                    <tr><td>4</td><td>Mary Johnson</td><td>0784XXXXXX</td><td>Member</td><td><button class="btn btn-sm btn-info me-2"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -815,40 +968,15 @@
             `;
         }
 
-        function getAnnouncementsContent() {
-            return `
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Church Announcements</h5>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i>Create Announcement
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <div class="alert alert-info">
-                            <h5>Sunday Service Time Change</h5>
-                            <p class="mb-0">Please note that Sunday services will now start at 9:00 AM instead of 8:30 AM.</p>
-                            <small class="text-muted">Posted on: 2024-01-15</small>
-                        </div>
-                        <div class="alert alert-warning">
-                            <h5>Church Cleaning Day</h5>
-                            <p class="mb-0">We invite all members to participate in church cleaning this Saturday at 8:00 AM.</p>
-                            <small class="text-muted">Posted on: 2024-01-12</small>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+        function renderContributions(container) {
+            const isMember = currentUser.role.toLowerCase() === 'member';
 
-        function getContributionsContent() {
-            return `
+            container.innerHTML = `
+                <div class="d-flex justify-content-between mb-3">
+                    <h3>${isMember ? 'My Contributions' : 'All Contributions Records'}</h3>
+                    ${isMember ? `<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createContributionModal"><i class="fas fa-plus me-2"></i>New Contribution</button>` : ''}
+                </div>
                 <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">${currentUser.role === 'member' ? 'My Contributions' : 'All Contributions'}</h5>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i>Record Contribution
-                        </button>
-                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped">
@@ -857,25 +985,27 @@
                                         <th>Date</th>
                                         <th>Type</th>
                                         <th>Amount (TZS)</th>
-                                        <th>Payment Method</th>
+                                        <th>P. Method</th>
                                         <th>Status</th>
+                                        ${!isMember ? '<th>Member</th>' : ''}
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>2024-01-15</td>
-                                        <td>Sunday Offering</td>
-                                        <td>25,000</td>
-                                        <td>Cash</td>
-                                        <td><span class="badge bg-success">Confirmed</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2024-01-08</td>
-                                        <td>Tithe</td>
-                                        <td>100,000</td>
-                                        <td>M-Pesa</td>
-                                        <td><span class="badge bg-success">Confirmed</span></td>
-                                    </tr>
+                                <tbody id="contributions-table-body">
+                                    ${contributions.map(c => `
+                                        <tr>
+                                            <td>${new Date(c.created_at).toLocaleDateString()}</td>
+                                            <td>${c.type}</td>
+                                            <td>${c.amount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                            <td>${c.payment_method}</td>
+                                            <td><span class="badge bg-success">Confirmed</span></td>
+                                            ${!isMember ? `<td>${c.member_name}</td>` : ''}
+                                        </tr>
+                                    `).join('') || `<tr><td colspan="${isMember ? 5 : 6}">No contributions recorded.</td></tr>`}
+                                    ${contributions.length === 0 && !isMember ? `
+                                        <tr><td>10/11/2025</td><td>Tithes</td><td>50,000</td><td>M-Pesa</td><td><span class="badge bg-success">Confirmed</span></td><td>A. Kassim</td></tr>
+                                        <tr><td>05/11/2025</td><td>Offering</td><td>10,000</td><td>Cash</td><td><span class="badge bg-success">Confirmed</span></td><td>B. Zawadi</td></tr>
+                                        <tr><td>01/11/2025</td><td>Building Fund</td><td>100,000</td><td>Bank</td><td><span class="badge bg-success">Confirmed</span></td><td>C. Mbaga</td></tr>
+                                    ` : ''}
                                 </tbody>
                             </table>
                         </div>
@@ -883,219 +1013,508 @@
                 </div>
             `;
         }
+        
+        function renderAnnouncements(container) {
+            container.innerHTML = `
+                <div class="d-flex justify-content-between mb-3">
+                    <h3>Church Announcements</h3>
+                    ${(currentUser.role.toLowerCase() === 'chairperson' || currentUser.role.toLowerCase() === 'secretary') ? `<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAnnouncementModal"><i class="fas fa-plus me-2"></i>New Announcement</button>` : ''}
+                </div>
+                <div class="list-group" id="announcements-list">
+                    ${announcements.map(ann => `
+                        <div class="list-group-item list-group-item-action ${ann.type === 'urgent' ? 'list-group-item-danger' : ''}">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">${ann.title}</h5>
+                                <small class="text-muted">${new Date(ann.created_at).toLocaleDateString()}</small>
+                            </div>
+                            <p class="mb-1">${ann.content}</p>
+                            <small class="badge bg-secondary">${ann.type.charAt(0).toUpperCase() + ann.type.slice(1)}</small>
+                        </div>
+                    `).join('') || '<div class="alert alert-info">No announcements have been posted yet.</div>'}
+                </div>
+            `;
+        }
 
-        function getReportsContent() {
-            return `
+        function renderPhotos(container) {
+            container.innerHTML = `
+                <div class="d-flex justify-content-between mb-3">
+                    <h3>Photo Gallery</h3>
+                    ${(currentUser.role.toLowerCase() === 'chairperson' || currentUser.role.toLowerCase() === 'secretary' || currentUser.role.toLowerCase() === 'treasurer' || currentUser.role.toLowerCase() === 'makada' || currentUser.role.toLowerCase() === 'bakada') ? `<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadPhotosModal"><i class="fas fa-upload me-2"></i>Upload Photos</button>` : ''}
+                </div>
+                <div class="photo-gallery" id="photo-gallery-container">
+                    ${churchPhotos.map(photo => `
+                        <div class="photo-item">
+                            <div class="photo-img">
+                                <i class="fas fa-camera fa-2x"></i>
+                            </div>
+                            <div class="photo-info">
+                                <div class="photo-title">${photo.title}</div>
+                                <div class="photo-meta">${photo.event || 'General'} | ${new Date(photo.created_at).toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                    `).join('') || '<div class="alert alert-info w-100">No photos in the gallery.</div>'}
+                    ${churchPhotos.length === 0 ? `
+                        <div class="photo-item">
+                            <div class="photo-img">
+                                <i class="fas fa-camera fa-2x"></i>
+                            </div>
+                            <div class="photo-info">
+                                <div class="photo-title">Event Sample Photo</div>
+                                <div class="photo-meta">Youth Camp | 10/10/2025</div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function renderReports(container, viewId) {
+            const title = viewId === 'financial-reports' ? 'Financial Reports' : 'General Reports';
+            container.innerHTML = `
+                <h3>${title}</h3>
                 <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Church Reports</h5>
-                    </div>
+                    <div class="card-header">Report Options</div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <div class="card">
-                                    <div class="card-body text-center">
-                                        <i class="fas fa-users fa-2x text-primary mb-2"></i>
-                                        <h5>Membership Report</h5>
-                                        <p class="text-muted">View member statistics and growth</p>
-                                        <button class="btn btn-outline-primary">Generate</button>
+                        <p>Generate reports for ${title.toLowerCase()}. Functionality coming soon.</p>
+                        <ul>
+                            <li><i class="fas fa-file-pdf me-2"></i>Member Attendance Report</li>
+                            <li><i class="fas fa-file-excel me-2"></i>${title === 'Financial Reports' ? 'Contribution Trend Report' : 'Event Summary Report'}</li>
+                        </ul>
+                        <button class="btn btn-info mt-3" disabled>Generate Report</button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderEvents(container, viewId) {
+            const title = viewId === 'family-events' ? 'Family/Life Events (Makada/Bakada)' : 'General Church Events';
+            container.innerHTML = `
+                <div class="d-flex justify-content-between mb-3">
+                    <h3>${title}</h3>
+                    ${(currentUser.role.toLowerCase() === 'secretary' || currentUser.role.toLowerCase() === 'makada' || currentUser.role.toLowerCase() === 'bakada') ? `<button class="btn btn-primary"><i class="fas fa-plus me-2"></i>Create Event</button>` : ''}
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="list-group">
+                            ${familyEvents.map(event => `
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">${event.title}</h5>
+                                        <small class="text-muted">${new Date(event.event_date).toLocaleDateString()}</small>
                                     </div>
+                                    <p class="mb-1">Type: ${event.type}</p>
+                                    <small>${event.description}</small>
                                 </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="card">
-                                    <div class="card-body text-center">
-                                        <i class="fas fa-chart-line fa-2x text-success mb-2"></i>
-                                        <h5>Financial Report</h5>
-                                        <p class="text-muted">Income, expenses and contributions</p>
-                                        <button class="btn btn-outline-primary">Generate</button>
+                            `).join('') || '<div class="alert alert-info">No events scheduled.</div>'}
+                            
+                            ${familyEvents.length === 0 && viewId === 'events' ? `
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">General Meeting</h5>
+                                        <small class="text-muted">20/12/2025</small>
                                     </div>
+                                    <p class="mb-1">Type: General</p>
+                                    <small>Mandatory meeting for all members.</small>
                                 </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="card">
-                                    <div class="card-body text-center">
-                                        <i class="fas fa-calendar fa-2x text-warning mb-2"></i>
-                                        <h5>Events Report</h5>
-                                        <p class="text-muted">Event attendance and participation</p>
-                                        <button class="btn btn-outline-primary">Generate</button>
+                            ` : ''}
+                            
+                            ${familyEvents.length === 0 && viewId === 'family-events' ? `
+                                <div class="list-group-item list-group-item-action list-group-item-warning">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">Wedding Preparation</h5>
+                                        <small class="text-muted">05/01/2026</small>
                                     </div>
+                                    <p class="mb-1">Type: Wedding</p>
+                                    <small>Pre-marital counseling session for couple X.</small>
                                 </div>
-                            </div>
+                            ` : ''}
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        function getEventsContent() {
-            return `
+        function renderPaymentMethods(container) {
+            if (currentUser.role.toLowerCase() !== 'treasurer') {
+                container.innerHTML = '<div class="alert alert-warning"><i class="fas fa-exclamation-triangle me-2"></i>You do not have permission to view this section.</div>';
+                return;
+            }
+
+            container.innerHTML = `
+                <h3>Church Payment Methods</h3>
                 <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Church Events</h5>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i>Create Event
-                        </button>
-                    </div>
+                    <div class="card-header">Mobile Money & Bank Details</div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Sunday Service</h5>
-                                        <p class="card-text"><i class="fas fa-calendar me-2"></i>Every Sunday, 9:00 AM</p>
-                                        <p class="card-text"><i class="fas fa-map-marker-alt me-2"></i>Main Church Hall</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Bible Study</h5>
-                                        <p class="card-text"><i class="fas fa-calendar me-2"></i>Wednesday, 6:00 PM</p>
-                                        <p class="card-text"><i class="fas fa-map-marker-alt me-2"></i>Fellowship Hall</p>
-                                    </div>
-                                </div>
-                            </div>
+                        <h5><i class="fas fa-mobile-alt me-2 text-success"></i>M-Pesa</h5>
+                        <p><strong>Phone:</strong> ${paymentMethods.mpesa}</p>
+                        <hr>
+                        <h5><i class="fas fa-mobile-alt me-2 text-primary"></i>Tigo Pesa</h5>
+                        <p><strong>Phone:</strong> ${paymentMethods.tigo}</p>
+                        <hr>
+                        <h5><i class="fas fa-mobile-alt me-2 text-danger"></i>Airtel Money</h5>
+                        <p><strong>Phone:</strong> ${paymentMethods.airtel}</p>
+                        <hr>
+                        <h5><i class="fas fa-university me-2 text-info"></i>Bank Details</h5>
+                        <p><strong>Bank:</strong> ${paymentMethods.bankName}</p>
+                        <p><strong>Account Name:</strong> ${paymentMethods.accountName}</p>
+                        <p><strong>Account Number:</strong> ${paymentMethods.accountNumber}</p>
+                        <button class="btn btn-sm btn-info mt-3" disabled><i class="fas fa-edit me-2"></i>Edit Details</button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderDisciplineCases(container) {
+            container.innerHTML = `
+                <h3>Discipline Cases</h3>
+                <div class="card">
+                    <div class="card-header">Case Management</div>
+                    <div class="card-body">
+                        <p>System for recording and tracking discipline cases. Only viewable by ${roleDisplayNames[currentUser.role.toLowerCase()]}.</p>
+                        <div class="alert alert-info">Case list coming soon.</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderCounseling(container) {
+            container.innerHTML = `
+                <h3>Counseling Services (Makada)</h3>
+                <div class="card">
+                    <div class="card-header">Counseling Session Scheduler</div>
+                    <div class="card-body">
+                        <p>Platform for managing counseling sessions (e.g., pre-marital, personal, family). For ${roleDisplayNames[currentUser.role.toLowerCase()]}.</p>
+                        <button class="btn btn-warning mt-3" disabled>Schedule Session</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderMenMinistry(container) {
+            container.innerHTML = `
+                <h3>Men Ministry (Bakada)</h3>
+                <div class="card">
+                    <div class="card-header">Ministry Activities</div>
+                    <div class="card-body">
+                        <p>Management of activities specific to the Men's Ministry (Bakada). For ${roleDisplayNames[currentUser.role.toLowerCase()]}.</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">Monthly Bible Study Group</li>
+                            <li class="list-group-item">Community Outreach Projects</li>
+                            <li class="list-group-item">Men's Annual Retreat</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderServices(container) {
+            container.innerHTML = `
+                <h3>Church Services & Support</h3>
+                <div class="card">
+                    <div class="card-header">Available Services</div>
+                    <div class="card-body">
+                        <div class="service-item">
+                            <h5><i class="fas fa-heart me-2"></i>Prayer Request</h5>
+                            <p>Submit a confidential prayer request.</p>
+                            <button class="btn btn-sm btn-outline-primary">Submit Request</button>
+                        </div>
+                        <div class="service-item">
+                            <h5><i class="fas fa-calendar-check me-2"></i>Event Booking</h5>
+                            <p>Request to book a church space or schedule a personal event (e.g., baptism).</p>
+                            <button class="btn btn-sm btn-outline-primary">Book Event</button>
+                        </div>
+                        <div class="service-item">
+                            <h5><i class="fas fa-file-alt me-2"></i>Membership Letter</h5>
+                            <p>Request an official church membership letter.</p>
+                            <button class="btn btn-sm btn-outline-primary">Request Letter</button>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        function getSectionTitle(section) {
-            const titles = {
-                'dashboard': 'Dashboard',
-                'members': 'Members Management',
-                'announcements': 'Announcements',
-                'contributions': 'Contributions',
-                'reports': 'Reports',
-                'events': 'Church Events'
-            };
-            return titles[section] || 'Dashboard';
+
+        // --- Modal & Handler Functions ---
+
+        function showToast(message, type = 'info') {
+            const toastContainer = document.querySelector('.toast-container');
+            const toastId = `toast-${Date.now()}`;
+            const toastHtml = `
+                <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} border-0" role="alert" aria-live="assertive" aria-atomic="true" id="${toastId}">
+                    <div class="d-flex">
+                        <div class="toast-body">${message}</div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            `;
+            
+            toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+            const toastElement = document.getElementById(toastId);
+            const toast = new bootstrap.Toast(toastElement);
+            
+            // Remove the toast element after it hides
+            toastElement.addEventListener('hidden.bs.toast', () => {
+                toastElement.remove();
+            });
+            
+            toast.show();
+        }
+
+        function updateNotificationDisplay() {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            const badge = document.getElementById('notification-count');
+            const list = document.getElementById('notification-list');
+
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount;
+                badge.classList.remove('d-none');
+            } else {
+                badge.classList.add('d-none');
+            }
+
+            list.innerHTML = '<li><h6 class="dropdown-header">Notifications</h6></li><li><hr class="dropdown-divider"></li>';
+            if (notifications.length > 0) {
+                notifications.forEach(n => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a class="dropdown-item ${n.read ? 'text-muted' : 'font-weight-bold'}" href="#">${n.title}: ${n.message}</a>`;
+                    list.appendChild(li);
+                });
+            } else {
+                list.innerHTML += '<li><a class="dropdown-item text-muted" href="#">No new notifications.</a></li>';
+            }
         }
 
         function showChangePasswordModal(e) {
             e.preventDefault();
-            showToast('Change password functionality coming soon', 'info');
+            const modal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
+            modal.show();
         }
 
-        function handleForgotPassword() {
-            const email = document.getElementById('reset-email').value;
-            if (validateEmailField(email, 'reset-email-error')) {
-                const modal = bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal'));
+        async function handleChangePassword() {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (newPassword !== confirmPassword) {
+                showToast('New passwords do not match.', 'error');
+                return;
+            }
+
+            // Simplified logic: Check against stored current user password
+            if (currentPassword !== currentUser.password) {
+                 showToast('Current password is incorrect.', 'error');
+                 return;
+            }
+
+            // In a real application, you would call Supabase auth.updateUser here.
+            try {
+                 // Simulate update process
+                 currentUser.password = newPassword; // ONLY for simulation, DO NOT store plaintext password
+                 sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                 
+                 // Close modal
+                 const modal = bootstrap.Modal.getInstance(document.getElementById('changePasswordModal'));
+                 modal.hide();
+
+                 showToast('Password changed successfully!', 'success');
+            } catch (error) {
+                 showToast('Failed to change password.', 'error');
+                 console.error('Password change error:', error);
+            }
+        }
+        
+        async function handleAddMember() {
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const phone = document.getElementById('phone').value;
+            const role = document.getElementById('member-role').value;
+
+            if (!firstName || !lastName || !phone || !role) {
+                showToast('Please fill all required fields.', 'error');
+                return;
+            }
+
+            try {
+                // In a real application, you would insert into a 'members' table
+                // const { data, error } = await supabase
+                //     .from('members')
+                //     .insert([{ first_name: firstName, last_name: lastName, phone: phone, role: role }]);
+                
+                // if (error) throw error;
+                
+                // Simulate success
+                showToast(`Member ${firstName} ${lastName} added successfully!`, 'success');
+                
+                // Close modal and refresh view
+                const modal = bootstrap.Modal.getInstance(document.getElementById('addMemberModal'));
                 modal.hide();
-                showToast('Password reset link sent to your email', 'success');
+                document.getElementById('add-member-form').reset();
+                renderContent('members'); 
+
+            } catch (error) {
+                showToast('Failed to add member.', 'error');
+                console.error('Add member error:', error);
+            }
+        }
+        
+        async function handleUploadPhotos() {
+            const title = document.getElementById('photo-title').value;
+            const description = document.getElementById('photo-description').value;
+            const event = document.getElementById('photo-event').value;
+            const link = document.getElementById('photo-link').value;
+
+            if (!title || !link) {
+                showToast('Please enter a title and a photo URL.', 'error');
+                return;
+            }
+
+            try {
+                // In a real application, you would insert into 'church_photos' table
+                const newPhoto = { title, description, event, link, created_at: new Date().toISOString() };
+                
+                // const { data, error } = await supabase
+                //     .from('church_photos')
+                //     .insert([newPhoto]);
+                
+                // if (error) throw error;
+                
+                // Simulate and update local data
+                churchPhotos.unshift(newPhoto);
+                
+                showToast(`Photo "${title}" uploaded successfully!`, 'success');
+                
+                // Close modal and refresh view
+                const modal = bootstrap.Modal.getInstance(document.getElementById('uploadPhotosModal'));
+                modal.hide();
+                document.getElementById('upload-photos-form').reset();
+                renderContent('photos'); 
+
+            } catch (error) {
+                showToast('Failed to upload photo.', 'error');
+                console.error('Photo upload error:', error);
+            }
+        }
+        
+        async function handleCreateAnnouncement() {
+            const title = document.getElementById('announcement-title').value;
+            const content = document.getElementById('announcement-content').value;
+            const type = document.getElementById('announcement-type').value;
+
+            if (!title || !content) {
+                showToast('Please enter a title and content for the announcement.', 'error');
+                return;
+            }
+
+            try {
+                // In a real application, you would insert into 'announcements' table
+                const newAnnouncement = { title, content, type, created_at: new Date().toISOString() };
+                
+                // const { data, error } = await supabase
+                //     .from('announcements')
+                //     .insert([newAnnouncement]);
+                
+                // if (error) throw error;
+                
+                // Simulate and update local data
+                announcements.unshift(newAnnouncement);
+                
+                showToast(`Announcement "${title}" created successfully!`, 'success');
+                
+                // Close modal and refresh view
+                const modal = bootstrap.Modal.getInstance(document.getElementById('createAnnouncementModal'));
+                modal.hide();
+                document.getElementById('create-announcement-form').reset();
+                renderContent('announcements'); 
+
+            } catch (error) {
+                showToast('Failed to create announcement.', 'error');
+                console.error('Announcement creation error:', error);
+            }
+        }
+        
+        async function handleCreateContribution() {
+            const type = document.getElementById('contribution-type').value;
+            const amount = parseFloat(document.getElementById('contribution-amount').value);
+            const paymentMethod = document.getElementById('payment-method').value;
+            const transactionId = document.getElementById('transaction-id').value;
+            const memberName = `${currentUser.first_name} ${currentUser.last_name}`;
+
+            if (!type || isNaN(amount) || amount <= 0 || !paymentMethod) {
+                showToast('Please enter a valid contribution type and amount.', 'error');
+                return;
+            }
+
+            try {
+                // In a real application, you would insert into 'contributions' table
+                const newContribution = { 
+                    type, 
+                    amount, 
+                    payment_method: paymentMethod, 
+                    transaction_id: transactionId, 
+                    member_name: memberName,
+                    created_at: new Date().toISOString() 
+                };
+                
+                // const { data, error } = await supabase
+                //     .from('contributions')
+                //     .insert([newContribution]);
+                
+                // if (error) throw error;
+                
+                // Simulate and update local data
+                contributions.unshift(newContribution);
+                
+                showToast(`Contribution of ${amount.toLocaleString()} TZS submitted!`, 'success');
+                
+                // Close modal and refresh view
+                const modal = bootstrap.Modal.getInstance(document.getElementById('createContributionModal'));
+                modal.hide();
+                document.getElementById('create-contribution-form').reset();
+                renderContent('contributions'); 
+
+            } catch (error) {
+                showToast('Failed to submit contribution.', 'error');
+                console.error('Contribution submission error:', error);
             }
         }
 
-        function validateLoginForm() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            const isEmailValid = validateEmailField(email, 'email-error');
-            const isPasswordValid = validatePasswordField(password, 'password-error');
-            
-            return isEmailValid && isPasswordValid;
-        }
+        // Placeholder for initial user setup (Simulated user database)
+        // In a real Supabase application, users would be managed in the Auth system 
+        // and mapped to a 'profiles' or 'users' table in the database for roles.
+        // We simulate a basic 'users' table here for login.
+        (async function setupSupabaseUsersTable() {
+            try {
+                // Check if the 'users' table has any data (simple check for simulation)
+                const { data, error } = await supabase.from('users').select('id').limit(1);
 
-        function validateEmailField(email, errorElementId) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const isValid = emailRegex.test(email);
-            
-            const errorElement = document.getElementById(errorElementId);
-            if (!isValid && email) {
-                errorElement.style.display = 'block';
-                return false;
-            } else {
-                errorElement.style.display = 'none';
-                return true;
+                if (error) {
+                    console.warn("Supabase 'users' table error, will use sample data:", error.message);
+                }
+
+                if (!data || data.length === 0) {
+                     // Insert sample users (simulating initial data)
+                     const sampleUsers = [
+                         { id: 1, username: 'chair', password: 'password', first_name: 'Alex', last_name: 'Chairman', role: 'Chairperson' },
+                         { id: 2, username: 'sec', password: 'password', first_name: 'Brenda', last_name: 'Secretary', role: 'Secretary' },
+                         { id: 3, username: 'treasurer', password: 'password', first_name: 'Chris', last_name: 'Treasurer', role: 'Treasurer' },
+                         { id: 4, username: 'makada', password: 'password', first_name: 'Diana', last_name: 'Makada', role: 'Makada' },
+                         { id: 5, username: 'bakada', password: 'password', first_name: 'Elias', last_name: 'Bakada', role: 'Bakada' },
+                         { id: 6, username: 'member', password: 'password', first_name: 'Frank', last_name: 'Member', role: 'Member' },
+                     ];
+
+                     // Note: This insert is for simulation. In production, you'd use a robust auth system.
+                     const { error: insertError } = await supabase.from('users').insert(sampleUsers);
+                     if (insertError) {
+                         console.error("Failed to insert sample users:", insertError);
+                     } else {
+                         console.log("Sample users inserted for demonstration.");
+                     }
+                }
+            } catch (e) {
+                console.error("Error during Supabase setup simulation:", e);
             }
-        }
+        })();
 
-        function validatePasswordField(password, errorElementId) {
-            const isValid = password.length >= 6;
-            
-            const errorElement = document.getElementById(errorElementId);
-            if (!isValid && password) {
-                errorElement.style.display = 'block';
-                return false;
-            } else {
-                errorElement.style.display = 'none';
-                return true;
-            }
-        }
-
-        function updateNotificationDisplay() {
-            const notificationList = document.getElementById('notification-list');
-            const notificationCount = document.getElementById('notification-count');
-            
-            const unreadCount = notifications.filter(n => !n.read).length;
-            
-            if (unreadCount > 0) {
-                notificationCount.textContent = unreadCount;
-                notificationCount.classList.remove('d-none');
-            } else {
-                notificationCount.classList.add('d-none');
-            }
-            
-            // Clear existing notifications (except header)
-            const itemsToRemove = notificationList.querySelectorAll('li:not(.dropdown-header):not(.dropdown-divider)');
-            itemsToRemove.forEach(item => item.remove());
-            
-            notifications.forEach(notification => {
-                const notificationItem = document.createElement('li');
-                notificationItem.innerHTML = `
-                    <a class="dropdown-item" href="#">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">${notification.title}</h6>
-                            <small>${getTimeAgo(notification.timestamp)}</small>
-                        </div>
-                        <p class="mb-1">${notification.message}</p>
-                    </a>
-                `;
-                notificationList.appendChild(notificationItem);
-            });
-        }
-
-        function getTimeAgo(date) {
-            const now = new Date();
-            const diffMs = now - date;
-            const diffMins = Math.floor(diffMs / 60000);
-            const diffHours = Math.floor(diffMins / 60);
-            const diffDays = Math.floor(diffHours / 24);
-            
-            if (diffMins < 1) return 'Just now';
-            else if (diffMins < 60) return `${diffMins}m ago`;
-            else if (diffHours < 24) return `${diffHours}h ago`;
-            else return `${diffDays}d ago`;
-        }
-
-        function showToast(message, type = 'info') {
-            const toastContainer = document.querySelector('.toast-container');
-            
-            const toast = document.createElement('div');
-            toast.className = `toast align-items-center text-bg-${type === 'error' ? 'danger' : type} border-0`;
-            toast.setAttribute('role', 'alert');
-            toast.setAttribute('aria-live', 'assertive');
-            toast.setAttribute('aria-atomic', 'true');
-            
-            toast.innerHTML = `
-                <div class="d-flex">
-                    <div class="toast-body">${message}</div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-                </div>
-            `;
-            
-            toastContainer.appendChild(toast);
-            
-            const bsToast = new bootstrap.Toast(toast, { autohide: true, delay: 5000 });
-            bsToast.show();
-            
-            toast.addEventListener('hidden.bs.toast', function() {
-                toast.remove();
-            });
-        }
     </script>
 </body>
 </html>
