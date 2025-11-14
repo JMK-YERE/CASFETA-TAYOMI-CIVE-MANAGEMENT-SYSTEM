@@ -17,16 +17,104 @@
             --warning-color: #f39c12;
         }
         
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .login-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .login-header h2 {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .login-header p {
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+        
+        .login-body {
+            padding: 30px;
+        }
+        
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px 15px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, var(--secondary-color), #2980b9);
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .validation-error {
+            color: #e74c3c;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .password-strength {
+            height: 4px;
+            margin-top: 0.5rem;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        
+        .strength-weak { background-color: #e74c3c; width: 25%; }
+        .strength-fair { background-color: #f39c12; width: 50%; }
+        .strength-good { background-color: #3498db; width: 75%; }
+        .strength-strong { background-color: #2ecc71; width: 100%; }
+
+        /* Dashboard Styles */
         .sidebar {
-            background-color: var(--primary-color);
+            background: var(--primary-color);
             color: white;
             height: 100vh;
             position: fixed;
+            width: 280px;
             transition: all 0.3s;
             z-index: 1000;
         }
@@ -34,101 +122,75 @@
         .sidebar .nav-link {
             color: rgba(255, 255, 255, 0.8);
             padding: 12px 20px;
-            border-radius: 5px;
-            margin: 5px 0;
+            border-radius: 8px;
+            margin: 4px 0;
             transition: all 0.3s;
+            font-weight: 500;
         }
         
         .sidebar .nav-link:hover, .sidebar .nav-link.active {
-            background-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
             color: white;
+            transform: translateX(5px);
         }
         
         .sidebar .nav-link i {
-            margin-right: 10px;
+            margin-right: 12px;
             width: 20px;
             text-align: center;
         }
         
         .main-content {
-            margin-left: 250px;
-            padding: 20px;
+            margin-left: 280px;
+            padding: 0;
             transition: all 0.3s;
+            min-height: 100vh;
+            background: #f8f9fa;
+        }
+        
+        .top-navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        
+        .content-area {
+            padding: 30px;
         }
         
         .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
             border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            transition: transform 0.3s;
         }
         
-        .card-header {
-            background-color: white;
-            border-bottom: 1px solid #eee;
-            font-weight: 600;
-            padding: 15px 20px;
-        }
-        
-        .dashboard-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+        .card:hover {
+            transform: translateY(-5px);
         }
         
         .stat-card {
             text-align: center;
             padding: 25px 15px;
-            border-radius: 10px;
+            border-radius: 15px;
             color: white;
-        }
-        
-        .stat-card.blue {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-        }
-        
-        .stat-card.green {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
-        }
-        
-        .stat-card.orange {
-            background: linear-gradient(135deg, #e67e22, #d35400);
-        }
-        
-        .stat-card.red {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-        }
-        
-        .table-responsive {
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        .btn-primary {
-            background-color: var(--secondary-color);
             border: none;
         }
         
-        .btn-primary:hover {
-            background-color: #2980b9;
-        }
-        
-        .login-container {
-            max-width: 450px;
-            margin: 100px auto;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            background-color: white;
-        }
+        .stat-card.blue { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .stat-card.green { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .stat-card.orange { background: linear-gradient(135deg, #e67e22, #d35400); }
+        .stat-card.red { background: linear-gradient(135deg, #e74c3c, #c0392b); }
         
         .notification-badge {
             position: absolute;
             top: -5px;
             right: -5px;
-            background-color: var(--accent-color);
+            background: var(--accent-color);
             color: white;
             border-radius: 50%;
             width: 20px;
@@ -144,66 +206,39 @@
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
-            margin-right: 10px;
         }
         
-        .service-item {
-            border-left: 4px solid var(--secondary-color);
-            padding-left: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .photo-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .photo-item {
-            position: relative;
+        .table-responsive {
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            background: #f8f9fa;
-            height: 200px;
-            display: flex;
-            flex-direction: column;
         }
         
-        .photo-img {
-            height: 140px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2rem;
+        .btn-primary {
+            background: var(--secondary-color);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 500;
         }
         
-        .photo-actions {
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            background: white;
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
         }
         
-        .photo-info {
-            padding: 10px;
-            flex-grow: 1;
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 50px;
         }
         
-        .photo-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: var(--primary-color);
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
         }
-        
-        .photo-meta {
-            font-size: 0.8rem;
-            color: #6c757d;
-        }
-        
+
         @media (max-width: 768px) {
             .sidebar {
                 width: 80px;
@@ -222,74 +257,83 @@
             .main-content {
                 margin-left: 80px;
             }
-        }
-
-        .loading-spinner {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .error-message {
-            color: #e74c3c;
-            font-size: 0.875rem;
-            margin-top: 5px;
-            display: none;
-        }
-        
-        .alert-danger {
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
-            color: #721c24;
-        }
-        
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-        }
-
-        .contribution-form {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            
+            .content-area {
+                padding: 20px 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Login Form -->
-    <div id="login-page" class="container">
+    <!-- Login Page -->
+    <div id="login-page">
         <div class="login-container">
-            <div class="text-center mb-4">
+            <div class="login-header">
                 <h2>CASFETA TAYOMI CHURCH</h2>
-                <p class="text-muted">Church Management System</p>
+                <p>Church Management System</p>
             </div>
 
-            <div id="login-error" class="alert alert-danger d-none" role="alert">
-                Invalid username or password!
-            </div>
+            <div class="login-body">
+                <div id="login-error" class="alert alert-danger d-none" role="alert">
+                    <span id="login-error-message">Invalid email or password!</span>
+                </div>
 
-            <form id="login-form">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" required>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" required>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">
-                    <span id="login-text">Login</span>
-                    <div class="spinner-border spinner-border-sm d-none" id="login-spinner" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                <form id="login-form">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                        <div class="validation-error" id="email-error">Please enter a valid email address</div>
                     </div>
-                </button>
-            </form>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter your password" required minlength="6">
+                        <div class="validation-error" id="password-error">Password must be at least 6 characters</div>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-login w-100">
+                        <span id="login-text">Login to System</span>
+                        <div class="spinner-border spinner-border-sm d-none" id="login-spinner" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+                </form>
 
-            <div class="text-center mt-4">
-                <p>Contact church leadership for account access</p>
+                <div class="text-center mt-4">
+                    <a href="#" id="forgot-password-link" class="text-decoration-none">Forgot your password?</a>
+                </div>
+
+                <div class="text-center mt-4">
+                    <p class="text-muted small">Contact church leadership for account access</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Password Reset</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Enter your email address and we'll send you a link to reset your password.</p>
+                    <form id="forgot-password-form">
+                        <div class="mb-3">
+                            <label for="reset-email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="reset-email" required>
+                            <div class="validation-error" id="reset-email-error">Please enter a valid email address</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="send-reset-link-btn">Send Reset Link</button>
+                </div>
             </div>
         </div>
     </div>
@@ -307,40 +351,40 @@
 
     <!-- Dashboard Container -->
     <div id="dashboard-container" class="d-none">
-        <div class="sidebar" id="sidebar">
-            <div class="p-3">
-                <h4 class="text-center">CASFETA TAYOMI</h4>
+        <div class="sidebar">
+            <div class="p-4">
+                <h4 class="text-center mb-4">CASFETA TAYOMI</h4>
                 <hr>
                 <ul class="nav flex-column" id="sidebar-menu">
-                    <!-- Menu items will be dynamically populated based on role -->
+                    <!-- Menu items populated dynamically -->
                 </ul>
             </div>
         </div>
 
-        <div class="main-content" id="main-content">
-            <div class="dashboard-header">
+        <div class="main-content">
+            <nav class="top-navbar">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h3 id="dashboard-title">Dashboard</h3>
-                        <p id="user-role-display" class="mb-0">Role: <span id="role-display"></span></p>
+                        <h4 id="dashboard-title" class="mb-0">Dashboard</h4>
+                        <small class="text-muted" id="user-role-display">Role: <span id="role-display"></span></small>
                     </div>
                     <div class="d-flex align-items-center">
                         <div class="dropdown me-3">
-                            <button class="btn btn-light position-relative" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-light position-relative" type="button" data-bs-toggle="dropdown">
                                 <i class="fas fa-bell"></i>
                                 <span class="notification-badge d-none" id="notification-count">0</span>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" id="notification-list">
+                            <ul class="dropdown-menu dropdown-menu-end" id="notification-list">
                                 <li><h6 class="dropdown-header">Notifications</h6></li>
                                 <li><hr class="dropdown-divider"></li>
                             </ul>
                         </div>
                         <div class="dropdown">
-                            <button class="btn btn-light d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://via.placeholder.com/40" class="profile-img" alt="User">
+                            <button class="btn btn-light d-flex align-items-center" type="button" data-bs-toggle="dropdown">
+                                <img src="https://ui-avatars.com/api/?name=User&background=3498db&color=fff" class="profile-img me-2">
                                 <span id="user-name">User</span>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="#" id="profile-link"><i class="fas fa-user me-2"></i>Profile</a></li>
                                 <li><a class="dropdown-item" href="#" id="change-password-link"><i class="fas fa-key me-2"></i>Change Password</a></li>
                                 <li><hr class="dropdown-divider"></li>
@@ -349,275 +393,113 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </nav>
 
-            <div id="dashboard-content">
-                <!-- Dashboard content will be dynamically populated based on role -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Change Password Modal -->
-    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="change-password-form">
-                        <div class="mb-3">
-                            <label for="current-password" class="form-label">Current Password</label>
-                            <input type="password" class="form-control" id="current-password" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="new-password" class="form-label">New Password</label>
-                            <input type="password" class="form-control" id="new-password" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="confirm-password" class="form-label">Confirm New Password</label>
-                            <input type="password" class="form-control" id="confirm-password" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="save-password-btn">Save Password</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Member Modal -->
-    <div class="modal fade" id="addMemberModal" tabindex="-1" aria-labelledby="addMemberModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addMemberModalLabel">Add Member</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="add-member-form">
-                        <div class="mb-3">
-                            <label for="first-name" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="first-name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="last-name" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="last-name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Phone</label>
-                            <input type="tel" class="form-control" id="phone" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="member-role" class="form-label">Role</label>
-                            <select class="form-select" id="member-role" required>
-                                <option value="member">Member</option>
-                                <option value="chairperson">Chairperson</option>
-                                <option value="secretary">Secretary</option>
-                                <option value="treasurer">Treasurer</option>
-                                <option value="makada">Makada</option>
-                                <option value="bakada">Bakada</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="save-member-btn">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Upload Photos Modal -->
-    <div class="modal fade" id="uploadPhotosModal" tabindex="-1" aria-labelledby="uploadPhotosModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="uploadPhotosModalLabel">Upload Photos</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="upload-photos-form">
-                        <div class="mb-3">
-                            <label for="photo-title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="photo-title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="photo-description" class="form-label">Description</label>
-                            <textarea class="form-control" id="photo-description" rows="2"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="photo-event" class="form-label">Event</label>
-                            <input type="text" class="form-control" id="photo-event">
-                        </div>
-                        <div class="mb-3">
-                            <label for="photo-link" class="form-label">Photo URL</label>
-                            <input type="url" class="form-control" id="photo-link" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="save-photos-btn">Upload</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Create Announcement Modal -->
-    <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createAnnouncementModalLabel">Create Announcement</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="create-announcement-form">
-                        <div class="mb-3">
-                            <label for="announcement-title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="announcement-title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="announcement-content" class="form-label">Content</label>
-                            <textarea class="form-control" id="announcement-content" rows="4" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="announcement-type" class="form-label">Type</label>
-                            <select class="form-select" id="announcement-type">
-                                <option value="general">General</option>
-                                <option value="event">Event</option>
-                                <option value="urgent">Urgent</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="save-announcement-btn">Create</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Create Contribution Modal -->
-    <div class="modal fade" id="createContributionModal" tabindex="-1" aria-labelledby="createContributionModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createContributionModalLabel">Create Contribution</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="create-contribution-form">
-                        <div class="mb-3">
-                            <label for="contribution-type" class="form-label">Type</label>
-                            <select class="form-select" id="contribution-type" required>
-                                <option value="offering">Offering</option>
-                                <option value="tithes">Tithes</option>
-                                <option value="building">Building Fund</option>
-                                <option value="event">Event</option>
-                                <option value="assistance">Assistance</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="contribution-amount" class="form-label">Amount (TZS)</label>
-                            <input type="number" class="form-control" id="contribution-amount" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="payment-method" class="form-label">Payment Method</label>
-                            <select class="form-select" id="payment-method" required>
-                                <option value="mpesa">M-Pesa</option>
-                                <option value="tigo">Tigo Pesa</option>
-                                <option value="airtel">Airtel Money</option>
-                                <option value="bank">Bank</option>
-                                <option value="cash">Cash</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="transaction-id" class="form-label">Transaction ID</label>
-                            <input type="text" class="form-control" id="transaction-id">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="save-contribution-btn">Submit</button>
-                </div>
+            <div class="content-area" id="dashboard-content">
+                <!-- Dashboard content populated dynamically -->
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Supabase Configuration
-        const supabaseUrl = "https://uyxlwlgxlhoffrbxobxa.supabase.co";
-        const supabaseKey = "sb_secret_Hlj1gu82Kpy-LHlJl9keMQ_ltPAgJGZ";
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        // Current user data
-        let currentUser = null;
-        let notifications = [];
-        let churchPhotos = [];
-        let announcements = [];
-        let familyEvents = [];
-        let contributions = [];
-        let paymentMethods = {
-            mpesa: '0757123456',
-            tigo: '0712123456',
-            airtel: '0682123456',
-            bankName: 'CRDB Bank',
-            accountNumber: '015D12345678',
-            accountName: 'CASFETA TAYOMI'
+        // Test users data
+        const testUsers = {
+            'admin@casfeta.org': { 
+                password: 'Admin123!', 
+                role: 'chairperson', 
+                first_name: 'John', 
+                last_name: 'Administrator',
+                phone: '+255757111001'
+            },
+            'chairperson@casfeta.org': { 
+                password: 'Chair123!', 
+                role: 'chairperson', 
+                first_name: 'Anna', 
+                last_name: 'Mwenyekiti',
+                phone: '+255757111002'
+            },
+            'treasurer@casfeta.org': { 
+                password: 'Treasurer123!', 
+                role: 'treasurer', 
+                first_name: 'David', 
+                last_name: 'Mweka Hazina',
+                phone: '+255757111003'
+            },
+            'secretary@casfeta.org': { 
+                password: 'Secretary123!', 
+                role: 'secretary', 
+                first_name: 'Sarah', 
+                last_name: 'Katibu',
+                phone: '+255757111004'
+            },
+            'makada@casfeta.org': { 
+                password: 'Makada123!', 
+                role: 'makada', 
+                first_name: 'Michael', 
+                last_name: 'Makada',
+                phone: '+255757111005'
+            },
+            'bakada@casfeta.org': { 
+                password: 'Bakada123!', 
+                role: 'bakada', 
+                first_name: 'Grace', 
+                last_name: 'Bakada',
+                phone: '+255757111006'
+            },
+            'member@casfeta.org': { 
+                password: 'Member123!', 
+                role: 'member', 
+                first_name: 'Robert', 
+                last_name: 'Member',
+                phone: '+255757111007'
+            }
         };
 
         // Menu structure based on roles
         const menuStructure = {
             'chairperson': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'members', name: 'Members', icon: 'fas fa-users' },
+                { id: 'members', name: 'Members Management', icon: 'fas fa-users' },
                 { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-                { id: 'photos', name: 'Photos', icon: 'fas fa-images' },
-                { id: 'reports', name: 'Reports', icon: 'fas fa-chart-bar' }
+                { id: 'photos', name: 'Church Photos', icon: 'fas fa-images' },
+                { id: 'reports', name: 'Church Reports', icon: 'fas fa-chart-bar' },
+                { id: 'events', name: 'Church Events', icon: 'fas fa-calendar' }
             ],
             'secretary': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'members', name: 'Members', icon: 'fas fa-users' },
+                { id: 'members', name: 'Members Management', icon: 'fas fa-users' },
                 { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-                { id: 'photos', name: 'Photos', icon: 'fas fa-images' },
-                { id: 'events', name: 'Events', icon: 'fas fa-calendar' }
+                { id: 'meetings', name: 'Meeting Minutes', icon: 'fas fa-clipboard' },
+                { id: 'communications', name: 'Communications', icon: 'fas fa-envelope' }
             ],
             'treasurer': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
                 { id: 'contributions', name: 'Contributions', icon: 'fas fa-hand-holding-usd' },
-                { id: 'payment-methods', name: 'Payment Methods', icon: 'fas fa-money-check' },
-                { id: 'photos', name: 'Photos', icon: 'fas fa-images' },
-                { id: 'financial-reports', name: 'Reports', icon: 'fas fa-chart-line' }
+                { id: 'expenses', name: 'Expenses', icon: 'fas fa-receipt' },
+                { id: 'reports', name: 'Financial Reports', icon: 'fas fa-chart-line' },
+                { id: 'budget', name: 'Budget Planning', icon: 'fas fa-coins' }
             ],
             'makada': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'family-events', name: 'Events', icon: 'fas fa-calendar' },
-                { id: 'discipline-cases', name: 'Discipline', icon: 'fas fa-gavel' },
-                { id: 'photos', name: 'Photos', icon: 'fas fa-images' },
-                { id: 'counseling', name: 'Counseling', icon: 'fas fa-hands-helping' }
+                { id: 'members', name: 'Members', icon: 'fas fa-users' },
+                { id: 'discipline', name: 'Discipline Cases', icon: 'fas fa-gavel' },
+                { id: 'counseling', name: 'Spiritual Counseling', icon: 'fas fa-hands-helping' },
+                { id: 'reports', name: 'Discipline Reports', icon: 'fas fa-file-alt' }
             ],
             'bakada': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'family-events', name: 'Events', icon: 'fas fa-calendar' },
-                { id: 'discipline-cases', name: 'Discipline', icon: 'fas fa-gavel' },
-                { id: 'photos', name: 'Photos', icon: 'fas fa-images' },
-                { id: 'men-ministry', name: 'Ministry', icon: 'fas fa-male' }
+                { id: 'members', name: 'Women Members', icon: 'fas fa-female' },
+                { id: 'events', name: 'Women Events', icon: 'fas fa-calendar' },
+                { id: 'ministry', name: 'Women Ministry', icon: 'fas fa-pray' },
+                { id: 'reports', name: 'Ministry Reports', icon: 'fas fa-file-alt' }
             ],
             'member': [
                 { id: 'dashboard', name: 'Dashboard', icon: 'fas fa-tachometer-alt' },
-                { id: 'contributions', name: 'Contributions', icon: 'fas fa-hand-holding-usd' },
-                { id: 'services', name: 'Services', icon: 'fas fa-hands-helping' },
+                { id: 'contributions', name: 'My Contributions', icon: 'fas fa-hand-holding-usd' },
+                { id: 'profile', name: 'My Profile', icon: 'fas fa-user' },
                 { id: 'announcements', name: 'Announcements', icon: 'fas fa-bullhorn' },
-                { id: 'photos', name: 'Photos', icon: 'fas fa-images' }
+                { id: 'events', name: 'Church Events', icon: 'fas fa-calendar' }
             ]
         };
 
@@ -626,16 +508,29 @@
             'chairperson': 'Chairperson',
             'secretary': 'Secretary',
             'treasurer': 'Treasurer',
-            'makada': 'Makada',
-            'bakada': 'Bakada',
-            'member': 'Member'
+            'makada': 'Makada Leader',
+            'bakada': 'Bakada Leader',
+            'member': 'Church Member'
         };
+
+        let currentUser = null;
+        let notifications = [
+            {
+                id: 1,
+                title: 'Welcome to CASFETA TAYOMI',
+                message: 'Welcome to the Church Management System',
+                type: 'info',
+                timestamp: new Date(),
+                read: false
+            }
+        ];
 
         // Initialize application
         document.addEventListener('DOMContentLoaded', function() {
             initializeEventListeners();
-            loadSampleData();
+            updateNotificationDisplay();
             
+            // Check for existing session
             const savedUser = sessionStorage.getItem('currentUser');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
@@ -643,402 +538,497 @@
             }
         });
 
-        // Load data from Supabase
-        async function loadDataFromSupabase() {
-            try {
-                // Load photos
-                const { data: photosData, error: photosError } = await supabase
-                    .from('church_photos')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (!photosError && photosData) {
-                    churchPhotos = photosData;
-                }
-                
-                // Load announcements
-                const { data: announcementsData, error: announcementsError } = await supabase
-                    .from('announcements')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (!announcementsError && announcementsData) {
-                    announcements = announcementsData;
-                }
-                
-                // Load family events
-                const { data: eventsData, error: eventsError } = await supabase
-                    .from('family_events')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (!eventsError && eventsData) {
-                    familyEvents = eventsData;
-                }
-                
-                // Load contributions
-                const { data: contributionsData, error: contributionsError } = await supabase
-                    .from('contributions')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (!contributionsError && contributionsData) {
-                    contributions = contributionsData;
-                }
-
-            } catch (error) {
-                console.error('Error loading data:', error);
-            }
-        }
-
-        // Load sample data
-        function loadSampleData() {
-            notifications = [
-                {
-                    id: 1,
-                    title: 'Welcome',
-                    message: 'Welcome to CASFETA TAYOMI Church System',
-                    type: 'info',
-                    timestamp: new Date(),
-                    read: false
-                }
-            ];
-            
-            updateNotificationDisplay();
-        }
-
-        // Initialize event listeners
         function initializeEventListeners() {
+            // Login form
             document.getElementById('login-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 handleLogin();
             });
             
+            // Forgot password
+            document.getElementById('forgot-password-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                new bootstrap.Modal(document.getElementById('forgotPasswordModal')).show();
+            });
+            
+            document.getElementById('send-reset-link-btn').addEventListener('click', handleForgotPassword);
             document.getElementById('logout-btn').addEventListener('click', handleLogout);
             document.getElementById('change-password-link').addEventListener('click', showChangePasswordModal);
-            document.getElementById('save-password-btn').addEventListener('click', handleChangePassword);
-            document.getElementById('save-member-btn').addEventListener('click', handleAddMember);
-            document.getElementById('save-photos-btn').addEventListener('click', handleUploadPhotos);
-            document.getElementById('save-announcement-btn').addEventListener('click', handleCreateAnnouncement);
-            document.getElementById('save-contribution-btn').addEventListener('click', handleCreateContribution);
         }
 
-        // Handle login
-        async function handleLogin() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        function handleLogin() {
+            if (!validateLoginForm()) return;
             
-            if (!username || !password) {
-                showToast('Please enter username and password', 'error');
-                return;
-            }
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             
             document.getElementById('login-error').classList.add('d-none');
             document.getElementById('login-text').classList.add('d-none');
             document.getElementById('login-spinner').classList.remove('d-none');
             
-            try {
-                const { data: users, error } = await supabase
-                    .from('users')
-                    .select('*')
-                    .eq('username', username)
-                    .single();
-                
-                if (error) {
-                    document.getElementById('login-error').classList.remove('d-none');
-                    showToast('Invalid credentials', 'error');
-                } else if (users && users.password === password) {
-                    currentUser = users;
-                    sessionStorage.setItem('currentUser', JSON.stringify(users));
+            // Simulate API call
+            setTimeout(() => {
+                if (testUsers[email] && testUsers[email].password === password) {
+                    currentUser = {
+                        email: email,
+                        ...testUsers[email]
+                    };
+                    
+                    sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    showToast('Login successful! Welcome to CASFETA TAYOMI', 'success');
                     showDashboard();
                 } else {
+                    document.getElementById('login-error-message').textContent = 'Invalid email or password';
                     document.getElementById('login-error').classList.remove('d-none');
-                    showToast('Invalid credentials', 'error');
+                    showToast('Login failed: Invalid credentials', 'error');
                 }
-            } catch (error) {
-                document.getElementById('login-error').classList.remove('d-none');
-                showToast('Login error', 'error');
-            } finally {
+                
                 document.getElementById('login-text').classList.remove('d-none');
                 document.getElementById('login-spinner').classList.add('d-none');
-            }
+            }, 1500);
         }
 
-        // Show dashboard
         function showDashboard() {
-            document.getElementById('login-page').classList.add('d-none');
+            document.getElementById('login-page').style.display = 'none';
             document.getElementById('loading-spinner').style.display = 'block';
             
             setTimeout(() => {
                 document.getElementById('loading-spinner').style.display = 'none';
                 document.getElementById('dashboard-container').classList.remove('d-none');
                 
-                initializeDashboard(currentUser.role);
-                document.getElementById('user-name').textContent = `${currentUser.first_name} ${currentUser.last_name}`;
-                
-                loadDataFromSupabase();
+                initializeDashboard();
             }, 1000);
         }
 
-        // Handle logout
         function handleLogout() {
             currentUser = null;
             sessionStorage.removeItem('currentUser');
             document.getElementById('dashboard-container').classList.add('d-none');
-            document.getElementById('login-page').classList.remove('d-none');
+            document.getElementById('login-page').style.display = 'block';
             document.getElementById('login-form').reset();
-            document.getElementById('login-error').classList.add('d-none');
+            showToast('Logged out successfully', 'info');
         }
 
-        // Show change password modal
-        function showChangePasswordModal(e) {
-            e.preventDefault();
-            const changePasswordModal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
-            changePasswordModal.show();
+        function initializeDashboard() {
+            document.getElementById('user-name').textContent = `${currentUser.first_name} ${currentUser.last_name}`;
+            document.getElementById('role-display').textContent = roleDisplayNames[currentUser.role];
+            document.getElementById('dashboard-title').textContent = `${roleDisplayNames[currentUser.role]} Dashboard`;
+            
+            // Update profile image
+            document.querySelector('.profile-img').src = `https://ui-avatars.com/api/?name=${currentUser.first_name}+${currentUser.last_name}&background=3498db&color=fff`;
+            
+            loadMenuItems();
+            loadSectionContent('dashboard');
         }
 
-        // Handle change password
-        async function handleChangePassword() {
-            const currentPassword = document.getElementById('current-password').value;
-            const newPassword = document.getElementById('new-password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
+        function loadMenuItems() {
+            const sidebarMenu = document.getElementById('sidebar-menu');
+            sidebarMenu.innerHTML = '';
             
-            if (currentPassword !== currentUser.password) {
-                showToast('Current password is incorrect', 'error');
-                return;
-            }
+            const menuItems = menuStructure[currentUser.role] || menuStructure.member;
             
-            if (newPassword !== confirmPassword) {
-                showToast('Passwords do not match', 'error');
-                return;
-            }
+            menuItems.forEach(item => {
+                const menuItem = document.createElement('li');
+                menuItem.className = 'nav-item';
+                menuItem.innerHTML = `
+                    <a class="nav-link" href="#" data-section="${item.id}">
+                        <i class="${item.icon}"></i>
+                        <span>${item.name}</span>
+                    </a>
+                `;
+                sidebarMenu.appendChild(menuItem);
+            });
             
-            try {
-                const { error } = await supabase
-                    .from('users')
-                    .update({ password: newPassword })
-                    .eq('id', currentUser.id);
-                
-                if (error) throw error;
-                
-                currentUser.password = newPassword;
-                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
-                
-                const changePasswordModal = bootstrap.Modal.getInstance(document.getElementById('changePasswordModal'));
-                changePasswordModal.hide();
-                
-                showToast('Password changed successfully', 'success');
-                
-            } catch (error) {
-                showToast('Error changing password', 'error');
-            }
-        }
-
-        // Handle add member
-        async function handleAddMember() {
-            const firstName = document.getElementById('first-name').value;
-            const lastName = document.getElementById('last-name').value;
-            const phone = document.getElementById('phone').value;
-            const role = document.getElementById('member-role').value;
-            
-            if (!firstName || !lastName || !phone) {
-                showToast('Please fill required fields', 'error');
-                return;
-            }
-            
-            try {
-                const username = lastName.toLowerCase();
-                const password = 'password123';
-                
-                const { data, error } = await supabase
-                    .from('users')
-                    .insert([{ username, password, role, first_name: firstName, last_name: lastName, phone }])
-                    .select();
-                
-                if (error) throw error;
-                
-                addNotification({
-                    id: Date.now(),
-                    title: 'New Member',
-                    message: `${firstName} ${lastName} added as ${role}`,
-                    type: 'success',
-                    timestamp: new Date(),
-                    read: false
+            // Add event listeners to menu items
+            document.querySelectorAll('#sidebar-menu .nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    document.querySelectorAll('#sidebar-menu .nav-link').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    this.classList.add('active');
+                    
+                    const section = this.getAttribute('data-section');
+                    loadSectionContent(section);
                 });
-                
-                const addMemberModal = bootstrap.Modal.getInstance(document.getElementById('addMemberModal'));
-                addMemberModal.hide();
-                
-                showToast('Member added successfully', 'success');
-                document.getElementById('add-member-form').reset();
-
-            } catch (error) {
-                showToast('Error adding member', 'error');
+            });
+            
+            // Activate first menu item
+            if (sidebarMenu.firstElementChild) {
+                sidebarMenu.firstElementChild.querySelector('.nav-link').classList.add('active');
             }
         }
 
-        // Handle upload photos
-        async function handleUploadPhotos() {
-            const title = document.getElementById('photo-title').value;
-            const description = document.getElementById('photo-description').value;
-            const event = document.getElementById('photo-event').value;
-            const link = document.getElementById('photo-link').value;
+        function loadSectionContent(section) {
+            const dashboardContent = document.getElementById('dashboard-content');
             
-            if (!title || !link) {
-                showToast('Please enter title and photo URL', 'error');
-                return;
+            let content = '';
+            
+            switch(section) {
+                case 'dashboard':
+                    content = getDashboardContent();
+                    break;
+                case 'members':
+                    content = getMembersContent();
+                    break;
+                case 'announcements':
+                    content = getAnnouncementsContent();
+                    break;
+                case 'contributions':
+                    content = getContributionsContent();
+                    break;
+                case 'reports':
+                    content = getReportsContent();
+                    break;
+                case 'events':
+                    content = getEventsContent();
+                    break;
+                default:
+                    content = getDashboardContent();
             }
             
-            try {
-                const { data, error } = await supabase
-                    .from('church_photos')
-                    .insert([{ title, description, event_type: event, photo_url: link, uploaded_by: currentUser.id }])
-                    .select();
-                
-                if (error) throw error;
-                
-                churchPhotos.unshift(data[0]);
-                
-                addNotification({
-                    id: Date.now(),
-                    title: 'Photos Uploaded',
-                    message: `New photos "${title}" uploaded`,
-                    type: 'info',
-                    timestamp: new Date(),
-                    read: false
-                });
-                
-                const uploadPhotosModal = bootstrap.Modal.getInstance(document.getElementById('uploadPhotosModal'));
-                uploadPhotosModal.hide();
-                
-                showToast('Photos uploaded successfully', 'success');
-                document.getElementById('upload-photos-form').reset();
-
-            } catch (error) {
-                showToast('Error uploading photos', 'error');
-            }
+            dashboardContent.innerHTML = content;
+            document.getElementById('dashboard-title').textContent = `${getSectionTitle(section)} - ${roleDisplayNames[currentUser.role]}`;
         }
 
-        // Handle create announcement
-        async function handleCreateAnnouncement() {
-            const title = document.getElementById('announcement-title').value;
-            const content = document.getElementById('announcement-content').value;
-            const type = document.getElementById('announcement-type').value;
-            
-            if (!title || !content) {
-                showToast('Please enter title and content', 'error');
-                return;
-            }
-            
-            try {
-                const { data, error } = await supabase
-                    .from('announcements')
-                    .insert([{ title, content, announcement_type: type, author_id: currentUser.id }])
-                    .select();
+        function getDashboardContent() {
+            return `
+                <div class="row">
+                    <div class="col-md-3 mb-4">
+                        <div class="stat-card blue">
+                            <i class="fas fa-users fa-2x mb-2"></i>
+                            <h3>156</h3>
+                            <p>Total Members</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="stat-card green">
+                            <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
+                            <h3>2.45M</h3>
+                            <p>Total Contributions</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="stat-card orange">
+                            <i class="fas fa-calendar fa-2x mb-2"></i>
+                            <h3>12</h3>
+                            <p>Upcoming Events</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="stat-card red">
+                            <i class="fas fa-bell fa-2x mb-2"></i>
+                            <h3>${notifications.filter(n => !n.read).length}</h3>
+                            <p>Notifications</p>
+                        </div>
+                    </div>
+                </div>
                 
-                if (error) throw error;
-                
-                announcements.unshift(data[0]);
-                
-                addNotification({
-                    id: Date.now(),
-                    title: 'New Announcement',
-                    message: `New announcement "${title}" published`,
-                    type: 'info',
-                    timestamp: new Date(),
-                    read: false
-                });
-                
-                const createAnnouncementModal = bootstrap.Modal.getInstance(document.getElementById('createAnnouncementModal'));
-                createAnnouncementModal.hide();
-                
-                showToast('Announcement created successfully', 'success');
-                document.getElementById('create-announcement-form').reset();
-
-            } catch (error) {
-                showToast('Error creating announcement', 'error');
-            }
-        }
-
-        // Handle create contribution
-        async function handleCreateContribution() {
-            const type = document.getElementById('contribution-type').value;
-            const amount = document.getElementById('contribution-amount').value;
-            const method = document.getElementById('payment-method').value;
-            const transactionId = document.getElementById('transaction-id').value;
-            
-            if (!type || !amount || !method) {
-                showToast('Please fill required fields', 'error');
-                return;
-            }
-            
-            try {
-                const { data, error } = await supabase
-                    .from('contributions')
-                    .insert([{ 
-                        member_id: currentUser.id, 
-                        contribution_type: type, 
-                        amount: amount, 
-                        payment_method: method,
-                        transaction_id: transactionId,
-                        status: 'pending'
-                    }])
-                    .select();
-                
-                if (error) throw error;
-                
-                contributions.unshift(data[0]);
-                
-                showToast('Contribution submitted successfully', 'success');
-                const createContributionModal = bootstrap.Modal.getInstance(document.getElementById('createContributionModal'));
-                createContributionModal.hide();
-                document.getElementById('create-contribution-form').reset();
-
-            } catch (error) {
-                showToast('Error submitting contribution', 'error');
-            }
-        }
-
-        // Toast notification
-        function showToast(message, type = 'info') {
-            const toastContainer = document.querySelector('.toast-container');
-            
-            const toast = document.createElement('div');
-            toast.className = `toast align-items-center text-bg-${type === 'error' ? 'danger' : type} border-0`;
-            toast.setAttribute('role', 'alert');
-            toast.setAttribute('aria-live', 'assertive');
-            toast.setAttribute('aria-atomic', 'true');
-            
-            toast.innerHTML = `
-                <div class="d-flex">
-                    <div class="toast-body">${message}</div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                <div class="row mt-4">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Recent Activities</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group list-group-flush">
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">New Member Registration</h6>
+                                            <p class="mb-1 text-muted">John Doe joined the church</p>
+                                        </div>
+                                        <small class="text-muted">2 hours ago</small>
+                                    </div>
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">Sunday Service Contribution</h6>
+                                            <p class="mb-1 text-muted">TZS 150,000 collected</p>
+                                        </div>
+                                        <small class="text-muted">1 day ago</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Quick Actions</h5>
+                            </div>
+                            <div class="card-body">
+                                <button class="btn btn-primary w-100 mb-2">Add New Member</button>
+                                <button class="btn btn-outline-primary w-100 mb-2">Create Announcement</button>
+                                <button class="btn btn-outline-primary w-100 mb-2">Schedule Event</button>
+                                <button class="btn btn-outline-primary w-100">Generate Report</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             `;
-            
-            toastContainer.appendChild(toast);
-            
-            const bsToast = new bootstrap.Toast(toast, { autohide: true, delay: 5000 });
-            bsToast.show();
-            
-            toast.addEventListener('hidden.bs.toast', function() {
-                toast.remove();
-            });
         }
 
-        // Add notification
-        function addNotification(notification) {
-            notifications.unshift(notification);
-            updateNotificationDisplay();
+        function getMembersContent() {
+            return `
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Church Members</h5>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Add Member
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>${currentUser.first_name} ${currentUser.last_name}</td>
+                                        <td>${currentUser.email}</td>
+                                        <td>${currentUser.phone}</td>
+                                        <td><span class="badge bg-primary">${roleDisplayNames[currentUser.role]}</span></td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
-        // Update notification display
+        function getAnnouncementsContent() {
+            return `
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Church Announcements</h5>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Create Announcement
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <h5>Sunday Service Time Change</h5>
+                            <p class="mb-0">Please note that Sunday services will now start at 9:00 AM instead of 8:30 AM.</p>
+                            <small class="text-muted">Posted on: 2024-01-15</small>
+                        </div>
+                        <div class="alert alert-warning">
+                            <h5>Church Cleaning Day</h5>
+                            <p class="mb-0">We invite all members to participate in church cleaning this Saturday at 8:00 AM.</p>
+                            <small class="text-muted">Posted on: 2024-01-12</small>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getContributionsContent() {
+            return `
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">${currentUser.role === 'member' ? 'My Contributions' : 'All Contributions'}</h5>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Record Contribution
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Amount (TZS)</th>
+                                        <th>Payment Method</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2024-01-15</td>
+                                        <td>Sunday Offering</td>
+                                        <td>25,000</td>
+                                        <td>Cash</td>
+                                        <td><span class="badge bg-success">Confirmed</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2024-01-08</td>
+                                        <td>Tithe</td>
+                                        <td>100,000</td>
+                                        <td>M-Pesa</td>
+                                        <td><span class="badge bg-success">Confirmed</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getReportsContent() {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Church Reports</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-users fa-2x text-primary mb-2"></i>
+                                        <h5>Membership Report</h5>
+                                        <p class="text-muted">View member statistics and growth</p>
+                                        <button class="btn btn-outline-primary">Generate</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-chart-line fa-2x text-success mb-2"></i>
+                                        <h5>Financial Report</h5>
+                                        <p class="text-muted">Income, expenses and contributions</p>
+                                        <button class="btn btn-outline-primary">Generate</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-calendar fa-2x text-warning mb-2"></i>
+                                        <h5>Events Report</h5>
+                                        <p class="text-muted">Event attendance and participation</p>
+                                        <button class="btn btn-outline-primary">Generate</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getEventsContent() {
+            return `
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Church Events</h5>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Create Event
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Sunday Service</h5>
+                                        <p class="card-text"><i class="fas fa-calendar me-2"></i>Every Sunday, 9:00 AM</p>
+                                        <p class="card-text"><i class="fas fa-map-marker-alt me-2"></i>Main Church Hall</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Bible Study</h5>
+                                        <p class="card-text"><i class="fas fa-calendar me-2"></i>Wednesday, 6:00 PM</p>
+                                        <p class="card-text"><i class="fas fa-map-marker-alt me-2"></i>Fellowship Hall</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getSectionTitle(section) {
+            const titles = {
+                'dashboard': 'Dashboard',
+                'members': 'Members Management',
+                'announcements': 'Announcements',
+                'contributions': 'Contributions',
+                'reports': 'Reports',
+                'events': 'Church Events'
+            };
+            return titles[section] || 'Dashboard';
+        }
+
+        function showChangePasswordModal(e) {
+            e.preventDefault();
+            showToast('Change password functionality coming soon', 'info');
+        }
+
+        function handleForgotPassword() {
+            const email = document.getElementById('reset-email').value;
+            if (validateEmailField(email, 'reset-email-error')) {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal'));
+                modal.hide();
+                showToast('Password reset link sent to your email', 'success');
+            }
+        }
+
+        function validateLoginForm() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            const isEmailValid = validateEmailField(email, 'email-error');
+            const isPasswordValid = validatePasswordField(password, 'password-error');
+            
+            return isEmailValid && isPasswordValid;
+        }
+
+        function validateEmailField(email, errorElementId) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isValid = emailRegex.test(email);
+            
+            const errorElement = document.getElementById(errorElementId);
+            if (!isValid && email) {
+                errorElement.style.display = 'block';
+                return false;
+            } else {
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validatePasswordField(password, errorElementId) {
+            const isValid = password.length >= 6;
+            
+            const errorElement = document.getElementById(errorElementId);
+            if (!isValid && password) {
+                errorElement.style.display = 'block';
+                return false;
+            } else {
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+
         function updateNotificationDisplay() {
             const notificationList = document.getElementById('notification-list');
             const notificationCount = document.getElementById('notification-count');
-            
-            const itemsToRemove = notificationList.querySelectorAll('li:not(.dropdown-header):not(.dropdown-divider)');
-            itemsToRemove.forEach(item => item.remove());
             
             const unreadCount = notifications.filter(n => !n.read).length;
             
@@ -1049,23 +1039,25 @@
                 notificationCount.classList.add('d-none');
             }
             
+            // Clear existing notifications (except header)
+            const itemsToRemove = notificationList.querySelectorAll('li:not(.dropdown-header):not(.dropdown-divider)');
+            itemsToRemove.forEach(item => item.remove());
+            
             notifications.forEach(notification => {
                 const notificationItem = document.createElement('li');
-                const timeAgo = getTimeAgo(notification.timestamp);
-                
                 notificationItem.innerHTML = `
-                    <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">${notification.title}</h6>
-                        <small>${timeAgo}</small>
-                    </div>
-                    <p class="mb-1">${notification.message}</p>
+                    <a class="dropdown-item" href="#">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">${notification.title}</h6>
+                            <small>${getTimeAgo(notification.timestamp)}</small>
+                        </div>
+                        <p class="mb-1">${notification.message}</p>
+                    </a>
                 `;
-                
                 notificationList.appendChild(notificationItem);
             });
         }
 
-        // Get time ago
         function getTimeAgo(date) {
             const now = new Date();
             const diffMs = now - date;
@@ -1079,421 +1071,30 @@
             else return `${diffDays}d ago`;
         }
 
-        // Initialize dashboard
-        function initializeDashboard(role) {
-            document.getElementById('dashboard-title').textContent = `${roleDisplayNames[role]} Dashboard`;
-            document.getElementById('role-display').textContent = roleDisplayNames[role];
+        function showToast(message, type = 'info') {
+            const toastContainer = document.querySelector('.toast-container');
             
-            const sidebarMenu = document.getElementById('sidebar-menu');
-            sidebarMenu.innerHTML = '';
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-bg-${type === 'error' ? 'danger' : type} border-0`;
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
             
-            if (menuStructure[role]) {
-                menuStructure[role].forEach(item => {
-                    const menuItem = document.createElement('li');
-                    menuItem.className = 'nav-item';
-                    menuItem.innerHTML = `
-                        <a class="nav-link" href="#" data-section="${item.id}">
-                            <i class="${item.icon}"></i>
-                            <span>${item.name}</span>
-                        </a>
-                    `;
-                    sidebarMenu.appendChild(menuItem);
-                });
-                
-                if (sidebarMenu.firstElementChild) {
-                    sidebarMenu.firstElementChild.querySelector('.nav-link').classList.add('active');
-                }
-            }
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">${message}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            `;
             
-            loadSectionContent('dashboard', role);
+            toastContainer.appendChild(toast);
             
-            document.querySelectorAll('#sidebar-menu .nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    document.querySelectorAll('#sidebar-menu .nav-link').forEach(item => {
-                        item.classList.remove('active');
-                    });
-                    
-                    this.classList.add('active');
-                    
-                    const section = this.getAttribute('data-section');
-                    loadSectionContent(section, role);
-                });
+            const bsToast = new bootstrap.Toast(toast, { autohide: true, delay: 5000 });
+            bsToast.show();
+            
+            toast.addEventListener('hidden.bs.toast', function() {
+                toast.remove();
             });
-        }
-
-        // Load section content
-        function loadSectionContent(section, role) {
-            const dashboardContent = document.getElementById('dashboard-content');
-            
-            let content = '';
-            
-            switch(section) {
-                case 'dashboard':
-                    content = getDashboardContent(role);
-                    break;
-                case 'members':
-                    content = getMembersContent(role);
-                    break;
-                case 'announcements':
-                    content = getAnnouncementsContent(role);
-                    break;
-                case 'photos':
-                    content = getPhotosContent(role);
-                    break;
-                case 'contributions':
-                    content = getContributionsContent(role);
-                    break;
-                case 'payment-methods':
-                    content = getPaymentMethodsContent(role);
-                    break;
-                case 'family-events':
-                    content = getFamilyEventsContent(role);
-                    break;
-                case 'discipline-cases':
-                    content = getDisciplineCasesContent(role);
-                    break;
-                case 'services':
-                    content = getServicesContent(role);
-                    break;
-                case 'reports':
-                    content = getReportsContent(role);
-                    break;
-                case 'events':
-                    content = getEventsContent(role);
-                    break;
-                case 'financial-reports':
-                    content = getFinancialReportsContent(role);
-                    break;
-                case 'counseling':
-                    content = getCounselingContent(role);
-                    break;
-                case 'men-ministry':
-                    content = getMenMinistryContent(role);
-                    break;
-                default:
-                    content = getDashboardContent(role);
-            }
-            
-            dashboardContent.innerHTML = content;
-            addDynamicEventListeners(role, section);
-        }
-
-        // Get dashboard content
-        function getDashboardContent(role) {
-            const memberCount = 156;
-            const totalContributions = '2,450,000';
-            const pendingRequests = 3;
-            
-            return `
-                <div class="row">
-                    <div class="col-md-3 mb-4">
-                        <div class="stat-card blue">
-                            <i class="fas fa-users fa-2x mb-2"></i>
-                            <h4>${memberCount}</h4>
-                            <p>Members</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <div class="stat-card green">
-                            <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
-                            <h4>${totalContributions}</h4>
-                            <p>Contributions</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <div class="stat-card orange">
-                            <i class="fas fa-calendar fa-2x mb-2"></i>
-                            <h4>${familyEvents.length}</h4>
-                            <p>Events</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <div class="stat-card red">
-                            <i class="fas fa-bell fa-2x mb-2"></i>
-                            <h4>${notifications.filter(n => !n.read).length}</h4>
-                            <p>Notifications</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">Welcome ${roleDisplayNames[role]}</h5>
-                            </div>
-                            <div class="card-body">
-                                <p>Welcome to CASFETA TAYOMI Church Management System</p>
-                                ${role === 'treasurer' ? `
-                                    <div class="alert alert-info">
-                                        <strong>Payment Methods Available:</strong><br>
-                                        M-Pesa: ${paymentMethods.mpesa}<br>
-                                        Tigo Pesa: ${paymentMethods.tigo}<br>
-                                        Airtel Money: ${paymentMethods.airtel}<br>
-                                        Bank: ${paymentMethods.bankName} - ${paymentMethods.accountNumber}
-                                    </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Get members content
-        function getMembersContent(role) {
-            return `
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Church Members</h5>
-                        ${role === 'chairperson' || role === 'secretary' ? `
-                            <button class="btn btn-primary" id="add-member-btn">
-                                <i class="fas fa-plus"></i> Add Member
-                            </button>
-                        ` : ''}
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Phone</th>
-                                        <th>Role</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>${currentUser.first_name} ${currentUser.last_name}</td>
-                                        <td>${currentUser.phone || 'N/A'}</td>
-                                        <td><span class="badge bg-primary">${roleDisplayNames[currentUser.role]}</span></td>
-                                        <td><span class="badge bg-success">Active</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Get announcements content
-        function getAnnouncementsContent(role) {
-            return `
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Announcements</h5>
-                        ${role !== 'member' ? `
-                            <button class="btn btn-primary" id="create-announcement-btn">
-                                <i class="fas fa-plus"></i> Create
-                            </button>
-                        ` : ''}
-                    </div>
-                    <div class="card-body">
-                        ${announcements.length > 0 ? 
-                            announcements.map(announcement => `
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${announcement.title}</h5>
-                                        <p class="card-text">${announcement.content}</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <small class="text-muted">${getTimeAgo(new Date(announcement.created_at))}</small>
-                                            <span class="badge bg-${announcement.announcement_type === 'urgent' ? 'danger' : 'info'}">${announcement.announcement_type}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            `).join('') : 
-                            `<div class="alert alert-info">No announcements</div>`
-                        }
-                    </div>
-                </div>
-            `;
-        }
-
-        // Get photos content
-        function getPhotosContent(role) {
-            return `
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Church Photos</h5>
-                        ${role !== 'member' ? `
-                            <button class="btn btn-primary" id="upload-photos-btn">
-                                <i class="fas fa-upload"></i> Upload
-                            </button>
-                        ` : ''}
-                    </div>
-                    <div class="card-body">
-                        ${churchPhotos.length > 0 ? `
-                            <div class="photo-gallery">
-                                ${churchPhotos.map(photo => `
-                                    <div class="photo-item">
-                                        <div class="photo-img">
-                                            <i class="fas fa-image"></i>
-                                        </div>
-                                        <div class="photo-info">
-                                            <div class="photo-title">${photo.title}</div>
-                                            <div class="photo-meta">${photo.event_type || 'General'}</div>
-                                        </div>
-                                        <div class="photo-actions">
-                                            <button class="btn btn-sm btn-outline-primary" onclick="window.open('${photo.photo_url}', '_blank')">
-                                                <i class="fas fa-eye"></i> View
-                                            </button>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : `
-                            <div class="alert alert-info">No photos</div>
-                        `}
-                    </div>
-                </div>
-            `;
-        }
-
-        // Get contributions content
-        function getContributionsContent(role) {
-            const userContributions = contributions.filter(c => c.member_id === currentUser.id);
-            
-            return `
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">${role === 'member' ? 'My Contributions' : 'All Contributions'}</h5>
-                        <button class="btn btn-primary" id="create-contribution-btn">
-                            <i class="fas fa-plus"></i> New
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <div class="contribution-form">
-                            <h6>Payment Methods:</h6>
-                            <p><strong>M-Pesa:</strong> ${paymentMethods.mpesa}</p>
-                            <p><strong>Tigo Pesa:</strong> ${paymentMethods.tigo}</p>
-                            <p><strong>Airtel Money:</strong> ${paymentMethods.airtel}</p>
-                            <p><strong>Bank:</strong> ${paymentMethods.bankName} - ${paymentMethods.accountNumber}</p>
-                        </div>
-                        
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Type</th>
-                                        <th>Amount</th>
-                                        <th>Method</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${userContributions.length > 0 ? 
-                                        userContributions.map(contribution => `
-                                            <tr>
-                                                <td>${new Date(contribution.created_at).toLocaleDateString()}</td>
-                                                <td>${contribution.contribution_type}</td>
-                                                <td>${contribution.amount} TZS</td>
-                                                <td>${contribution.payment_method}</td>
-                                                <td><span class="badge bg-${contribution.status === 'confirmed' ? 'success' : 'warning'}">${contribution.status}</span></td>
-                                            </tr>
-                                        `).join('') : 
-                                        `<tr><td colspan="5" class="text-center">No contributions</td></tr>`
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Add other content functions here (similar pattern)
-        function getPaymentMethodsContent(role) {
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Payment Methods</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h6>Mobile Money</h6>
-                                <p><strong>M-Pesa:</strong> ${paymentMethods.mpesa}</p>
-                                <p><strong>Tigo Pesa:</strong> ${paymentMethods.tigo}</p>
-                                <p><strong>Airtel Money:</strong> ${paymentMethods.airtel}</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h6>Bank Transfer</h6>
-                                <p><strong>Bank:</strong> ${paymentMethods.bankName}</p>
-                                <p><strong>Account:</strong> ${paymentMethods.accountNumber}</p>
-                                <p><strong>Name:</strong> ${paymentMethods.accountName}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Add dynamic event listeners
-        function addDynamicEventListeners(role, section) {
-            const addMemberBtn = document.getElementById('add-member-btn');
-            if (addMemberBtn) {
-                addMemberBtn.addEventListener('click', function() {
-                    new bootstrap.Modal(document.getElementById('addMemberModal')).show();
-                });
-            }
-            
-            const uploadPhotosBtn = document.getElementById('upload-photos-btn');
-            if (uploadPhotosBtn) {
-                uploadPhotosBtn.addEventListener('click', function() {
-                    new bootstrap.Modal(document.getElementById('uploadPhotosModal')).show();
-                });
-            }
-            
-            const createAnnouncementBtn = document.getElementById('create-announcement-btn');
-            if (createAnnouncementBtn) {
-                createAnnouncementBtn.addEventListener('click', function() {
-                    new bootstrap.Modal(document.getElementById('createAnnouncementModal')).show();
-                });
-            }
-            
-            const createContributionBtn = document.getElementById('create-contribution-btn');
-            if (createContributionBtn) {
-                createContributionBtn.addEventListener('click', function() {
-                    new bootstrap.Modal(document.getElementById('createContributionModal')).show();
-                });
-            }
-        }
-
-        // Add remaining content functions
-        function getFamilyEventsContent(role) {
-            return `<div class="card"><div class="card-body"><p>Family events management</p></div></div>`;
-        }
-
-        function getDisciplineCasesContent(role) {
-            return `<div class="card"><div class="card-body"><p>Discipline cases management</p></div></div>`;
-        }
-
-        function getServicesContent(role) {
-            return `<div class="card"><div class="card-body"><p>Member services</p></div></div>`;
-        }
-
-        function getReportsContent(role) {
-            return `<div class="card"><div class="card-body"><p>Church reports</p></div></div>`;
-        }
-
-        function getEventsContent(role) {
-            return `<div class="card"><div class="card-body"><p>Church events</p></div></div>`;
-        }
-
-        function getFinancialReportsContent(role) {
-            return `<div class="card"><div class="card-body"><p>Financial reports</p></div></div>`;
-        }
-
-        function getCounselingContent(role) {
-            return `<div class="card"><div class="card-body"><p>Spiritual counseling</p></div></div>`;
-        }
-
-        function getMenMinistryContent(role) {
-            return `<div class="card"><div class="card-body"><p>Men ministry</p></div></div>`;
         }
     </script>
 </body>
